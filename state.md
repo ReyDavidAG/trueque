@@ -5,7 +5,7 @@
 ## Dónde vamos
 
 **Fase 0 · Propuesta visual: lista.** Prototipo completo en `propuesta/`.
-**Fase 1 · Web de demostración: lista (v0.2.0).** Esquema `trueque` aplicado en Supabase y `trueque.client` probado en Chrome con los tres roles. Falta publicarlo en Vercel.
+**Fase 1 · Web de demostración: lista (v0.2.0).** Esquema `trueque` aplicado en Supabase y `trueque.client` probado en Chrome con los tres roles. Publicado en https://trueque-eosin.vercel.app.
 
 ## Hecho
 
@@ -19,6 +19,12 @@
   - Revisado con `/frontend-review`; prettier, eslint y build en verde.
   - Probado en Chrome: trueque, canje, publicación y aprobación de punta a punta; sin desbordes de 320 a 1280 px; consola limpia.
 
+## Publicación
+
+- Vercel, proyecto `trueque`, raíz `trueque.client`, rama `main`: https://trueque-eosin.vercel.app
+- Variables: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` y `VITE_SITE_URL`.
+- Probado en producción: entrar, rutas directas, metadatos para compartir y consola limpia.
+
 ## Decisiones tomadas
 
 - Un esquema por app en la misma base; lo común se queda en `public` de Chispa.
@@ -28,5 +34,4 @@
 
 ## Pendiente
 
-- Publicar en Vercel (raíz `trueque.client`, variables `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` y `VITE_SITE_URL`).
 - Sesión entre apps: `claim_employee_number` liga a la persona con una sola sesión anónima, así que entrar en otra app del ecosistema cierra la de aquí. Se resuelve con Auth0 en fase 2 o con una tabla de sesiones por persona.
