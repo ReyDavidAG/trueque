@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <g id="string">
+    <path d="M146 190L256 66l110 124" fill="none" stroke="#33231b" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="256" cy="60" r="26" fill="#33231b"/>
+  </g>
+  <g id="sign" transform="rotate(-6 256 330)">
+    <rect x="44" y="186" width="424" height="290" rx="46" fill="#b02a3a" stroke="#33231b" stroke-width="22"/>
+    <g id="pod" transform="translate(256 331) rotate(-58) scale(.58) translate(-256 -256)">
+      <path d="M256 62c78 30 114 116 114 196 0 84-38 152-98 186l-16 30-16-30c-60-34-98-102-98-186 0-80 36-166 114-196z" fill="#e8c55a"/>
+    <path d="M207 92c-24 52-30 108-30 166s6 116 30 166c-24-14-65-80-65-166s41-148 65-166zM305 92c24 52 30 108 30 166s-6 116-30 166c24-14 65-80 65-166s-41-148-65-166z" fill="#c8932e"/>
+    <path d="M256 70c-14 56-18 120-18 188s4 132 18 188c14-56 18-120 18-188s-4-132-18-188z" fill="#c8932e"/>
+    <path d="M256 62c78 30 114 116 114 196 0 84-38 152-98 186l-16 30-16-30c-60-34-98-102-98-186 0-80 36-166 114-196z" fill="none" stroke="#33231b" stroke-width="18" stroke-linejoin="round"/>
+    <path d="M256 62c2-20 10-34 24-42" fill="none" stroke="#33231b" stroke-width="18" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>
