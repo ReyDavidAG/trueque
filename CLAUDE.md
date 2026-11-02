@@ -81,7 +81,7 @@ Estados del cupón: `valid` · `used` · `expired` · `disabled`.
   supabase/migrations/        Esquema trueque (requiere el de Chispa) · seed.sql catálogos · seed_demo.sql ejemplo
   supabase/tests/             Prueba con PGlite: aplica Chispa + El Trueque (npm run check)
   docs/database.md            Por qué cada tabla, RLS, integración y paso a SQL Server
-  trueque.client/             Fase 1 (aún no existe)
+  trueque.client/             Fase 1: React 19 + Vite + TS + Tailwind v4 + Supabase (puerto 5175)
   Trueque.Api/ .Application/ .Domain/ .Infrastructure/   Fase 2 (aún no existe)
 ```
 
