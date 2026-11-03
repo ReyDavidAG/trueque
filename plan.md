@@ -78,11 +78,11 @@ Cierre: `release/0.3.0` → `main` (tag) → Vercel, con las pruebas otra vez en
 - El mercado pide sólo la posición 1; el detalle pide las dos.
 - Sin Storage ni configuración extra. Si después pesa, se cambia el repositorio a Storage sin tocar pantallas.
 
-### Decisiones a tomar antes de B2
+### Decisiones tomadas
 
-1. **Valor del cacao.** Propuesta: 1 cacao = $5 MXN, configurable. Con las reglas actuales, una chispa implementada (150 cacaos) equivale a $750 en especie.
-2. **Quién paga.** Hoy, la empresa de quien hace el trueque. Alternativa: la empresa que ofrece el producto. Recomendación: la que ofrece, porque su presupuesto controla lo que publica.
-3. **Presupuesto en pesos.** Propuesta: el presupuesto anual por empresa se define en pesos y cada canje descuenta el costo real del producto.
+1. **Valor del cacao:** 1 cacao = $5 MXN, configurable. Una chispa implementada (150 cacaos) equivale a $750 en especie.
+2. **Quién paga:** la empresa que ofrece el producto, con su costo real.
+3. **Presupuesto:** anual por empresa, en pesos; cada canje descuenta el costo del producto.
 
 ## Fase 1.2 · Integración con RH (sólo local) · v0.4.0
 

@@ -1,14 +1,15 @@
 import { art, bean } from "../art.js";
-import { categories, products } from "../data.js";
+import { filters } from "../data.js";
 import * as store from "../store.js";
-import { cacaos, icon, shortDate, stall } from "../ui.js";
+import { cacaos, icon, money, shortDate, stall } from "../ui.js";
 
 let filter = { category: "all", affordable: false };
 let loaded = false;
 
 function list() {
   const bal = store.balance();
-  return products
+  return store
+    .liveProducts()
     .filter((p) => filter.category === "all" || p.category === filter.category)
     .filter((p) => !filter.affordable || (bal >= p.price && store.stockLeft(p) !== 0))
     .sort((a, b) => a.price - b.price);
@@ -47,10 +48,29 @@ function purse() {
   </section>`;
 }
 
+function explainer() {
+  const { cacaoValue, lotMonths } = store.config();
+  const facts = [
+    ["spark", "Lo ganas", "Cuando tu chispa avanza, publicas un reto o recibes una insignia."],
+    ["store", "Lo cambias", "Por servicios y artículos que ofrecen las empresas del grupo."],
+    ["clock", `Dura ${lotMonths} meses`, "Desde que lo ganas. Al cambiar, se usan primero los más viejos."],
+  ];
+  return `<details class="explainer" open>
+    <summary class="explainer__head">
+      ${bean("explainer__coin")}
+      <span><b class="explainer__title">¿Qué es un cacao?</b><span class="explainer__value">1 cacao vale <b class="num">${money(cacaoValue)}</b> en productos</span></span>
+      ${icon("chevronDown", "explainer__chev")}
+    </summary>
+    <ul class="explainer__facts" role="list">
+      ${facts.map(([ic, t, d], i) => `<li class="animate-tile-in" style="--i:${i}">${icon(ic)}<span><b>${t}</b>${d}</span></li>`).join("")}
+    </ul>
+  </details>`;
+}
+
 export default {
   title: "El mercado",
   render() {
-    const chips = categories
+    const chips = filters
       .map((c) => `<label class="chip-radio"><input type="radio" name="cat" value="${c.id}"${filter.category === c.id ? " checked" : ""}><span>${c.label}</span></label>`)
       .join("");
     return `<div class="wrap">
@@ -59,6 +79,7 @@ export default {
         <p class="lede">Los ganas proponiendo en Chispa. Aquí los cambias por servicios y artículos de las empresas del grupo.</p>
       </header>
       ${purse()}
+      ${explainer()}
       <div class="market-tools" role="group" aria-label="Filtrar el mercado">
         <div class="chip-row" role="radiogroup" aria-label="Tipo">${chips}</div>
         <label class="switch"><input type="checkbox" name="affordable"${filter.affordable ? " checked" : ""}><span class="switch__track" aria-hidden="true"></span><span>Sólo lo que me alcanza</span></label>

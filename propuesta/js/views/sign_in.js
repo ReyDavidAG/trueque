@@ -16,7 +16,7 @@ function numberStep(error = "", value = "") {
       <p class="field__help${error ? " is-error" : ""}" id="emp-help">${error || "Mínimo 5 dígitos, sólo números."}</p>
     </div>
     <button class="btn btn--grana btn--lg btn--block" type="submit">Continuar${icon("arrowRight")}</button>
-    <p class="signin__demo">${icon("info")}<span>Demo: <b class="num">10001</b> colaborador · <b class="num">10002</b> empresa · <b class="num">10003</b> RH</span></p>
+    <p class="signin__demo">${icon("info")}<span>Demo: <b class="num">10001</b> colaborador · <b class="num">10002</b> encargado de tienda · <b class="num">10003</b> RH</span></p>
   </form>`;
 }
 
