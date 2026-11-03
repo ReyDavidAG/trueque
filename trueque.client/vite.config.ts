@@ -1,7 +1,12 @@
+import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+
+const { version } = JSON.parse(
+	readFileSync(path.resolve(__dirname, 'package.json'), 'utf8')
+)
 
 const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 if (!process.env.VITE_SITE_URL && vercelUrl)
@@ -9,6 +14,7 @@ if (!process.env.VITE_SITE_URL && vercelUrl)
 
 export default defineConfig({
 	plugins: [react(), tailwindcss()],
+	define: { 'import.meta.env.VITE_APP_VERSION': JSON.stringify(version) },
 	resolve: { alias: { '@': path.resolve(__dirname, './src') } },
 	server: { host: true, port: 5175, strictPort: true },
 	build: {

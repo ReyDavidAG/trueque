@@ -19,6 +19,9 @@ export function TopBar({ items }: { items: NavItem[] }) {
 					aria-label='El Trueque, el mercado'>
 					<Wordmark />
 				</Link>
+				<span className='version-tag num' title='Versión de la demostración'>
+					v{import.meta.env.VITE_APP_VERSION}
+				</span>
 				<nav className='topnav' aria-label='Principal'>
 					{items.map(i => (
 						<NavLink key={i.to} className='topnav__link' to={i.to} end={i.end}>
