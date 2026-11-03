@@ -2317,66 +2317,48 @@ ol[role='list'] {
 .signin__brand .wordmark {
 	font-size: 2rem;
 }
+.mark3d {
+	position: relative;
+	display: block;
+}
+.mark3d__canvas {
+	position: absolute;
+	inset: -50%;
+	width: 200%;
+	height: 200%;
+	display: block;
+	touch-action: none;
+	z-index: 1;
+}
 .signin__story .display {
 	color: var(--color-cacao);
 	max-width: 12ch;
 }
 .signin__scene {
-	max-width: 520px;
-	padding: 0 var(--gutter) var(--space-2xl);
+	grid-area: scene;
+	min-height: 0;
 }
-.scene {
+.scene3d-host {
+	position: relative;
 	width: 100%;
-	height: auto;
-	overflow: visible;
+	height: 100%;
 }
-.scene .scene__awning {
-	fill: var(--stall);
+.scene3d {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	display: block;
+	touch-action: none;
 }
-.scene .scene__sign {
-	fill: var(--stall);
-}
-.scene .scene__stall {
-	animation: tile-in var(--dur-slow) var(--ease-out) both;
-	animation-delay: calc(var(--i) * 120ms + 200ms);
-}
-.art .sign-text,
-.scene .sign-text {
+.art .sign-text {
 	font-family: var(--font-display);
 	font-size: 17px;
 	fill: var(--color-ink);
 }
-.scene .sign-text--light {
-	fill: var(--color-on-dark);
-	font-size: 22px;
-}
-.scene [data-stall='achiote'] .sign-text--light {
-	fill: var(--color-ink);
-}
-.scene .ln {
-	stroke: var(--color-ink);
-	stroke-width: 3;
-	stroke-linecap: round;
-	stroke-linejoin: round;
-}
-.scene path.ln:not([class*='a-']):not(.scene__awning) {
-	fill: none;
-}
-.scene .a-cacao {
-	fill: var(--color-cacao);
-}
-.scene .a-estraza {
-	fill: var(--color-estraza);
-}
-.scene .a-maiz {
-	fill: var(--color-maiz);
-}
-.scene .a-shadow {
-	fill: var(--color-ink);
-	opacity: 0.12;
-}
 .signin__panel {
-	padding: var(--space-lg) var(--gutter) var(--space-2xl);
+	grid-area: panel;
+	padding: 0 var(--gutter) var(--space-lg);
 	display: grid;
 	align-content: start;
 	justify-items: center;
