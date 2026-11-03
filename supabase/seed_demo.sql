@@ -22,4 +22,7 @@ from public.companies c, (values
 where c.code = 'DEMO';
 
 insert into trueque.company_budgets (company_id, period, assigned)
-select id, 2026, 24000 from public.companies where code = 'DEMO';
+select id, 2026, 120000 from public.companies where code = 'DEMO';
+
+update trueque.products set cost = price * (select cacao_value from trueque.config) where cost = 0 and origin = 'manual';
+update trueque.products set stall = trueque.default_stall(art, origin) where stall = 'grana';
