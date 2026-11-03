@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Icon } from '@/components/ui/icon'
@@ -7,6 +7,8 @@ import {
 	employeeNumberSchema,
 } from '@/schemas/auth/sign_in/employee_number.schema'
 import { cn } from '@/utils/cn'
+
+const MIN = 5
 
 interface Props {
 	defaultValue: string
@@ -18,11 +20,16 @@ export function NumberStep({ defaultValue, serverError, onSubmit }: Props) {
 	const {
 		register,
 		handleSubmit,
+		control,
 		formState: { errors, isSubmitting },
 	} = useForm<EmployeeNumberForm>({
 		resolver: zodResolver(employeeNumberSchema),
 		defaultValues: { employeeNumber: defaultValue },
 	})
+	const value = (useWatch({ control, name: 'employeeNumber' }) ?? '').replace(
+		/\D/g,
+		'',
+	)
 	const error = errors.employeeNumber?.message ?? serverError
 
 	return (
@@ -34,20 +41,38 @@ export function NumberStep({ defaultValue, serverError, onSubmit }: Props) {
 			<p className='muted'>El mismo de tu gafete o de tu recibo de nómina.</p>
 			<div className='field'>
 				<label htmlFor='employee-number'>Número de trabajador</label>
-				<input
-					id='employee-number'
-					className={cn('input input--number num', error && 'animate-nudge')}
-					inputMode='numeric'
-					autoComplete='off'
-					maxLength={10}
-					placeholder='00000'
-					autoFocus
-					aria-invalid={Boolean(error)}
-					aria-describedby='number-help'
-					{...register('employeeNumber', {
-						onChange: e => (e.target.value = e.target.value.replace(/\D/g, '')),
-					})}
-				/>
+				<div className='digits'>
+					<input
+						id='employee-number'
+						className={cn(
+							'input input--number num digits__input',
+							error && 'animate-nudge',
+						)}
+						inputMode='numeric'
+						autoComplete='off'
+						maxLength={10}
+						placeholder='00000'
+						autoFocus
+						aria-invalid={Boolean(error)}
+						aria-describedby='number-help'
+						{...register('employeeNumber', {
+							onChange: e => (e.target.value = e.target.value.replace(/\D/g, '')),
+						})}
+					/>
+					<span className='num digits__show' aria-hidden='true'>
+						{[...value].map((d, i) => (
+							<span key={`${i}${d}`} className='digits__d'>
+								{d}
+							</span>
+						))}
+						<span className='digits__caret' />
+						{Array.from({ length: Math.max(MIN - value.length, 0) }, (_, i) => (
+							<span key={`g${value.length + i}`} className='digits__ghost'>
+								0
+							</span>
+						))}
+					</span>
+				</div>
 				<p className={cn('field__help', error && 'is-error')} id='number-help'>
 					{error ?? 'Mínimo 5 dígitos, sólo números.'}
 				</p>
