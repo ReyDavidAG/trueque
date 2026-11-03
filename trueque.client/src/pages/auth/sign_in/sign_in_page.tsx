@@ -3,7 +3,10 @@ import { Navigate, useLocation, useNavigate } from 'react-router'
 
 import { ConfirmStep } from '@/components/auth/confirm_step'
 import { NumberStep } from '@/components/auth/number_step'
-import { MarketScene, Wordmark } from '@/components/ui/art'
+import { Wordmark } from '@/components/ui/art'
+import { rainCacao } from '@/components/ui/cacao_rain'
+import { MarkScene } from '@/components/ui/mark_scene'
+import { MarketScene } from '@/components/ui/market_scene'
 import { ROUTES } from '@/constants/routes'
 import { useSession } from '@/hooks/auth/use_session'
 import type { Session } from '@/types/session_type'
@@ -30,7 +33,6 @@ export default function SignInPage() {
 
 	const enter = () => {
 		if (!pending) return
-		confirm(pending)
 		const state: unknown = location.state
 		const from =
 			typeof state === 'object' &&
@@ -39,8 +41,11 @@ export default function SignInPage() {
 			typeof state.from === 'string'
 				? state.from
 				: undefined
-		navigate(from && from !== ROUTES.signIn ? from : ROUTES.market, {
-			replace: true,
+		rainCacao(() => {
+			confirm(pending)
+			navigate(from && from !== ROUTES.signIn ? from : ROUTES.market, {
+				replace: true,
+			})
 		})
 	}
 
