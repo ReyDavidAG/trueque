@@ -1,5 +1,9 @@
 # Cambios
 
+## 0.3.1 · 2026-11-03
+
+- El precio sugerido ya no sale del rango de la categoría: si el costo da más del máximo (o menos del mínimo) sugiere el tope y lo explica. El aviso de fuera de rango dice que hay que corregirlo para mandarlo.
+
 ## 0.3.0 · 2026-11-03
 
 Fase 1.1: la tienda completa.

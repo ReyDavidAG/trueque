@@ -26,7 +26,9 @@ function PriceHint({
 				{formatMoney(cacaoValue)}.
 			</p>
 		)
-	const sug = Math.max(1, Math.round(cost / cacaoValue))
+	const exact = Math.max(1, Math.round(cost / cacaoValue))
+	const sug = Math.min(category.priceMax, Math.max(category.priceMin, exact))
+	const capped = exact !== sug
 	const max = Math.max(category.priceMax, price, sug) * 1.15
 	const x = (n: number) => `${(n / max) * 100}%`
 	const out =
@@ -37,7 +39,9 @@ function PriceHint({
 				<p>
 					Precio sugerido: <b className='num'>{cacaos(sug)}</b>{' '}
 					<span className='muted'>
-						({formatMoney(cost)} ÷ {formatMoney(cacaoValue)})
+						{capped
+							? `(${formatMoney(cost)} ÷ ${formatMoney(cacaoValue)} da ${exact}; el ${exact > sug ? 'máximo' : 'mínimo'} de ${category.name.toLowerCase()} es ${sug})`
+							: `(${formatMoney(cost)} ÷ ${formatMoney(cacaoValue)})`}
 					</span>
 				</p>
 				{price !== sug && (
@@ -71,7 +75,7 @@ function PriceHint({
 				{!price
 					? 'La raya es el precio sugerido.'
 					: out
-						? 'Fuera del rango: RH te lo va a ajustar o rechazar.'
+						? `Fuera del rango: para mandarlo debe quedar entre ${category.priceMin} y ${category.priceMax} cacaos.`
 						: `Dentro del rango. Para la gente equivale a ${formatMoney(price * cacaoValue)}.`}
 			</p>
 		</>

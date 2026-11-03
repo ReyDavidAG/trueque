@@ -70,12 +70,13 @@ function priceHint() {
   const price = Number(draft.price) || 0;
   const { cacaoValue } = store.config();
   if (!cost) return `<p class="muted">${icon("info")}Pon el costo y te sugerimos un precio: 1 cacao = ${money(cacaoValue)}.</p>`;
-  const sug = store.suggestedPrice(cost);
+  const exact = store.suggestedPrice(cost);
+  const sug = Math.min(cat.max, Math.max(cat.min, exact));
   const max = Math.max(cat.max, price, sug) * 1.15;
   const x = (n) => `${(n / max) * 100}%`;
   const out = price && (price < cat.min || price > cat.max);
   return `<div class="suggest">
-      <p>Precio sugerido: <b class="num">${cacaos(sug)}</b> <span class="muted">(${money(cost)} ÷ ${money(cacaoValue)})</span></p>
+      <p>Precio sugerido: <b class="num">${cacaos(sug)}</b> <span class="muted">(${money(cost)} ÷ ${money(cacaoValue)}${exact !== sug ? ` da ${exact}; el ${exact > sug ? "máximo" : "mínimo"} de ${cat.label.toLowerCase()} es ${sug}` : ""})</span></p>
       ${price !== sug ? `<button class="btn btn--sm btn--ghost" type="button" data-use-suggested="${sug}">Usar ${sug}</button>` : ""}
     </div>
     <div class="range${out ? " is-out" : ""}" role="img" aria-label="Rango ${cat.min} a ${cat.max}${price ? `, tu precio ${price}` : ""}">
@@ -83,7 +84,7 @@ function priceHint() {
       ${price ? `<span class="range__dot" style="left:${x(price)}"></span>` : ""}
       <span class="range__tick" style="left:${x(sug)}" title="Sugerido"></span>
     </div>
-    <p class="range__label">${price ? (out ? `${icon("info")}Fuera del rango: RH te lo va a ajustar o rechazar.` : `Dentro del rango. Para la gente equivale a ${money(store.pesos(price))}.`) : "La raya es el precio sugerido."}</p>`;
+    <p class="range__label">${price ? (out ? `${icon("info")}Fuera del rango: para mandarlo debe quedar entre ${cat.min} y ${cat.max} cacaos.` : `Dentro del rango. Para la gente equivale a ${money(store.pesos(price))}.`) : "La raya es el precio sugerido."}</p>`;
 }
 
 function stepWhen() {
