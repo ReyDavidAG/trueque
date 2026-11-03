@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { Art } from './art'
+import { ClosedStall } from './closed_stall'
 import { Icon } from './icon'
 
 export function EmptyState({
@@ -8,16 +9,22 @@ export function EmptyState({
 	title,
 	body,
 	action,
+	onAngry,
 }: {
 	art?: string
 	title: string
 	body: string
 	action?: ReactNode
+	onAngry?: () => void
 }) {
 	return (
 		<div className='empty'>
 			<div className='empty__art'>
-				<Art id={art} />
+				{art === 'closed' ? (
+					<ClosedStall onAngry={onAngry} />
+				) : (
+					<Art id={art} />
+				)}
 			</div>
 			<p className='h3'>{title}</p>
 			<p className='muted'>{body}</p>
