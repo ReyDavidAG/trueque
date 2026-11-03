@@ -1,4 +1,5 @@
 export const APP_VERSION = "0.3.0";
+export const CHISPA_URL = "https://chispa-phi.vercel.app/";
 
 export const companies = [
   { id: "valle", name: "Alimentos del Valle" },

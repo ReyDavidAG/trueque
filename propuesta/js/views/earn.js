@@ -1,4 +1,5 @@
 import { bean } from "../art.js";
+import { CHISPA_URL } from "../data.js";
 import * as store from "../store.js";
 import { cacaos, esc, icon, money, shortDate, stagger } from "../ui.js";
 
@@ -45,6 +46,7 @@ export default {
       <header class="page-head">
         <h1 class="h1">Cómo gano cacaos</h1>
         <p class="lede">En Mesoamérica el cacao fue moneda. Aquí también: lo ganas cuando ayudas a resolver un problema de la operación.</p>
+        <a class="chispa-link" href="${CHISPA_URL}" target="_blank" rel="noopener">${icon("spark")}<span><b>Ve los retos abiertos en Chispa</b>Cada idea que mandas es tu primer cacao.</span>${icon("arrowRight")}</a>
       </header>
       <div class="earn-split">
         ${board()}
@@ -57,7 +59,8 @@ export default {
             <li><span>Examen de la vista</span><span class="num">≈ 1 año</span></li>
           </ul>
           <p class="muted small">Una chispa que llega a la feria adelanta todo eso de golpe.</p>
-          <a class="btn btn--grana btn--block" href="#/">Ver el mercado</a>
+          <a class="btn btn--grana btn--block" href="${CHISPA_URL}" target="_blank" rel="noopener">${icon("spark")}Proponer una chispa${icon("arrowRight")}</a>
+          <a class="btn btn--ghost btn--block" href="#/">Ver el mercado</a>
         </aside>
       </div>
       ${timeline()}
