@@ -4,7 +4,6 @@ import { Art, Qr } from '@/components/ui/art'
 import { Icon } from '@/components/ui/icon'
 import { DemoNote, EmptyState, ErrorState } from '@/components/ui/state_views'
 import { ROUTES } from '@/constants/routes'
-import { stallOf } from '@/constants/stall'
 import { useLocationMap } from '@/hooks/market/use_market'
 import { useCoupons } from '@/hooks/wallet/use_wallet'
 import type { CouponCard } from '@/types/trade_type'
@@ -30,7 +29,7 @@ function Ticket({ c, i, place }: { c: CouponCard; i: number; place: string }) {
 	return (
 		<li
 			className={cn('ticket animate-tile-in', c.state !== 'valid' && 'is-off')}
-			data-stall={stallOf(c.art)}
+			data-stall={c.stall}
 			style={stagger(i)}>
 			<div className='ticket__art'>
 				<Art id={c.art} />

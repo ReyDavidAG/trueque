@@ -1,7 +1,14 @@
+import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+
+const { version } = JSON.parse(
+	readFileSync(path.resolve(__dirname, 'package.json'), 'utf8')
+)
+
+process.env.VITE_APP_VERSION = version
 
 const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 if (!process.env.VITE_SITE_URL && vercelUrl)

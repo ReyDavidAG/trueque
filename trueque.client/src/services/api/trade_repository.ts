@@ -1,3 +1,4 @@
+import type { CouponLookup } from '@/types/config_type'
 import type {
 	CouponCard,
 	CouponState,
@@ -8,15 +9,40 @@ import type {
 
 import { toMessage, trueque } from '../supabase/supabase_client'
 
+interface LookupRow {
+	code: string
+	folio: string
+	state: CouponLookup['state']
+	valid_until: string
+	swaps_left: number
+	product_id: string
+	product_name: string
+	product_art: string | null
+	product_stall: string
+	product_cost: number | string
+	product_company: string
+	person_name: string
+	employee_number: string
+	can_redeem: boolean
+}
+
+const isLookupRow = (v: unknown): v is LookupRow =>
+	typeof v === 'object' &&
+	v !== null &&
+	'code' in v &&
+	'product_id' in v &&
+	'state' in v
+
 export interface TradeRepository {
 	trade(productId: string): Promise<TradeResult>
 	coupons(personId: string): Promise<CouponCard[]>
 	receipt(folio: string): Promise<Receipt | null>
 	redeem(code: string, locationId: string | null): Promise<CouponState>
+	lookup(code: string): Promise<CouponLookup | null>
 }
 
 const ORDER_FIELDS =
-	'folio, price, status, created_at, company_id, spend_id, product:products(id, name, art, location_id), coupon:coupons(code, code_type, state, valid_until, swaps_budget, swaps_used)'
+	'folio, price, status, created_at, company_id, spend_id, product:products(id, name, art, stall, location_id), coupon:coupons(code, code_type, state, valid_until, swaps_budget, swaps_used)'
 
 interface OrderRow {
 	folio: number
@@ -29,6 +55,7 @@ interface OrderRow {
 		id: string
 		name: string
 		art: string | null
+		stall: string | null
 		location_id: string | null
 	} | null
 	coupon: {
@@ -57,7 +84,8 @@ const toCard = (r: OrderRow): CouponCard => ({
 	createdAt: r.created_at,
 	productId: r.product?.id ?? '',
 	productName: r.product?.name ?? 'Producto',
-	art: r.product?.art ?? 'cap',
+	art: r.product?.art ?? 'ticket',
+	stall: r.product?.stall ?? 'grana',
 	locationId: r.product?.location_id ?? null,
 	code: r.coupon?.code ?? '',
 	codeType: r.coupon?.code_type ?? 'qr',
@@ -131,5 +159,30 @@ export const tradeRepository: TradeRepository = {
 		if (data !== 'used' && data !== 'valid')
 			throw new Error('No se pudo canjear.')
 		return data
+	},
+
+	async lookup(code) {
+		const { data, error } = await trueque.rpc('coupon_lookup', {
+			p_code: code,
+		})
+		if (error) throw new Error(toMessage(error))
+		const r: unknown = Array.isArray(data) ? data[0] : null
+		if (!isLookupRow(r)) return null
+		return {
+			code: r.code,
+			folio: r.folio,
+			state: r.state,
+			validUntil: r.valid_until,
+			swapsLeft: r.swaps_left,
+			productId: r.product_id,
+			productName: r.product_name,
+			productArt: r.product_art ?? 'ticket',
+			productStall: r.product_stall,
+			productCost: Number(r.product_cost),
+			productCompany: r.product_company,
+			personName: r.person_name,
+			employeeNumber: r.employee_number,
+			canRedeem: r.can_redeem,
+		}
 	},
 }

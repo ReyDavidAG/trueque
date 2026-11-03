@@ -1,5 +1,4 @@
 import { Qr } from '@/components/ui/art'
-import { stallOf } from '@/constants/stall'
 import type { CouponCard } from '@/types/trade_type'
 import { shortDate } from '@/utils/dates'
 
@@ -11,10 +10,7 @@ export function CouponTicket({
 	place: string
 }) {
 	return (
-		<section
-			className='coupon'
-			data-stall={stallOf(coupon.art)}
-			aria-label='Cupón'>
+		<section className='coupon' data-stall={coupon.stall} aria-label='Cupón'>
 			<div className='coupon__main'>
 				<p className='kicker'>Cupón</p>
 				<h2 className='coupon__name'>{coupon.productName}</h2>

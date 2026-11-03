@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router'
 
+import { Explainer } from '@/components/market/explainer'
 import {
 	type CategoryFilter,
 	MarketFilters,
@@ -14,7 +15,8 @@ import {
 	StallSkeletons,
 } from '@/components/ui/state_views'
 import { CATEGORY_LABELS } from '@/constants/stall'
-import { useLiveProducts } from '@/hooks/market/use_market'
+import { useCovers } from '@/hooks/market/use_images'
+import { useCompanyMap, useLiveProducts } from '@/hooks/market/use_market'
 import { useBalance } from '@/hooks/wallet/use_wallet'
 
 const isCategory = (v: string | null): v is CategoryFilter =>
@@ -28,6 +30,8 @@ export default function MarketPage() {
 	const products = useLiveProducts()
 	const balance = useBalance()
 	const money = balance.data?.balance ?? 0
+	const covers = useCovers(products.live)
+	const companies = useCompanyMap()
 
 	const shown = useMemo(
 		() =>
@@ -55,6 +59,7 @@ export default function MarketPage() {
 				</p>
 			</header>
 			{balance.data && <Purse balance={balance.data} />}
+			<Explainer products={products.live} />
 			<MarketFilters
 				category={category}
 				affordable={affordable}
@@ -71,7 +76,14 @@ export default function MarketPage() {
 			) : shown.length ? (
 				<div className='stalls'>
 					{shown.map((p, i) => (
-						<Stall key={p.id} product={p} balance={money} index={i} />
+						<Stall
+							key={p.id}
+							product={p}
+							balance={money}
+							index={i}
+							cover={covers.get(p.id)}
+							companyName={companies.get(p.companyId)?.name ?? ''}
+						/>
 					))}
 				</div>
 			) : (

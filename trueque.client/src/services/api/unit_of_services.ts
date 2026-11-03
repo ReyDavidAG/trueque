@@ -1,3 +1,6 @@
+import { configRepository } from './config_repository'
+import { dashboardRepository } from './dashboard_repository'
+import { notificationRepository } from './notification_repository'
 import { panelRepository } from './panel_repository'
 import { productRepository } from './product_repository'
 import { sessionRepository } from './session_repository'
@@ -10,4 +13,7 @@ export const services = {
 	wallet: walletRepository,
 	trades: tradeRepository,
 	panel: panelRepository,
+	config: configRepository,
+	notifications: notificationRepository,
+	dashboard: dashboardRepository,
 }

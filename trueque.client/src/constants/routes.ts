@@ -8,4 +8,9 @@ export const ROUTES = {
 	coupons: '/coupons',
 	earn: '/earn',
 	panel: '/panel',
+	newProduct: '/panel/new',
+	editProduct: (id: string) => `/panel/edit/${id}`,
+	redeem: '/redeem',
+	dashboard: '/dashboard',
+	settings: '/settings',
 } as const

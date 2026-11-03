@@ -1,103 +1,163 @@
 # Plan · El Trueque
 
-Qué sigue y en qué orden. Cada fase se aprueba antes de empezarla. El avance real vive en `state.md`.
+Qué sigue y en qué orden. Cada etapa se aprueba antes de empezarla. El avance real vive en `state.md`.
 
-## Fase 0 · Propuesta visual · lista para aprobar
+## Hecho
 
-Prototipo en `propuesta/` con datos de ejemplo (rutas con `#`).
+- **Fase 0 · Propuesta visual** en `propuesta/`.
+- **Fase 1 · Web de demostración** `trueque.client` v0.2.1, publicada en Vercel con login simulado y Supabase. Detalle en `state.md`; tablas en `docs/database.md`.
 
-| Ruta | Pantalla | Quién | Para qué |
-|---|---|---|---|
-| `/sign-in` | Entrar | Todos | Número de trabajador → "¿Eres tú?". |
-| `/` | El mercado | Todos | Saldo y cacaos por vencer, filtros por tipo, "sólo lo que me alcanza", puestos con rótulo de precio. |
-| `/products/:id` | Detalle | Todos | Quién lo ofrece, dónde se canjea, vigencia del cupón, existencias, procedencia si viene de Custodia y **qué lotes se usarían**. |
-| `/trade/:id` | Hacer el trueque | Todos | Revisión → recibo dentado → boleto con QR. |
-| `/wallet` | Mi jícara | Todos | Saldo, ganados, cambiados, por vencer y movimientos. |
-| `/coupons` | Mis cupones | Todos | Vigentes con código, usados y vencidos. |
-| `/earn` | Cómo gano cacaos | Todos | El pizarrón de reglas con topes, "para darte una idea" y los lotes con su vencimiento. |
-| `/panel` | Mi puesto | Empresa | Presupuesto, productos, publicar, equipos de Custodia. |
-| `/panel` | Precios por aprobar | RH | Precio contra rango de referencia: aprobar, ajustar o rechazar. |
+## Fase 1.1 · Completar la tienda (publicable) · v0.3.0
 
-Estados: arranque, esqueletos, sin conexión (puesto cerrado), 404, vacíos.
+Todo esto corre sólo con Supabase y el login simulado, así que se puede publicar en Vercel. Lo que necesita Auth0 o el API de RH va en la fase 1.2.
 
-## Fase 1 · Web de demostración (`trueque.client`)
+### Regla de trabajo: primero el diseño, en la propuesta
 
-### Base de datos (lista en `supabase/`)
+Nada visual entra a `trueque.client` sin aprobación.
 
-Esquema `trueque` sobre el mismo Supabase de Chispa. Pasos en el proyecto de Supabase, en este orden:
+1. Cada pantalla nueva o cambiada se dibuja primero en `propuesta/` (HTML/CSS/JS, datos de ejemplo), con el mismo vocabulario visual: mercado mexicano, contorno de tinta, pigmentos planos, Lilita One, moneda de cacao.
+2. Se revisa en el navegador a 320, 375, 768 y 1280 px, con animaciones y estados (vacío, error, cargando).
+3. Se entrega con capturas y la lista de cambios. Tú apruebas o pides cambios.
+4. Hasta que esté aprobado, se implementa en el cliente.
 
-1. Ya aplicadas: las migraciones de Chispa.
-2. SQL Editor: `supabase/migrations/20261103000000_trueque_init.sql`.
-3. SQL Editor: `supabase/seed.sql` (categorías y reglas de ganancia). Opcional: `supabase/seed_demo.sql`.
-4. **Project Settings → API → Exposed schemas**: agregar `trueque`.
-5. Asignar roles: filas en `trueque.store_managers` (empresa, persona) y `trueque.hr_reviewers`.
-6. Mantenimiento diario con `pg_cron`: `select trueque.expire_lots(); select trueque.expire_coupons();`.
+### A · Propuesta visual a aprobar
 
-Detalle de cada tabla en `docs/database.md`.
-
-### Librerías
-
-Las mismas versiones fijas que `chispa.client` (React 19.2.8, Vite 7.3.6, TypeScript 5.9.3, Tailwind 4.3.3, TanStack Query 5.101.2, react-router 8.3.0, react-hook-form + zod 3.25.76, sonner, clsx, `@radix-ui/react-popover`, `@supabase/supabase-js` 2.118.0) y el mismo `.npmrc` (`ignore-scripts`, `allow-git=none`, `min-release-age=7`, `save-exact`). Fuentes con fontsource: Lilita One, Figtree, IBM Plex Mono.
-
-### Estructura (la de `chispa.client`, para que `/frontend-review` aplique igual)
-
-```
-trueque.client/src/
-  router/app_router.tsx                       createBrowserRouter + lazy
-  layouts/{auth,protected}/                   auth_guard y protected_layout (barra con el saldo)
-  context/session/                            la misma sesión de Chispa
-  pages/<module>/<feature>/<feature>_page.tsx market/list · products/detail · trade/review · trade/receipt · wallet · coupons · earn · panel/company · panel/hr
-  components/ui/                              combobox, coin, price_sign, receipt, ticket, qr_code, empty_state…
-  components/<module>/                        market/stall · wallet/lot_row · panel/budget_bar · panel/price_range…
-  hooks/<domain>/use_<name>.tsx               use_products, use_wallet, use_trade, use_coupons, use_panel
-  schemas/<module>/<feature>/<name>.schema.ts publish_product, review_price
-  services/api/unit_of_services.ts            cada repositorio detrás de una interfaz
-  constants/query_keys.ts · constants/routes.ts · types/ · utils/ · styles/{tokens,app,motion}.css
-```
-
-Repositorios (interfaz → implementación Supabase hoy, API mañana):
-
-| Repositorio | Lee | Escribe |
+| # | Pantalla | Qué se propone |
 |---|---|---|
-| `ProductRepository` | `trueque.product_cards`, `exchange_locations`, `categories` | `products` (empresa) |
-| `WalletRepository` | `trueque.balances`, `trueque.lots`, `trueque.ledger` | — |
-| `TradeRepository` | `orders`, `coupons` | `rpc('trade')` |
-| `PanelRepository` | `budget_usage`, `price_reviews`, `orders` de su empresa | `rpc('review_price')`, `company_budgets` |
-| `RedeemRepository` | — | `rpc('redeem')` |
+| A1 | Barra superior | Versión junto al nombre (ya en el cliente desde v0.2.1). |
+| A2 | Qué es un cacao | Explicación corta en el mercado y en "Cómo gano": qué es, cuánto vale en pesos, de dónde sale y cuándo vence. Que se entienda en 10 segundos. |
+| A3 | Tarjeta de producto | Foto del producto cuando la hay; si no, la ilustración. Rótulo de precio, quién lo ofrece, existencias y "te alcanza / te faltan N". |
+| A4 | Detalle de producto | Galería de hasta 2 fotos, lo que incluye, dónde y cuándo se canjea, vigencia del cupón y plan de pago con los lotes. |
+| A5 | Ilustraciones | Revisión pieza por pieza a tamaño real y juego ampliado por tipo de servicio (salud, comida, capacitación, taller, artículo del grupo, tiempo libre, equipo de Custodia, etc.), coherente con la moneda y la marca. |
+| A6 | Publicar y editar producto | Formulario por pasos: qué es, fotos o ilustración, costo y precio, existencias y vigencia, dónde se canjea, revisión. Con texto de ayuda en cada campo. |
+| A7 | Mis productos | Lista con estado (pendiente, publicado, pausado, rechazado con motivo, retirado) y acciones de editar, pausar, reanudar y retirar. |
+| A8 | Canje en el lugar | Escanear o escribir el código, ver el cupón antes de confirmar y errores claros: vencido, ya usado, de otro lugar, sin presupuesto. |
+| A9 | Revisión de precios (RH) | Costo en pesos, precio sugerido con la equivalencia, rango de la categoría, aprobar, ajustar o rechazar con motivo obligatorio. |
+| A10 | Configuración (RH) | Valor del cacao, reglas de ganancia y topes, caducidad, categorías y rangos, presupuestos por empresa, lugares de canje. Cada campo explica qué cambia. |
+| A11 | Tablero (RH y dirección) | Cacaos dados, canjeados y por vencer; costo en pesos; lo que se debe en cacaos sin canjear; participación por empresa y área; productos más cambiados. |
+| A12 | Avisos | Campana con avisos: ganaste cacaos, te vencen pronto, tu cupón vence, tu producto se aprobó o rechazó. |
 
-Con Supabase se llama `supabase.schema('trueque')`. Claves de consulta en `constants/query_keys.ts`; el saldo se invalida después de cada trueque.
+Entrega: `propuesta/` actualizada y capturas por pantalla y ancho.
 
-### Integración con Chispa
+### B · Implementación (después de aprobar A)
 
-- **En la base ya funciona**: los triggers de `trueque` abonan cacaos cuando se manda una chispa, pasa a revisión, llega a la feria, se implementa o se publica un reto (con topes y sin duplicar).
-- **En `chispa.client`** (feature en el repo de Chispa, a aprobar allá): un aviso "Ganaste 10 cacaos" al cambiar el estado de tu chispa y un enlace "Mis cacaos" en el menú hacia El Trueque.
+Una `feature/*` por bloque. Cada una cierra con: migración nueva en `supabase/migrations/` y su explicación en `docs/database.md`, prueba PGlite en verde, `/frontend-review`, pruebas en Chrome con los tres roles y sin desbordes de 320 a 1280 px.
 
-### Orden de trabajo
+| Orden | Rama | Qué incluye | Base de datos |
+|---|---|---|---|
+| 1 | `feature/version-badge` | Versión junto al nombre (hecho). | — |
+| 2 | `feature/config` | Pantalla de configuración (A10) para RH. | `config.cacao_value` (pesos por cacao); edición de `earning_rules`, `categories`, `company_budgets` y `exchange_locations` con políticas de escritura sólo para RH. |
+| 3 | `feature/product-form` | Formulario por pasos (A6), Mis productos (A7), editar, pausar, reanudar, retirar y existencias. | `products.cost` (costo real en pesos, obligatorio); función para cambiar estado con reglas. |
+| 4 | `feature/product-images` | Hasta 2 fotos por producto (A3, A4). | Tabla `product_images` (producto, posición 1–2, data URL base64, tipo, bytes). |
+| 5 | `feature/illustrations` | Juego de ilustraciones aprobado (A5). | Nuevos valores de `products.art`. |
+| 6 | `feature/redeem` | Canje en el lugar (A8). | Mensajes de error de `redeem()` por caso. |
+| 7 | `feature/price-review` | Revisión con costo y precio sugerido (A9). | `review_price()` exige motivo al rechazar o ajustar. |
+| 8 | `feature/dashboard` | Tablero (A11). | Vistas de totales por empresa, área y periodo. |
+| 9 | `feature/notifications` | Avisos (A12). | Tabla `notifications` alimentada por triggers y por las tareas diarias de vencimiento. |
+| 10 | `feature/explainers` | Qué es un cacao (A2) y textos de ayuda. | — |
 
-1. `feature/client-setup`: Vite + Tailwind + tokens + sesión compartida + router + layouts.
-2. `feature/market`: mercado, detalle y puesto.
-3. `feature/trade`: trueque, recibo y cupón.
-4. `feature/wallet`: jícara, cupones y cómo gano.
-5. `feature/panel`: panel de empresa y de RH.
-6. `/frontend-review`, pruebas con los tres roles en el navegador, `release/0.2.0` y despliegue en Vercel.
+Cierre: `release/0.3.0` → `main` (tag) → Vercel, con las pruebas otra vez en producción.
+
+### Formularios y validaciones (Zod en el cliente, la misma regla en la base)
+
+| Formulario | Campos | Reglas |
+|---|---|---|
+| Producto | nombre, en una frase, detalle, tipo, categoría, fotos o ilustración, costo en pesos, precio en cacaos, existencias, vigencia del cupón, usos, disponible desde y hasta, lugar | Nombre de 4 a 80 caracteres; frase de 4 a 140. Costo > 0. Precio dentro del rango de la categoría; se sugiere costo ÷ valor del cacao. Existencias vacías = sin límite. Vigencia de 1 a 365 días. "Hasta" ≥ "desde". Lugar obligatorio. Máximo 2 fotos. |
+| Foto | archivo | PNG, JPG o WebP. Se reduce en el navegador a 1200 px de lado mayor y se pasa a WebP. Máximo 300 KB ya comprimida; si no cabe, se avisa. |
+| Revisión de precio | decisión, precio ajustado, motivo | Ajustar o rechazar exige motivo (≥ 10 caracteres). El precio ajustado debe estar dentro del rango. |
+| Canje | código | Formato del código. Mensaje distinto si no existe, venció, ya se usó, es de otro lugar o la empresa no tiene presupuesto. |
+| Valor del cacao | pesos por cacao | > 0, dos decimales. Al cambiarlo se muestra cuántos productos quedarían fuera de su rango. |
+| Regla de ganancia | cacaos, tope por mes, activa | Cacaos ≥ 0; tope vacío = sin tope. |
+| Categoría | nombre, precio mínimo, precio máximo | Mínimo > 0 y máximo ≥ mínimo. |
+| Presupuesto | empresa, año, monto | Monto ≥ lo ya comprometido. |
+| Lugar de canje | nombre, dirección, referencia, encargado | Nombre y encargado obligatorios. |
+
+### Imágenes en base64
+
+- Se guardan en `product_images`, no en `products`, para que el mercado no cargue fotos que no muestra.
+- El mercado pide sólo la posición 1; el detalle pide las dos.
+- Sin Storage ni configuración extra. Si después pesa, se cambia el repositorio a Storage sin tocar pantallas.
+
+### Decisiones tomadas
+
+1. **Valor del cacao:** 1 cacao = $5 MXN, configurable. Una chispa implementada (150 cacaos) equivale a $750 en especie.
+2. **Quién paga:** la empresa que ofrece el producto, con su costo real.
+3. **Presupuesto:** anual por empresa, en pesos; cada canje descuenta el costo del producto.
+
+## Fase 1.2 · Integración con RH (sólo local) · v0.4.0
+
+**No se publica** en Vercel ni se sube el API de staging hasta que haya autorización. El repo es público: nada de dominios, rutas internas ni llaves.
+
+### Requisitos
+
+1. Auth0: dar de alta `http://localhost:5175` en *Allowed Callback URLs*, *Allowed Logout URLs* y *Allowed Web Origins* de la aplicación de CFDI. Lo hace un administrador.
+2. El API de CFDI corriendo local (`https://localhost:7161`) contra la base de pruebas de RH.
+3. `trueque.client/.env.local` (ignorado por git) con el dominio, client ID, audiencia y scope de Auth0, la URL del API y `VITE_AUTH=rh`.
+
+### Cómo se separa sin exponer nada
+
+- El código que habla con RH vive en `trueque.client/src/services/rh/`, excluido con `.git/info/exclude`.
+- Usa las mismas interfaces de repositorio que Supabase, así que las pantallas no cambian.
+- Sin `VITE_AUTH=rh`, el cliente compila con el login simulado. Así compila Vercel, sin rastro del API de RH.
+
+### Flujo
+
+1. **Entrar:** login con Auth0, con el mismo client ID de CFDI.
+2. **Quién eres:** `GET /personal` con el token. Si existe y está activo, entra, con su nombre, empresa, área y departamento reales. La foto sale de `GET /personal/image-profile`.
+3. **Rol en la tienda:**
+   - **Encargado de tienda:** es el encargado (`UserId`) de un lugar de canje de RH.
+   - **RH:** tiene el permiso que se acuerde en `GET /users/me/permissions`.
+   - Si no, **colaborador**.
+4. **Organización:** empresas, áreas y departamentos de RH para restricciones y filtros.
+5. **Tienda, saldo y libro de cacaos en Supabase.** A Supabase **no se le manda el token de Auth0**. La sesión de Supabase se liga con el número de trabajador que confirmó RH.
+6. **Insignias a cacaos:** cada insignia vigente de `GET /badge-personal-templates/me` abona sus puntos una sola vez, con el id de la insignia otorgada como referencia para no duplicar.
+7. **Cambiar:**
+   - Supabase descuenta los cacaos y el pedido queda **pendiente de emitir**.
+   - Se emite el cupón en RH y el pedido pasa a **emitido** con la clave del talonario.
+   - Si RH falla, se reintenta. Al tercer fallo se cancela y se devuelven los cacaos.
+8. **Ver el cupón:** la persona lo ve en El Trueque y en la app de RH (`GET /coupons`).
+9. **Canjear:** el encargado escanea el código, lo consulta en RH y lo canjea. RH valida estado, vigencia, usos y monto. Supabase anota el cargo al presupuesto.
+
+### Endpoints que faltan en el API de CFDI
+
+Rama local en el repo de CFDI; no se sube sin autorización.
+
+| Endpoint | Para qué | Quién |
+|---|---|---|
+| `POST /coupons` | Crear el cupón del catálogo al aprobarse un producto; se guarda en `products.rh_coupon_key`. | RH |
+| `POST /coupon-books` | Emitir el cupón a la persona, con origen El Trueque. | La persona del token |
+| `GET /coupon-books/by-code/{code}` | Ver el cupón antes de canjear. | Encargado del lugar |
+| `POST /coupon-books/redeem` | Canjear y escribir el historial en una sola transacción. | Encargado del lugar |
+
+### Riesgo conocido (se acepta sólo en local)
+
+Supabase no valida el token de Auth0. Quien conozca un número de trabajador podría identificarse con él en Supabase. En producción, el API de RH debe ser quien escriba cacaos y pedidos, o Supabase debe validar el token. Eso es la fase 2.
+
+### Orden
+
+1. `feature/rh-session`: Auth0, persona, foto y rol.
+2. `feature/rh-catalogs`: empresas, áreas y departamentos.
+3. `feature/rh-badges`: insignias a cacaos.
+4. En CFDI, los 4 endpoints de cupones con sus validaciones y pruebas.
+5. `feature/rh-coupons`: emitir y canjear contra la base de pruebas, de punta a punta con los tres usuarios.
 
 ## Fase 2 · Producto (API .NET)
 
-La misma estructura que el proyecto de referencia:
-
 ```
-Trueque.Api/            Controllers V2 (Products, Trades, Wallet, Coupons, Redemptions, Budgets, PriceReviews)
+Trueque.Api/            Controllers V2 (Products, Trades, Wallet, Coupons, Redemptions, Budgets, PriceReviews, Config)
 Trueque.Application/    Features/<Entity>/{Commands,Queries,Handlers,Validators} con MediatR + FluentValidation
-Trueque.Domain/         Entidades y reglas (FIFO de lotes, topes, caducidad)
-Trueque.Infrastructure/ EF Core sobre SQL Server; emisión del cupón en el sistema de cupones existente
+Trueque.Domain/         Reglas: FIFO de lotes, topes, caducidad, valor del cacao
+Trueque.Infrastructure/ EF Core sobre SQL Server; cupones en el sistema de RH
 ```
 
-Las funciones `trade`, `redeem`, `review_price` y `award` pasan a comandos del API con la misma regla; los triggers de Chispa pasan a eventos del dominio (`IdeaStatusChanged` → `AwardCacaos`). Auth0 sustituye la sesión simulada sin cambiar las pantallas.
+Las funciones de Supabase pasan a comandos del API. Los abonos pasan a eventos de dominio (chispa, insignia, ahorro validado, proyecto implementado). Auth0 queda como único login.
 
 ## Preguntas abiertas
 
 1. ¿Se pueden regalar cacaos entre compañeros? Si sí, ¿con tope?
 2. ¿Productos caros piden aprobación del jefe además del saldo?
-3. ¿Qué pasa con los cacaos de quien deja la empresa? (Propuesta: se cancelan; los cupones emitidos siguen hasta su vigencia.)
-4. Fiscal: ¿nómina ve los canjes en especie como ingreso?
-5. Si un cupón vence sin usarse, ¿se devuelven los cacaos? (Hoy `config.refund_on_expiry = false`.)
+3. ¿Qué pasa con los cacaos de quien deja la empresa? Propuesta: se cancelan; los cupones emitidos siguen hasta su vigencia.
+4. Fiscal: ¿nómina ve los canjes en especie como ingreso? ¿Hay un tope anual por persona?
+5. Si un cupón vence sin usarse, ¿se devuelven los cacaos? Hoy `config.refund_on_expiry = false`.
+6. ¿Qué permiso de RH identifica al revisor de precios?
+7. Nuevas fuentes de cacaos del proceso de mejora de la gerencia: aprobaciones, implementación, quien implementa y ahorro validado. Se definen con ese proceso.

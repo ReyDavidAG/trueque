@@ -127,3 +127,33 @@ Las llaves `rh_coupon_key`, `rh_book_key` y `rh_key` guardan la clave del regist
 - **Más empresas:** cada una con sus encargados, presupuesto y lugares; los precios se mantienen parejos con las categorías.
 - **Millones de movimientos:** el saldo sale de lotes con índice por persona y vencimiento; si hiciera falta, una vista materializada de saldos se agrega sin tocar las tablas.
 - **Auditoría completa:** el libro es inmutable y cada gasto dice de qué lote salió.
+
+## Fase 1.1 · `20261104000000_trueque_store_v2.sql`
+
+Completa la tienda con lo aprobado en la propuesta v0.3.0. Se corre después de `trueque_init.sql` y de las semillas; convierte también los datos existentes.
+
+| Cambio | Por qué |
+|---|---|
+| `config.cacao_value` (pesos por cacao, 5 por omisión) | Una sola equivalencia para sugerir precios y mostrar costos. RH la cambia desde Ajustes. |
+| `earning_rules.note`, `is_variable`, fuente `insignias` y `rh`, regla `badge` | Las reglas se explican solas y aceptan fuentes nuevas sin tocar código; la insignia paga lo que valga. |
+| `products.cost`, `includes`, `stall` | El costo real en pesos es lo que se descuenta del presupuesto; lo que incluye y el color del toldo se ven en el mercado. Los productos existentes toman `price × cacao_value` como costo. |
+| `orders.cost` | Congela el costo al momento del trueque, para que un cambio de precio no mueva lo ya comprometido. |
+| `product_images` (hasta 2, base64 ≤ 300 KB) | Fotos sin configurar Storage; en tabla aparte para que el mercado sólo cargue la primera. |
+| `company_budgets.assigned` en pesos y `budget_usage` por **empresa que ofrece** | Decisión aprobada: paga quien ofrece, con el costo real. Lo asignado existente se multiplica por `cacao_value`. |
+| `trade()` revisa el presupuesto de quien ofrece contra el costo | Si esa empresa ya no tiene presupuesto, no hay trueque. |
+| `coupon_lookup()` | El encargado ve el cupón (persona, vigencia, costo) antes de canjear; un colaborador no ve cupones ajenos. |
+| `redeem()` con mensajes por caso | No existe, de otro puesto, ya se usó, ya venció. |
+| `review_price()` exige motivo al ajustar o rechazar y precio dentro del rango | La empresa entiende la decisión y el precio queda parejo. |
+| Trigger `guard_product` | La empresa edita el texto sin salir del mercado; si cambia precio, costo o categoría vuelve a revisión; sólo RH publica; pausar y reanudar es suyo. |
+| Políticas de RH en `config`, `earning_rules`, `categories`, `exchange_locations`; trigger `guard_budget` | Ajustes desde pantalla; un presupuesto no baja de lo ya usado. |
+| `notifications` + triggers `notify_earn`, `notify_review`; función `notify_expiring()` | Avisos de cacaos ganados y decisiones de RH al momento; los de vencimiento con la tarea diaria. |
+| Vistas `dashboard_*` | Tablero de RH: totales, meses, áreas, fuentes y lo más cambiado. |
+
+Mantenimiento diario con `pg_cron`: `select trueque.expire_lots(); select trueque.expire_coupons(); select trueque.notify_expiring();`.
+
+Prueba PGlite: 49 reglas en verde (las 32 de antes más 17 de esta fase); la de Custodia sigue en verde (30).
+
+### Toldo por ilustración y aviso a RH (`20261104010000_trueque_stall_defaults.sql`)
+
+- `trueque.default_stall(art, origin)` da el color del toldo según la ilustración (comida achiote, salud nopal, aprendizaje y Custodia cacao…). Los productos que existían antes de la columna `stall` quedaron todos en `grana`; la migración los acomoda y `seed_demo.sql` la usa para sus productos.
+- `trueque.notify_pending()` avisa en la campana a cada persona de `hr_reviewers` cuando un producto entra o regresa a `pending` (alta nueva o cambio de precio, costo o categoría). No avisa a quien lo publicó si también es RH.

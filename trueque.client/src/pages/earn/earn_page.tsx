@@ -1,14 +1,14 @@
 import { Link } from 'react-router'
 
-import { Coin } from '@/components/ui/art'
 import { Icon } from '@/components/ui/icon'
+import { LotsSection } from '@/components/wallet/lots_section'
 import { RulesBoard } from '@/components/wallet/rules_board'
 import { ROUTES } from '@/constants/routes'
+import { CHISPA_URL } from '@/constants/stall'
+import { useConfig } from '@/hooks/config/use_config'
 import { useLiveProducts } from '@/hooks/market/use_market'
 import { useLots, useRules } from '@/hooks/wallet/use_wallet'
-import { cacaos } from '@/utils/cacaos'
-import { cn } from '@/utils/cn'
-import { daysUntil, shortDate } from '@/utils/dates'
+import { cacaos, formatMoney } from '@/utils/cacaos'
 import { stagger } from '@/utils/stagger'
 
 const FAIR = [
@@ -18,8 +18,8 @@ const FAIR = [
 	],
 	['Topes al mes', 'Mandar diez chispas iguales no paga diez veces.'],
 	[
-		'Cada empresa paga lo suyo',
-		'Tu empresa cubre lo que canjeas; nadie paga premios de otra.',
+		'Paga quien ofrece',
+		'Cada empresa cubre, con su presupuesto, lo que su puesto entrega. Nadie paga premios de otra.',
 	],
 	[
 		'Precios parejos',
@@ -31,6 +31,8 @@ const MONTHLY = 15
 
 export default function EarnPage() {
 	const rules = useRules()
+	const { data: config } = useConfig()
+	const cacaoValue = config?.cacaoValue ?? 5
 	const lots = useLots()
 	const { live } = useLiveProducts()
 	const examples = [...live]
@@ -48,14 +50,29 @@ export default function EarnPage() {
 					En Mesoamérica el cacao fue moneda. Aquí también: lo ganas cuando
 					ayudas a resolver un problema de la operación.
 				</p>
+				<a
+					className='chispa-link'
+					href={CHISPA_URL}
+					target='_blank'
+					rel='noopener'>
+					<Icon name='spark' />
+					<span>
+						<b>Ve los retos abiertos en Chispa</b>
+						Cada idea que mandas es tu primer cacao.
+					</span>
+					<Icon name='arrowRight' />
+				</a>
 			</header>
 			<div className='earn-split'>
-				<RulesBoard rules={rules.data ?? []} />
+				<RulesBoard
+					rules={(rules.data ?? []).filter(r => r.isActive)}
+					cacaoValue={cacaoValue}
+				/>
 				<aside className='math-card'>
 					<h2 className='h4'>Para darte una idea</h2>
 					<p>
 						Una chispa al mes que pasa a revisión da unos{' '}
-						<b>{cacaos(MONTHLY)}</b>.
+						<b>{cacaos(MONTHLY)}</b> (≈ {formatMoney(MONTHLY * cacaoValue)}).
 					</p>
 					<ul className='math-card__list' role='list'>
 						{examples.map(p => (
@@ -70,42 +87,21 @@ export default function EarnPage() {
 					<p className='muted small'>
 						Una chispa que llega a la feria adelanta todo eso de golpe.
 					</p>
-					<Link className='btn btn--grana btn--block' to={ROUTES.market}>
+					<a
+						className='btn btn--grana btn--block'
+						href={CHISPA_URL}
+						target='_blank'
+						rel='noopener'>
+						<Icon name='spark' />
+						Proponer una chispa
+						<Icon name='arrowRight' />
+					</a>
+					<Link className='btn btn--ghost btn--block' to={ROUTES.market}>
 						Ver el mercado
 					</Link>
 				</aside>
 			</div>
-			<section className='section'>
-				<h2 className='h3'>Tus cacaos y cuándo vencen</h2>
-				<p className='muted'>
-					Cada cacao vale 12 meses desde que lo ganas. Al hacer un trueque se
-					usan primero los que vencen antes.
-				</p>
-				<ol className='lots' role='list'>
-					{(lots.data ?? [])
-						.filter(l => l.remaining > 0 && daysUntil(l.expiresOn) >= 0)
-						.map((l, i) => (
-							<li key={l.id} className='lot animate-row-in' style={stagger(i)}>
-								<span className='lot__beans' aria-hidden='true'>
-									<Coin />
-								</span>
-								<span className='lot__n num'>{l.remaining}</span>
-								<span className='lot__src'>
-									{l.sourceRef}
-									<small>Ganado el {shortDate(l.createdAt)}</small>
-								</span>
-								<span
-									className={cn(
-										'lot__exp',
-										daysUntil(l.expiresOn) <= 60 && 'is-soon'
-									)}>
-									<Icon name='clock' />
-									{shortDate(l.expiresOn)}
-								</span>
-							</li>
-						))}
-				</ol>
-			</section>
+			<LotsSection lots={lots.data ?? []} months={config?.lotMonths ?? 12} />
 			<section className='section'>
 				<h2 className='h3'>Para que sea parejo</h2>
 				<ul className='fair' role='list'>
