@@ -79,6 +79,11 @@ export function UserMenu() {
 						<Icon name='logout' />
 						Salir
 					</button>
+					<p className='menu__version'>
+						El Trueque{' '}
+						<span className='num'>v{import.meta.env.VITE_APP_VERSION}</span> ·
+						demostración
+					</p>
 				</Popover.Content>
 			</Popover.Portal>
 		</Popover.Root>
