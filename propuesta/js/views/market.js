@@ -1,5 +1,5 @@
 import { art, bean } from "../art.js";
-import { filters } from "../data.js";
+import { CHISPA_URL, filters } from "../data.js";
 import * as store from "../store.js";
 import { cacaos, icon, money, shortDate, stall } from "../ui.js";
 
@@ -48,23 +48,42 @@ function purse() {
   </section>`;
 }
 
+let explainerOpen = true;
+
 function explainer() {
   const { cacaoValue, lotMonths } = store.config();
+  const done = store.rules().find((r) => r.id === "done");
+  const cheapest = store.liveProducts().reduce((m, p) => (p.price < m.price ? p : m));
   const facts = [
-    ["spark", "Lo ganas", "Cuando tu chispa avanza, publicas un reto o recibes una insignia."],
-    ["store", "Lo cambias", "Por servicios y artículos que ofrecen las empresas del grupo."],
-    ["clock", `Dura ${lotMonths} meses`, "Desde que lo ganas. Al cambiar, se usan primero los más viejos."],
+    ["spark", "Lo ganas", "Cuando tu chispa avanza en Chispa, publicas un reto o tu encargado te da una insignia."],
+    ["store", "Lo cambias", "Por servicios y artículos de las empresas del grupo. Recibes un cupón con código."],
+    ["clock", `Dura ${lotMonths} meses`, "Desde que lo ganas. Al cambiar se usan primero los más viejos, para que no se te venzan."],
   ];
-  return `<details class="explainer" open>
-    <summary class="explainer__head">
+  const steps = [
+    ["Eliges", "algo del mercado que te alcance"],
+    ["Cambias", "y se descuentan tus cacaos"],
+    ["Enseñas", "el cupón donde se canjea"],
+  ];
+  return `<section class="explainer${explainerOpen ? " is-open" : ""}" aria-labelledby="explainer-title">
+    <button class="explainer__head" type="button" aria-expanded="${explainerOpen}" aria-controls="explainer-body" data-explainer>
       ${bean("explainer__coin")}
-      <span><b class="explainer__title">¿Qué es un cacao?</b><span class="explainer__value">1 cacao vale <b class="num">${money(cacaoValue)}</b> en productos</span></span>
+      <span><b class="explainer__title" id="explainer-title">¿Qué es un cacao?</b><span class="explainer__value">1 cacao vale <b class="num">${money(cacaoValue)}</b> en productos</span></span>
       ${icon("chevronDown", "explainer__chev")}
-    </summary>
-    <ul class="explainer__facts" role="list">
-      ${facts.map(([ic, t, d], i) => `<li class="animate-tile-in" style="--i:${i}">${icon(ic)}<span><b>${t}</b>${d}</span></li>`).join("")}
-    </ul>
-  </details>`;
+    </button>
+    <div class="explainer__body" id="explainer-body"${explainerOpen ? "" : " hidden"}>
+      <ul class="explainer__facts" role="list">
+        ${facts.map(([ic, t, d], i) => `<li class="explainer__item" style="--i:${i}">${icon(ic)}<span><b>${t}</b>${d}</span></li>`).join("")}
+      </ul>
+      <div class="explainer__more">
+        <div class="explainer__how"><p class="kicker explainer__item" style="--i:3">Así se usa</p><ol class="explainer__steps" role="list">${steps.map(([t, d], i) => `<li class="explainer__item" style="--i:${i + 3}"><span class="num">${i + 1}</span><span><b>${t}</b> ${d}</span></li>`).join("")}</ol></div>
+        <p class="explainer__example explainer__item" style="--i:6">${icon("coins")}<span>Para que te des una idea: una chispa implementada da <b>${cacaos(done.cacaos)}</b> (≈ ${money(store.pesos(done.cacaos))}); lo más barato hoy es <b>${cheapest.name.toLowerCase()}</b> por ${cacaos(cheapest.price)}.</span></p>
+        <div class="explainer__links explainer__item" style="--i:7">
+          <a class="btn btn--grana btn--sm" href="${CHISPA_URL}" target="_blank" rel="noopener">${icon("spark")}Proponer una chispa${icon("arrowRight")}</a>
+          <a class="btn btn--ghost btn--sm" href="#/earn">Cómo gano más</a>
+        </div>
+      </div>
+    </div>
+  </section>`;
 }
 
 export default {
@@ -103,6 +122,26 @@ export default {
       }, 750);
     };
     if (!loaded || store.offline()) load();
+    root.querySelector("[data-explainer]").addEventListener("click", (e) => {
+      const box = e.currentTarget.closest(".explainer");
+      const body = box.querySelector(".explainer__body");
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      explainerOpen = !explainerOpen;
+      e.currentTarget.setAttribute("aria-expanded", String(explainerOpen));
+      if (explainerOpen) {
+        body.hidden = false;
+        box.classList.remove("is-closing");
+        void body.offsetWidth;
+        box.classList.add("is-open");
+        return;
+      }
+      box.classList.add("is-closing");
+      box.classList.remove("is-open");
+      setTimeout(() => {
+        if (!explainerOpen) body.hidden = true;
+        box.classList.remove("is-closing");
+      }, reduce ? 0 : 260);
+    });
     root.querySelector(".market-tools").addEventListener("change", (e) => {
       if (e.target.name === "cat") filter.category = e.target.value;
       if (e.target.name === "affordable") filter.affordable = e.target.checked;

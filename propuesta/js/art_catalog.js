@@ -8,6 +8,24 @@ const gear = (cx, cy, r, teeth, depth) => {
   return `M${pts.join("L")}z`;
 };
 
+const pentagon = (cx, cy, r, rot = -90) =>
+  `M${Array.from({ length: 5 }, (_, i) => {
+    const a = ((rot + i * 72) * Math.PI) / 180;
+    return `${(cx + r * Math.cos(a)).toFixed(1)} ${(cy + r * Math.sin(a)).toFixed(1)}`;
+  }).join("L")}z`;
+
+const ballPatches = (cx, cy) =>
+  [-90, -18, 54, 126, 198].map((deg) => {
+    const a = (deg * Math.PI) / 180;
+    return pentagon(cx + 44 * Math.cos(a), cy + 44 * Math.sin(a), 15, deg + 180);
+  }).join("");
+
+const ballSeams = (cx, cy) =>
+  [-90, -18, 54, 126, 198].map((deg) => {
+    const a = (deg * Math.PI) / 180;
+    return `M${(cx + 17 * Math.cos(a)).toFixed(1)} ${(cy + 17 * Math.sin(a)).toFixed(1)}L${(cx + 30 * Math.cos(a)).toFixed(1)} ${(cy + 30 * Math.sin(a)).toFixed(1)}`;
+  }).join("");
+
 const custodiaTag = (x, y, rot) => `<g transform="rotate(${rot} ${x} ${y})">
       <path class="ln" d="M${x - 22} ${y - 30}c10 4 16 12 18 22"/>
       <path class="a-cacao ln" d="M${x - 14} ${y - 12}h30l10 14-10 14h-30z"/>
@@ -111,7 +129,7 @@ export const ART = [
     id: "glasses", group: "health", label: "Óptica",
     draw: `
     <rect class="a-estraza ln" x="66" y="18" width="108" height="72" rx="6"/>
-    <g class="a-ink chart"><text x="120" y="44" text-anchor="middle">E</text><text x="120" y="62" text-anchor="middle" font-size="12">F P</text><text x="120" y="78" text-anchor="middle" font-size="8">T O Z</text></g>
+    <g class="a-ink chart"><text x="120" y="44" text-anchor="middle" style="font-size:19px;letter-spacing:3px">REY</text><text x="120" y="63" text-anchor="middle" style="font-size:13px;letter-spacing:2px">DAVID</text><text x="120" y="79" text-anchor="middle" style="font-size:8px;letter-spacing:1px">¿LO VES?</text></g>
     <ellipse class="a-shadow" cx="120" cy="156" rx="80" ry="8"/>
     <circle class="a-anil-soft ln-thick" cx="80" cy="120" r="30"/>
     <circle class="a-anil-soft ln-thick" cx="160" cy="120" r="30"/>
@@ -172,15 +190,20 @@ export const ART = [
   {
     id: "wrench", group: "service", label: "Taller mecánico",
     draw: `
-    <ellipse class="a-shadow" cx="120" cy="154" rx="92" ry="8"/>
-    <path class="a-achiote ln" d="${gear(176, 46, 20, 8, 7)}"/>
-    <circle class="a-estraza ln" cx="176" cy="46" r="8"/>
-    <path class="a-maiz ln" d="M30 124v-18c0-8 6-12 14-14l26-6 22-22c4-4 10-6 16-6h44c8 0 14 4 18 10l16 22 22 4c8 2 12 8 12 16v14z"/>
-    <path class="a-anil-soft ln" d="M96 82l14-14c2-2 4-2 6-2h20v16zM146 66h14c4 0 6 2 8 4l9 12h-31z"/>
-    <path class="ln" d="M30 112h180"/>
-    <circle class="a-ink" cx="74" cy="128" r="18"/><circle class="a-amate2" cx="74" cy="128" r="7"/>
-    <circle class="a-ink" cx="172" cy="128" r="18"/><circle class="a-amate2" cx="172" cy="128" r="7"/>`,
+    <ellipse class="a-shadow" cx="122" cy="154" rx="100" ry="8"/>
+    <path class="a-achiote ln" d="${gear(188, 42, 15, 8, 6)}"/>
+    <circle class="a-estraza ln" cx="188" cy="42" r="6"/>
+    <path class="a-maiz ln" d="M22 128v-12c0-10 6-16 16-18l30-6 26-24c6-5 12-8 20-8h42c9 0 16 3 22 9l20 22 24 4c10 2 16 9 16 18v15c0 4-2 6-6 6H28c-4 0-6-2-6-6z"/>
+    <path class="a-anil-soft ln" d="M80 92l20-18c4-3 7-4 11-4h17v22z"/>
+    <path class="a-anil-soft ln" d="M138 70h18c5 0 9 2 12 6l13 16h-43z"/>
+    <path class="ln" d="M134 70v62M116 104h10M150 104h10"/>
+    <ellipse class="a-estraza ln" cx="216" cy="110" rx="6" ry="5"/>
+    <rect class="a-grana ln" x="22" y="104" width="8" height="10" rx="2"/>
+    <path class="a-maiz-2" d="M30 122h190v6H30z" opacity=".55"/>
+    <circle class="a-ink" cx="70" cy="132" r="20"/><circle class="a-amate2 ln" cx="70" cy="132" r="8"/>
+    <circle class="a-ink" cx="176" cy="132" r="20"/><circle class="a-amate2 ln" cx="176" cy="132" r="8"/>`,
   },
+
   {
     id: "scissors", group: "service", label: "Estética y barbería",
     draw: `
@@ -253,13 +276,19 @@ export const ART = [
   {
     id: "ball", group: "leisure", label: "Torneo deportivo",
     draw: `
-    <ellipse class="a-shadow" cx="128" cy="154" rx="56" ry="8"/>
-    <path class="ln" d="M58 82H30M60 102H24M64 122H38"/>
-    <circle class="a-estraza ln" cx="128" cy="100" r="48"/>
-    <path class="a-ink" d="M128 80l19 14-7 22h-24l-7-22z"/>
-    <path class="ln" d="M128 52v28M147 94l27-9M140 116l17 22M116 116l-17 22M109 94l-27-9"/>
-    <path class="a-ink" d="M164 70l10 14-6 4-12-10zM92 70l-10 14 6 4 12-10z" opacity=".9"/>`,
+    <ellipse class="a-shadow" cx="130" cy="156" rx="58" ry="8"/>
+    <path class="ln" d="M62 78H34M58 98H22M62 118H40"/>
+    <clipPath id="ball-clip"><circle cx="130" cy="100" r="48"/></clipPath>
+    <circle class="a-estraza" cx="130" cy="100" r="48"/>
+    <g clip-path="url(#ball-clip)">
+      <path class="a-ink" d="${ballPatches(130, 100)}"/>
+      <path class="ln" d="${ballSeams(130, 100)}"/>
+    </g>
+    <path class="a-ink" d="${pentagon(130, 100, 17)}"/>
+    <circle class="ln" cx="130" cy="100" r="48" fill="none"/>
+    <path class="a-estraza" d="M104 72c6-8 16-12 24-12" opacity=".7"/>`,
   },
+
   {
     id: "laptop", group: "custodia", label: "Laptop",
     draw: `
@@ -291,17 +320,35 @@ export const ART = [
     <path class="a-anil-soft" d="M100 46h30v6h-30zM100 58h40v4h-40zM100 68h34v4h-34z" opacity=".75"/>
     <path class="a-on-dark" d="M110 144h20v3h-20z"/>
     ${custodiaTag(180, 96, 12)}`,
+  },  {
+    id: "tablet", group: "custodia", label: "Tableta",
+    draw: `
+    <ellipse class="a-shadow" cx="118" cy="156" rx="84" ry="8"/>
+    <rect class="a-ink" x="44" y="40" width="148" height="104" rx="13"/>
+    <rect class="a-anil" x="54" y="50" width="128" height="84" rx="4"/>
+    <path class="a-anil-soft" d="M64 62h44v7H64zM64 76h72v4H64zM64 86h58v4H64zM64 96h66v4H64z" opacity=".75"/>
+    <circle class="a-on-dark" cx="187" cy="92" r="2.5"/>
+    ${custodiaTag(212, 104, 12)}`,
   },
+
 ];
 
 export const SYSTEM_ART = {
   closed: `
     <ellipse class="a-shadow" cx="120" cy="160" rx="96" ry="8"/>
     <path class="a-cacao ln" d="M34 70h172v88H34z"/>
-    <path class="a-amate2 ln" d="M44 80h152v78H44z"/>
-    <path class="ln" d="M44 92h152M44 104h152M44 116h152M44 128h152M44 140h152"/>
+    <path class="a-amate2" d="M44 80h152v78H44z" opacity=".6"/>
+    <clipPath id="shutter-clip"><rect x="44" y="74" width="152" height="84"/></clipPath>
+    <g clip-path="url(#shutter-clip)"><g class="closed__shutter">
+      <path class="a-amate2 ln" d="M44 80h152v78H44z"/>
+      <path class="ln" d="M44 92h152M44 104h152M44 116h152M44 128h152M44 140h152"/>
+      <path class="a-cacao ln" d="M108 150h24v8h-24z"/>
+    </g></g>
     <path class="a-grana ln" d="M26 34h188v30c0 8-8 12-16 12s-16-4-16-12c0 8-8 12-16 12s-16-4-16-12c0 8-8 12-16 12s-16-4-16-12c0 8-8 12-16 12s-16-4-16-12c0 8-8 12-16 12s-16-4-16-12c0 8-8 12-16 12s-16-4-16-12z"/>
     <path class="a-estraza" d="M58 36h24v28H58zM114 36h24v28h-24zM170 36h24v28h-24z" opacity=".9"/>
-    <path class="ln" d="M100 78l20-16 20 16"/>
-    <g transform="rotate(-8 120 104)"><rect class="a-estraza ln" x="78" y="80" width="84" height="40" rx="6"/><text class="sign-text" x="120" y="107" text-anchor="middle">Cerrado</text></g>`,
+    <g class="closed__sign">
+      <circle class="a-ink" cx="120" cy="64" r="3.5"/>
+      <path class="ln" d="M102 84l18-20 18 20"/>
+      <g transform="rotate(-6 120 104)"><rect class="a-estraza ln" x="78" y="82" width="84" height="40" rx="6"/><text class="sign-text" x="120" y="109" text-anchor="middle">Cerrado</text></g>
+    </g>`,
 };

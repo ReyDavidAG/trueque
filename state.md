@@ -42,6 +42,12 @@
 - A10 ajustes: valor del cacao con impacto en vivo, reglas, vencimiento, rangos, presupuestos y lugares de canje.
 - A11 tablero con indicadores, gráfica mensual, presupuesto por empresa, lo más cambiado, participación por área y fuentes.
 - A12 campana de avisos por rol.
+- Primera revisión aplicada:
+  - "¿Qué es un cacao?" ahora trae pasos de uso, un ejemplo en pesos y el enlace a Chispa, y anima al desplegar y colapsar.
+  - La barra de precio de RH se arrastra para ajustar y se aprueba en el mismo paso; si cambia el precio pide motivo.
+  - Se rehicieron el carro y el balón, se agregó la tableta y la cartilla de la óptica dice REY DAVID.
+  - En el puesto cerrado baja primero la persiana y luego se balancea el letrero.
+  - "Cómo gano" lleva directo a Chispa.
 - Sin desbordes a 320, 375 y 414 px en todas las rutas de los tres roles; consola limpia.
 
 ## Decisiones tomadas
