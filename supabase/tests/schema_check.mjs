@@ -125,7 +125,7 @@ const loc = await db.query(`select id from trueque.exchange_locations where name
 const red = await as(U.attendant, `select trueque.redeem($1, $2) s`, [code, loc.rows[0].id]);
 const ord = await db.query(`select status from trueque.orders where folio = 1`);
 red.rows[0].s === "used" && ord.rows[0].status === "used" ? ok("el lugar de canje canjea: cupón usado y trueque cerrado") : fail(red.rows[0].s);
-await expectError("un cupón usado no se vuelve a canjear", () => as(U.attendant, `select trueque.redeem($1, $2)`, [code, loc.rows[0].id]), "ya no es válido");
+await expectError("un cupón usado no se vuelve a canjear", () => as(U.attendant, `select trueque.redeem($1, $2)`, [code, loc.rows[0].id]), "ya se usó");
 
 const draft = await as(U.store, `insert into trueque.products (company_id, category_code, kind, name, blurb, price, status, created_by)
   values ((select id from companies where code='DEMO'), 'item', 'item', 'Gorra bordada del grupo', 'Gorra con el logo bordado.', 35, 'pending', (select id from people where employee_number='10003')) returning id, folio`);
@@ -153,3 +153,47 @@ const before = await balance(U.member);
 const n = await db.query(`select trueque.expire_lots() n`);
 const after = await balance(U.member);
 n.rows[0].n === 1 && before === after ? ok("el lote vencido no cuenta en el saldo y expire_lots lo cierra en el libro") : fail(`vencidos ${n.rows[0].n} ${before} ${after}`);
+
+// ───────── fase 1.1 ─────────
+const pid = draft.rows[0].id;
+await as(U.store, `update trueque.products set blurb = 'Gorra bordada, talla única.' where id = $1`, [pid]);
+let st = (await db.query(`select status from trueque.products where id = $1`, [pid])).rows[0].status;
+st === "live" ? ok("editar el texto de un producto publicado no lo saca del mercado") : fail(`texto: ${st}`);
+await as(U.store, `update trueque.products set cost = 200 where id = $1`, [pid]);
+st = (await db.query(`select status from trueque.products where id = $1`, [pid])).rows[0].status;
+st === "pending" ? ok("cambiar el costo lo regresa a revisión de RH") : fail(`costo: ${st}`);
+await expectError("ajustar sin motivo no se puede", () => as(U.hr, `select trueque.review_price($1, 'adjusted', 40)`, [pid]), "motivo");
+await expectError("ajustar fuera del rango no se puede", () => as(U.hr, `select trueque.review_price($1, 'adjusted', 900, 'Precio fuera de lugar')`, [pid]), "entre");
+await as(U.hr, `select trueque.review_price($1, 'approved')`, [pid]);
+await as(U.store, `update trueque.products set status = 'paused' where id = $1`, [pid]);
+await as(U.store, `update trueque.products set status = 'live' where id = $1`, [pid]);
+st = (await db.query(`select status from trueque.products where id = $1`, [pid])).rows[0].status;
+st === "live" ? ok("la empresa pausa y reanuda su producto") : fail(`reanudar: ${st}`);
+const notes = await as(U.store, `select kind, body from trueque.notifications order by id`);
+notes.rows.some((n) => n.kind === "review") ? ok("quien publicó recibe el aviso de la decisión de RH") : fail(JSON.stringify(notes.rows));
+const earnNotes = await as(U.member, `select count(*)::int n from trueque.notifications where kind = 'earn'`);
+earnNotes.rows[0].n > 0 ? ok("ganar cacaos deja un aviso") : fail("aviso de ganancia");
+const usage = await as(U.store, `select committed, redeemed from trueque.budget_usage`);
+Number(usage.rows[0].redeemed) > 0 ? ok(`el canje se carga en pesos a la empresa que ofrece ($${usage.rows[0].redeemed})`) : fail(JSON.stringify(usage.rows));
+const tiny = "data:image/webp;base64,UklGRhIAAABXRUJQVlA4TAYAAAAvAAAAAAA=";
+await as(U.store, `insert into trueque.product_images (product_id, position, data, bytes) values ($1, 1, $2, 30)`, [pid, tiny]);
+const img = await as(U.member, `select count(*)::int n from trueque.product_images where product_id = $1`, [pid]);
+img.rows[0].n === 1 ? ok("la empresa sube la foto y el colaborador la ve") : fail("foto");
+await expectError("un colaborador no sube fotos", () => as(U.member, `insert into trueque.product_images (product_id, position, data, bytes) values ($1, 2, $2, 30)`, [pid, tiny]));
+await expectError("sólo dos fotos por producto", () => as(U.store, `insert into trueque.product_images (product_id, position, data, bytes) values ($1, 3, $2, 30)`, [pid, tiny]));
+await as(U.hr, `update trueque.config set cacao_value = 6`);
+const cv = (await db.query(`select cacao_value from trueque.config`)).rows[0].cacao_value;
+Number(cv) === 6 ? ok("RH cambia el valor del cacao") : fail(`valor ${cv}`);
+await as(U.member, `update trueque.config set cacao_value = 1`);
+Number((await db.query(`select cacao_value from trueque.config`)).rows[0].cacao_value) === 6 ? ok("un colaborador no cambia el valor del cacao") : fail("valor cambiado");
+await expectError("el presupuesto no baja de lo ya usado", () => as(U.hr, `update trueque.company_budgets set assigned = 1`), "menor");
+const look = await as(U.attendant, `select state, product_name from trueque.coupon_lookup($1)`, [code]);
+look.rows[0]?.state === "used" ? ok("quien atiende el lugar consulta el cupón antes de canjear") : fail(JSON.stringify(look.rows));
+const lookMember = await as(U.member, `select count(*)::int n from trueque.coupon_lookup($1)`, [code]);
+lookMember.rows[0].n === 0 ? ok("un colaborador no consulta cupones ajenos") : fail("consulta ajena");
+const dash = await as(U.hr, `select earned, active_people from trueque.dashboard_totals`);
+dash.rows[0].earned > 0 ? ok(`el tablero suma ${dash.rows[0].earned} cacaos dados`) : fail("tablero");
+const hrNotes = await as(U.hr, `select count(*)::int n from trueque.notifications where kind = 'review' and body like '%espera que revises%'`);
+hrNotes.rows[0].n > 0 ? ok("RH recibe aviso cuando llega un precio por revisar") : fail("aviso a RH");
+const stalls = await db.query(`select stall from trueque.products where art = 'plate'`);
+stalls.rows.every((r) => r.stall === "achiote") ? ok("los productos de antes toman el toldo de su ilustración") : fail(JSON.stringify(stalls.rows));
