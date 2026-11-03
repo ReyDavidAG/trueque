@@ -1,99 +1,88 @@
 import { useMemo } from 'react'
+import { Link } from 'react-router'
 
+import { Icon } from '@/components/ui/icon'
 import { DemoNote, EmptyState } from '@/components/ui/state_views'
+import { ROUTES } from '@/constants/routes'
 import { useRequiredSession } from '@/hooks/auth/use_session'
-import {
-	useCompanyMap,
-	useLocations,
-	useProducts,
-} from '@/hooks/market/use_market'
-import { useBudgets, useReviews } from '@/hooks/panel/use_panel'
+import { useCovers } from '@/hooks/market/use_images'
+import { useCompanyMap, useProducts } from '@/hooks/market/use_market'
+import { useBudgets } from '@/hooks/panel/use_panel'
 
 import { BudgetCard } from './budget_card'
 import { ProductRows } from './product_rows'
-import { PublishForm } from './publish_form'
-import { RedeemCard } from './redeem_card'
 
 export function CompanyPanel() {
 	const session = useRequiredSession()
 	const companyId = session.managedCompanyIds[0] ?? session.person.companyId
 	const companies = useCompanyMap()
 	const products = useProducts()
-	const locations = useLocations()
 	const budgets = useBudgets()
-	const reviews = useReviews()
 	const year = new Date().getFullYear()
 	const mine = useMemo(
 		() => (products.data ?? []).filter(p => p.companyId === companyId),
 		[products.data, companyId]
 	)
+	const covers = useCovers(mine)
 	const own = mine.filter(p => p.origin === 'manual')
 	const fromCustodia = mine.filter(p => p.origin === 'custodia')
-	const places = useMemo(
-		() => (locations.data ?? []).filter(l => l.companyId === companyId),
-		[locations.data, companyId]
-	)
 	const budget = budgets.data?.find(
 		b => b.companyId === companyId && b.period === year
-	)
-	const reviewMap = useMemo(
-		() => new Map((reviews.data ?? []).map(r => [r.productId, r])),
-		[reviews.data]
 	)
 	const companyName =
 		companies.get(companyId)?.name ?? session.person.companyName
 
 	return (
 		<div className='wrap'>
-			<header className='page-head'>
-				<p className='kicker'>{companyName}</p>
-				<h1 className='h1'>Tu puesto en El Trueque</h1>
-				<p className='lede'>
-					Lo que ofreces a tu gente, cuánto del presupuesto se ha usado y los
-					cupones por canjear.
-				</p>
-			</header>
-			{budget && <BudgetCard budget={budget} companyName={companyName} />}
-			<div className='panel-split'>
+			<header className='page-head page-head--row'>
 				<div>
-					<section className='section'>
-						<div className='section__head'>
-							<h2 className='h3'>Tus productos</h2>
-						</div>
-						{own.length ? (
-							<ProductRows products={own} reviews={reviewMap} />
-						) : (
-							<EmptyState
-								title='Todavía no publicas nada'
-								body='Manda tu primer producto a RH con el formulario.'
-							/>
-						)}
-					</section>
-					<section className='section'>
-						<div className='section__head'>
-							<h2 className='h3'>Llegan de Custodia</h2>
-							<p className='muted'>
-								Equipo dado de baja que todavía sirve. RH revisa el precio antes
-								de publicarlo.
-							</p>
-						</div>
-						{fromCustodia.length ? (
-							<ProductRows products={fromCustodia} reviews={reviewMap} />
-						) : (
-							<p className='muted'>Nada por ahora.</p>
-						)}
-					</section>
+					<p className='kicker'>{companyName}</p>
+					<h1 className='h1'>Tu puesto en El Trueque</h1>
+					<p className='lede'>
+						Lo que ofreces a tu gente y cuánto del presupuesto se ha usado.
+					</p>
 				</div>
-				<div className='stack panel-side'>
-					<RedeemCard locations={places} />
-					<section>
-						<div className='section__head'>
-							<h2 className='h3'>Publicar un producto</h2>
-						</div>
-						<PublishForm companyId={companyId} locations={places} />
-					</section>
+				<div className='page-head__actions'>
+					<Link className='btn btn--ghost' to={ROUTES.redeem}>
+						<Icon name='scan' />
+						Canjear cupón
+					</Link>
+					<Link className='btn btn--grana' to={ROUTES.newProduct}>
+						<Icon name='plus' />
+						Publicar producto
+					</Link>
 				</div>
-			</div>
+			</header>
+			{budget && <BudgetCard budget={budget} />}
+			<section className='section'>
+				<div className='section__head'>
+					<h2 className='h3'>Tus productos</h2>
+					<p className='muted'>
+						Si cambias el precio o el costo, vuelve a pasar por RH.
+					</p>
+				</div>
+				{own.length ? (
+					<ProductRows products={own} covers={covers} />
+				) : (
+					<EmptyState
+						title='Todavía no ofreces nada'
+						body='Publica tu primer producto: RH revisa el precio y en cuanto lo apruebe aparece en el mercado.'
+					/>
+				)}
+			</section>
+			<section className='section'>
+				<div className='section__head'>
+					<h2 className='h3'>Llegan de Custodia</h2>
+					<p className='muted'>
+						Equipo dado de baja que todavía sirve. A tu empresa le cuesta $0.
+					</p>
+				</div>
+				{fromCustodia.length ? (
+					<ProductRows products={fromCustodia} covers={covers} />
+				) : (
+					<p className='muted'>Nada por ahora.</p>
+				)}
+			</section>
 			<DemoNote>Presupuesto y productos de prueba.</DemoNote>
 		</div>
 	)

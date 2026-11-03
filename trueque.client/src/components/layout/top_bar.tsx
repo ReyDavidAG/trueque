@@ -5,6 +5,7 @@ import { ROUTES } from '@/constants/routes'
 import { useBalance } from '@/hooks/wallet/use_wallet'
 
 import type { NavItem } from './nav_items'
+import { NotificationsBell } from './notifications_bell'
 import { UserMenu } from './user_menu'
 
 export function TopBar({ items }: { items: NavItem[] }) {
@@ -30,6 +31,7 @@ export function TopBar({ items }: { items: NavItem[] }) {
 					))}
 				</nav>
 				<div className='topbar__actions'>
+					<NotificationsBell />
 					<Link
 						className='purse-chip'
 						to={ROUTES.wallet}

@@ -34,10 +34,10 @@ export const panelRepository: PanelRepository = {
 		return (data ?? []).map(b => ({
 			companyId: b.company_id,
 			period: b.period,
-			assigned: b.assigned,
-			redeemed: b.redeemed,
-			committed: b.committed,
-			available: b.available,
+			assigned: Number(b.assigned),
+			redeemed: Number(b.redeemed),
+			committed: Number(b.committed),
+			available: Number(b.available),
 		}))
 	},
 

@@ -4,7 +4,11 @@ import { QUERY_KEYS } from '@/constants/query_keys'
 import { useRequiredSession } from '@/hooks/auth/use_session'
 import { services } from '@/services/api/unit_of_services'
 import type { PriceReview } from '@/types/panel_type'
-import type { NewProduct, ProductStatus } from '@/types/product_type'
+import type {
+	ProductImage,
+	ProductInput,
+	ProductStatus,
+} from '@/types/product_type'
 
 export function useBudgets() {
 	return useQuery({
@@ -20,7 +24,7 @@ export function useReviews() {
 	})
 }
 
-function useRefreshPanel() {
+export function useRefreshPanel() {
 	const client = useQueryClient()
 	return () => {
 		void client.invalidateQueries({ queryKey: QUERY_KEYS.products })
@@ -28,12 +32,19 @@ function useRefreshPanel() {
 	}
 }
 
-export function usePublishProduct() {
+export function useSaveProduct() {
 	const { person } = useRequiredSession()
 	const refresh = useRefreshPanel()
 	return useMutation({
-		mutationFn: (input: NewProduct) =>
-			services.products.create(input, person.id),
+		mutationFn: async (v: {
+			input: ProductInput
+			images: ProductImage[]
+			imagesChanged: boolean
+		}) => {
+			const id = await services.products.save(v.input, person.id)
+			if (v.imagesChanged) await services.products.setImages(id, v.images)
+			return id
+		},
 		onSuccess: refresh,
 	})
 }
@@ -58,6 +69,12 @@ export function useReviewPrice() {
 		}) =>
 			services.panel.reviewPrice(v.productId, v.decision, v.finalPrice, v.note),
 		onSuccess: refresh,
+	})
+}
+
+export function useCouponLookup() {
+	return useMutation({
+		mutationFn: (code: string) => services.trades.lookup(code),
 	})
 }
 

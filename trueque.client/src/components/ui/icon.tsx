@@ -33,6 +33,20 @@ const PATHS = {
 	scale:
 		'<path d="M12 3v18M5 7h14M5 7l-3 7a3 3 0 0 0 6 0zM19 7l-3 7a3 3 0 0 0 6 0zM8 21h8"/>',
 	chevronRight: '<path d="M9 6l6 6-6 6"/>',
+	bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/>',
+	camera:
+		'<path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/>',
+	pause: '<path d="M8 5v14M16 5v14"/>',
+	play: '<path d="M7 5l12 7-12 7z"/>',
+	trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+	edit: '<path d="M4 20l4-1 11-11-3-3L5 16zM14 6l3 3"/>',
+	settings:
+		'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+	chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+	scan: '<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/>',
+	coins: '<circle cx="9" cy="9" r="6"/><path d="M15.5 9.5a6 6 0 1 1-6 6"/>',
+	users:
+		'<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2.4.6 4 2.8 4 6"/>',
 	search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
 } as const
 

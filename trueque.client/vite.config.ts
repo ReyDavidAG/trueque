@@ -8,13 +8,14 @@ const { version } = JSON.parse(
 	readFileSync(path.resolve(__dirname, 'package.json'), 'utf8')
 )
 
+process.env.VITE_APP_VERSION = version
+
 const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 if (!process.env.VITE_SITE_URL && vercelUrl)
 	process.env.VITE_SITE_URL = `https://${vercelUrl}`
 
 export default defineConfig({
 	plugins: [react(), tailwindcss()],
-	define: { 'import.meta.env.VITE_APP_VERSION': JSON.stringify(version) },
 	resolve: { alias: { '@': path.resolve(__dirname, './src') } },
 	server: { host: true, port: 5175, strictPort: true },
 	build: {

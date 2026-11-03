@@ -1,16 +1,22 @@
-export const STALL_BY_ART: Record<string, string> = {
-	plate: 'achiote',
-	thermos: 'anil',
-	apple: 'nopal',
-	chat: 'anil',
-	glasses: 'grana',
-	wrench: 'maiz',
-	diploma: 'cacao',
-	laptop: 'cacao',
-	cap: 'grana',
-}
+export const STALLS = [
+	['grana', 'Grana'],
+	['anil', 'Añil'],
+	['nopal', 'Nopal'],
+	['achiote', 'Achiote'],
+	['maiz', 'Maíz'],
+	['cacao', 'Cacao'],
+] as const
 
-export const stallOf = (art: string) => STALL_BY_ART[art] ?? 'grana'
+export const CHISPA_URL = 'https://chispa-phi.vercel.app/'
+
+export const PRODUCT_STATUS = {
+	draft: ['Borrador', 'is-paused'],
+	pending: ['Esperando a RH', 'is-pending'],
+	live: ['Publicado', 'is-live'],
+	paused: ['Pausado', 'is-paused'],
+	rejected: ['Rechazado', 'is-rejected'],
+	retired: ['Retirado', 'is-used'],
+} as const
 
 export const CATEGORY_LABELS = {
 	all: 'Todo',
@@ -21,6 +27,6 @@ export const CATEGORY_LABELS = {
 
 export const ROLE_NAMES = {
 	member: 'Colaborador',
-	company: 'Empresa',
+	company: 'Encargado de tienda',
 	hr: 'RH corporativo',
 } as const

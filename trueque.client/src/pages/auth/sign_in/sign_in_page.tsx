@@ -31,7 +31,14 @@ export default function SignInPage() {
 	const enter = () => {
 		if (!pending) return
 		confirm(pending)
-		const from = (location.state as { from?: string } | null)?.from
+		const state: unknown = location.state
+		const from =
+			typeof state === 'object' &&
+			state !== null &&
+			'from' in state &&
+			typeof state.from === 'string'
+				? state.from
+				: undefined
 		navigate(from && from !== ROUTES.signIn ? from : ROUTES.market, {
 			replace: true,
 		})

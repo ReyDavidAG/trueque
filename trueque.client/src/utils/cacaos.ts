@@ -17,3 +17,10 @@ export function paymentPlan(lots: Lot[], price: number) {
 	}
 	return need > 0 ? null : plan
 }
+
+export const formatMoney = (n: number) =>
+	n.toLocaleString('es-MX', {
+		style: 'currency',
+		currency: 'MXN',
+		maximumFractionDigits: n % 1 ? 2 : 0,
+	})
