@@ -1,9 +1,17 @@
+import type { ReactNode } from 'react'
+
 import { ART, SYSTEM_ART } from '@/constants/art/art_catalog'
 import { qrPaths } from '@/utils/qr'
 
 const DRAWINGS = new Map(ART.map(a => [a.id, a.draw]))
 
-const POD = `<path class="pod__body" d="M256 62c78 30 114 116 114 196 0 84-38 152-98 186l-16 30-16-30c-60-34-98-102-98-186 0-80 36-166 114-196z"/><path class="pod__rib" d="M207 92c-24 52-30 108-30 166s6 116 30 166c-24-14-65-80-65-166s41-148 65-166zM305 92c24 52 30 108 30 166s-6 116-30 166c24-14 65-80 65-166s-41-148-65-166zM256 70c-14 56-18 120-18 188s4 132 18 188c14-56 18-120 18-188s-4-132-18-188z"/><path class="pod__line" d="M256 62c78 30 114 116 114 196 0 84-38 152-98 186l-16 30-16-30c-60-34-98-102-98-186 0-80 36-166 114-196z"/><path class="pod__stem" d="M256 62c2-20 10-34 24-42"/>`
+export const POD_PATHS = {
+	body: 'M256 62c78 30 114 116 114 196 0 84-38 152-98 186l-16 30-16-30c-60-34-98-102-98-186 0-80 36-166 114-196z',
+	rib: 'M207 92c-24 52-30 108-30 166s6 116 30 166c-24-14-65-80-65-166s41-148 65-166zM305 92c24 52 30 108 30 166s-6 116-30 166c24-14 65-80 65-166s-41-148-65-166zM256 70c-14 56-18 120-18 188s4 132 18 188c14-56 18-120 18-188s-4-132-18-188z',
+	stem: 'M256 62c2-20 10-34 24-42',
+}
+
+const POD = `<path class="pod__body" d="${POD_PATHS.body}"/><path class="pod__rib" d="${POD_PATHS.rib}"/><path class="pod__line" d="${POD_PATHS.body}"/><path class="pod__stem" d="${POD_PATHS.stem}"/>`
 
 export function Art({ id, label = '' }: { id: string; label?: string }) {
 	const body = DRAWINGS.get(id) ?? SYSTEM_ART[id] ?? DRAWINGS.get('ticket')
