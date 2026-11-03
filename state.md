@@ -4,8 +4,8 @@
 
 ## Dónde vamos
 
-- **Fase 1 · Web de demostración: publicada (v0.2.1)** en https://trueque-eosin.vercel.app.
-- **Fase 1.1 · Completar la tienda: plan aprobado; propuesta visual A1–A12 lista para revisión** en `propuesta/` (v0.3.0). Falta tu visto bueno antes de implementar en el cliente.
+- **Fase 1 · Web de demostración: publicada** en https://trueque-eosin.vercel.app.
+- **Fase 1.1 · Completar la tienda: publicada (v0.3.0).** Propuesta A1–A12 aprobada e implementada en `trueque.client`.
 - **Fase 1.2 · Integración con RH: planeada, sólo local.** No se publica hasta que haya autorización.
 
 ## Hecho
@@ -22,13 +22,23 @@
   - Probado en Chrome: trueque, canje, publicación y aprobación de punta a punta; sin desbordes de 320 a 1280 px; consola limpia.
 - v0.2.1 (hotfix): la imagen para compartir pasó de PNG de 700 KB a JPG de 158 KB; WhatsApp no mostraba la vista previa.
 
+- v0.3.0 (fase 1.1) en `trueque.client`:
+  - Migraciones `20261104000000_trueque_store_v2` y `20261104010000_trueque_stall_defaults`. Prueba PGlite: 51 reglas en verde (Custodia sigue en 30).
+  - Catálogo de 22 ilustraciones, portada con foto, toldo por color.
+  - Alta y edición en cinco pasos con Zod por paso y hasta dos fotos comprimidas a WebP.
+  - Mis productos: editar, pausar, reanudar y retirar.
+  - Canje con cámara (`BarcodeDetector`) o código, vista previa y errores por caso.
+  - Revisión de RH con barra ajustable y nota obligatoria al ajustar o rechazar.
+  - Ajustes (valor del cacao con impacto en vivo, reglas, vencimiento, rangos, presupuestos, lugares), tablero y campana.
+  - Probado en Chrome con Supabase real como colaborador, encargado y RH: trueque, canje (válido, mal escrito, inexistente, ya usado), alta con foto, edición, pausa, ajuste y rechazo, validaciones de ajustes, tablero, 404. Sin desbordes de 320 a 768 px (la tabla de reglas se desplaza dentro de su tarjeta); consola limpia.
+
 ## Publicación
 
 - Vercel, proyecto `trueque`, raíz `trueque.client`, rama `main`: https://trueque-eosin.vercel.app
 - Variables: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` y `VITE_SITE_URL`.
 - Probado en producción: entrar, rutas directas, metadatos para compartir y consola limpia.
 
-## Propuesta visual v0.3.0 (en revisión)
+## Propuesta visual v0.3.0 (aprobada)
 
 - `propuesta/` con datos de ejemplo y estado en el navegador; se recorre de punta a punta con los tres roles (10001, 10002, 10003).
 - A1 versión junto al nombre y en el menú en celular.
@@ -64,6 +74,8 @@
 - Fotos de producto: hasta 2 por producto, en base64, en una tabla aparte.
 
 ## Pendiente
+
+- Correr en Supabase `20261104010000_trueque_stall_defaults.sql` (toldos de los productos de antes y aviso a RH).
 
 - Sesión entre apps: `claim_employee_number` liga a la persona con una sola sesión anónima, así que entrar en otra app del ecosistema cierra la de aquí. Se resuelve con Auth0 (fase 1.2 en local, fase 2 en producción).
 - Para la fase 1.2: alta de `http://localhost:5175` en la aplicación de Auth0 de CFDI y los 4 endpoints de cupones en el API de CFDI.
