@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from 'react-router'
 import { toast } from 'sonner'
 
 import { Art, Coin } from '@/components/ui/art'
+import { burstCacao } from '@/components/ui/cacao_confetti'
 import { Icon } from '@/components/ui/icon'
 import { EmptyState } from '@/components/ui/state_views'
 import { ROUTES } from '@/constants/routes'
@@ -39,7 +40,10 @@ export default function TradeReviewPage() {
 
 	const confirm = () =>
 		trade.mutate(p.id, {
-			onSuccess: r => navigate(ROUTES.receipt(r.folio), { replace: true }),
+			onSuccess: r => {
+				burstCacao()
+				navigate(ROUTES.receipt(r.folio), { replace: true })
+			},
 			onError: e => toast.error(e.message),
 		})
 
