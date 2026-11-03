@@ -1,8 +1,8 @@
-import { useMemo, useRef, useState } from 'react'
+import { type ReactNode, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router'
 
 import { Coin } from '@/components/ui/art'
-import { Icon, type IconName } from '@/components/ui/icon'
+import { Icon } from '@/components/ui/icon'
 import { ROUTES } from '@/constants/routes'
 import { CHISPA_URL } from '@/constants/stall'
 import { useConfig } from '@/hooks/config/use_config'
@@ -11,17 +11,18 @@ import type { Product } from '@/types/product_type'
 import { cacaos, formatMoney } from '@/utils/cacaos'
 import { cn } from '@/utils/cn'
 
-const STEPS = [
-	['Eliges', 'algo del mercado que te alcance'],
-	['Cambias', 'y se descuentan tus cacaos'],
-	['Enseñas', 'el cupón donde se canjea'],
-] as const
+import { TourScene } from './tour_scene'
+
+type Slide = { title: string; text: string; note?: ReactNode }
 
 export function Explainer({ products }: { products: Product[] }) {
 	const { data: config } = useConfig()
 	const rules = useRules()
-	const [open, setOpen] = useState(true)
-	const [visible, setVisible] = useState(true)
+	const [open, setOpen] = useState(false)
+	const [visible, setVisible] = useState(false)
+	const [step, setStep] = useState(0)
+	const [dir, setDir] = useState(1)
+	const [paused, setPaused] = useState(false)
 	const timer = useRef<number>(0)
 	const value = config?.cacaoValue ?? 5
 	const months = config?.lotMonths ?? 12
@@ -34,23 +35,48 @@ export function Explainer({ products }: { products: Product[] }) {
 			),
 		[products]
 	)
-	const facts: [IconName, string, string][] = [
-		[
-			'spark',
-			'Lo ganas',
-			'Cuando tu chispa avanza en Chispa, publicas un reto o tu encargado te da una insignia.',
-		],
-		[
-			'store',
-			'Lo cambias',
-			'Por servicios y artículos de las empresas del grupo. Recibes un cupón con código.',
-		],
-		[
-			'clock',
-			`Dura ${months} meses`,
-			'Desde que lo ganas. Al cambiar se usan primero los más viejos, para que no se te venzan.',
-		],
+
+	const slides: Slide[] = [
+		{
+			title: 'Lo ganas en Chispa',
+			text: 'Cuando tu chispa avanza, publicas un reto o tu encargado te da una insignia.',
+			note: done && (
+				<>
+					Una chispa implementada da <b>{cacaos(done.cacaos)}</b> (≈{' '}
+					{formatMoney(done.cacaos * value)}).
+				</>
+			),
+		},
+		{
+			title: 'Eliges algo que te alcance',
+			text: 'Cada puesto del mercado tiene su precio en cacaos. Con "Sólo lo que me alcanza" ves lo que ya puedes cambiar.',
+			note: cheapest && (
+				<>
+					Lo más barato hoy: <b>{cheapest.name.toLowerCase()}</b> por{' '}
+					{cacaos(cheapest.price)}.
+				</>
+			),
+		},
+		{
+			title: 'Haces el trueque',
+			text: 'Se descuentan tus cacaos y recibes un cupón con código.',
+		},
+		{
+			title: 'Enseñas tu cupón',
+			text: 'Lo canjeas en el lugar de canje del producto y listo.',
+		},
+		{
+			title: `Duran ${months} meses`,
+			text: 'Desde que los ganas. Al cambiar se usan primero los más viejos, para que no se te venzan.',
+		},
 	]
+	const last = slides.length - 1
+	const current = slides[step]
+
+	const go = (next: number) => {
+		setDir(next >= step ? 1 : -1)
+		setStep(Math.max(0, Math.min(last, next)))
+	}
 
 	const toggle = () => {
 		window.clearTimeout(timer.current)
@@ -60,9 +86,14 @@ export function Explainer({ products }: { products: Product[] }) {
 			timer.current = window.setTimeout(() => setOpen(false), reduce ? 0 : 240)
 			return
 		}
+		setStep(0)
+		setDir(1)
+		setPaused(false)
 		setOpen(true)
 		timer.current = window.setTimeout(() => setVisible(true), 20)
 	}
+
+	const stopped = paused || !visible
 
 	return (
 		<section
@@ -92,53 +123,93 @@ export function Explainer({ products }: { products: Product[] }) {
 			</button>
 			{open && (
 				<div className='explainer__body' id='explainer-body'>
-					<ul className='explainer__facts' role='list'>
-						{facts.map(([ic, t, d], i) => (
-							<li key={t} className='explainer__item' style={{ '--i': i }}>
-								<Icon name={ic} />
-								<span>
-									<b>{t}</b>
-									{d}
+					<div
+						className='tour__rail explainer__item'
+						role='tablist'
+						aria-label='Pasos'
+						style={{ '--i': 0 }}>
+						{slides.map((s, i) => (
+							<button
+								key={s.title}
+								type='button'
+								role='tab'
+								aria-selected={i === step}
+								aria-controls='tour-panel'
+								className={cn(
+									'tour__tab',
+									i === step && 'is-active',
+									i < step && 'is-done'
+								)}
+								onClick={() => go(i)}>
+								<span className='tour__track'>
+									{i === step && (
+										<span
+											key={step}
+											className={cn('tour__bar', stopped && 'is-paused')}
+											onAnimationEnd={() => step < last && go(step + 1)}
+										/>
+									)}
 								</span>
-							</li>
+								<span className='tour__label'>
+									<span className='num'>{i + 1}</span>
+									{s.title}
+								</span>
+							</button>
 						))}
-					</ul>
-					<div className='explainer__more'>
-						<div className='explainer__how'>
-							<p className='kicker explainer__item' style={{ '--i': 3 }}>
-								Así se usa
-							</p>
-							<ol className='explainer__steps' role='list'>
-								{STEPS.map(([t, d], i) => (
-									<li
-										key={t}
-										className='explainer__item'
-										style={{ '--i': i + 3 }}>
-										<span className='num'>{i + 1}</span>
-										<span>
-											<b>{t}</b> {d}
-										</span>
-									</li>
-								))}
-							</ol>
-						</div>
-						{done && cheapest && (
-							<p
-								className='explainer__example explainer__item'
-								style={{ '--i': 6 }}>
-								<Icon name='coins' />
-								<span>
-									Para que te des una idea: una chispa implementada da{' '}
-									<b>{cacaos(done.cacaos)}</b> (≈{' '}
-									{formatMoney(done.cacaos * value)}); lo más barato hoy es{' '}
-									<b>{cheapest.name.toLowerCase()}</b> por{' '}
-									{cacaos(cheapest.price)}.
-								</span>
-							</p>
-						)}
+					</div>
+					<div
+						className='tour__stage explainer__item'
+						id='tour-panel'
+						role='tabpanel'
+						aria-live='polite'
+						style={{ '--i': 1 }}>
+						<TourScene step={step} />
 						<div
-							className='explainer__links explainer__item'
-							style={{ '--i': 7 }}>
+							key={step}
+							className='tour__slide'
+							style={{ '--dir': dir }}>
+							<div className='tour__copy'>
+								<p className='kicker'>
+									Paso {step + 1} de {slides.length}
+								</p>
+								<h3 className='tour__title'>{current.title}</h3>
+								<p className='tour__text'>{current.text}</p>
+								{current.note && (
+									<p className='tour__note'>
+										<Icon name='coins' />
+										<span>{current.note}</span>
+									</p>
+								)}
+							</div>
+						</div>
+					</div>
+					<div className='tour__foot explainer__item' style={{ '--i': 2 }}>
+						<div className='tour__controls'>
+							<button
+								type='button'
+								className='tour__ctl'
+								aria-label='Paso anterior'
+								disabled={step === 0}
+								onClick={() => go(step - 1)}>
+								<Icon name='arrowLeft' />
+							</button>
+							<button
+								type='button'
+								className='tour__ctl'
+								aria-label={paused ? 'Reanudar recorrido' : 'Pausar recorrido'}
+								onClick={() => setPaused(p => !p)}>
+								<Icon name={paused ? 'play' : 'pause'} />
+							</button>
+							<button
+								type='button'
+								className='tour__ctl'
+								aria-label='Paso siguiente'
+								disabled={step === last}
+								onClick={() => go(step + 1)}>
+								<Icon name='arrowRight' />
+							</button>
+						</div>
+						<div className='explainer__links'>
 							<a
 								className='btn btn--grana btn--sm'
 								href={CHISPA_URL}
