@@ -1,18 +1,17 @@
 import { bean } from "../art.js";
-import { rules } from "../data.js";
 import * as store from "../store.js";
-import { cacaos, esc, icon, shortDate, stagger } from "../ui.js";
+import { cacaos, esc, icon, money, shortDate, stagger } from "../ui.js";
 
 function board() {
   return `<section class="board" aria-labelledby="board-title">
-    <h2 class="board__title" id="board-title">Lo que paga Chispa</h2>
+    <h2 class="board__title" id="board-title">Lo que paga cada cosa</h2>
     <ul class="board__list" role="list">
-      ${rules.map((r, i) => `<li class="board__row animate-row-in" style="${stagger(i)}">
-        <span class="board__what">${esc(r.label)}<small>${esc(r.note)}</small></span>
-        <span class="board__pay">${r.cacaos ? `<b class="num">${r.cacaos}</b>${bean("board__bean")}` : `<b class="num">0</b>`}${r.cap ? `<small>${esc(r.cap)}</small>` : ""}</span>
+      ${store.rules().filter((r) => r.active).map((r, i) => `<li class="board__row animate-row-in" style="${stagger(i)}">
+        <span class="board__what">${esc(r.label)}<small>${esc(r.source)} · ${esc(r.note)}</small></span>
+        <span class="board__pay">${r.cacaos == null ? `<b class="num">10–100</b>${bean("board__bean")}` : r.cacaos ? `<b class="num">${r.cacaos}</b>${bean("board__bean")}` : `<b class="num">0</b>`}${r.cap ? `<small>hasta ${r.cap} al mes</small>` : r.cacaos ? `<small>≈ ${money(store.pesos(r.cacaos))}</small>` : ""}</span>
       </li>`).join("")}
     </ul>
-    <p class="board__foot">Valores de ejemplo, por calibrar con RH.</p>
+    <p class="board__foot">1 cacao = ${money(store.config().cacaoValue)} en productos. Valores de ejemplo, por calibrar con RH.</p>
   </section>`;
 }
 
@@ -20,7 +19,7 @@ function timeline() {
   const lots = store.lots();
   return `<section class="section">
     <h2 class="h3">Tus cacaos y cuándo vencen</h2>
-    <p class="muted">Cada cacao vale 12 meses desde que lo ganas. Al hacer un trueque se usan primero los más viejos.</p>
+    <p class="muted">Cada cacao vale ${store.config().lotMonths} meses desde que lo ganas. Al hacer un trueque se usan primero los más viejos.</p>
     <ol class="lots" role="list">
       ${lots.map((l, i) => `<li class="lot animate-row-in" style="${stagger(i)}">
         <span class="lot__beans" aria-hidden="true">${bean()}</span>
@@ -35,7 +34,7 @@ function timeline() {
 const fair = [
   ["Lo grande lo decide una persona", "Los cacaos fuertes llegan cuando el comité selecciona o se implementa una chispa, no por mandar muchas."],
   ["Topes al mes", "Mandar diez chispas iguales no paga diez veces."],
-  ["Cada empresa paga lo suyo", "Tu empresa cubre lo que canjeas; nadie paga premios de otra."],
+  ["Paga quien ofrece", "Cada empresa cubre, con su presupuesto, lo que su puesto entrega. Nadie paga premios de otra."],
   ["Precios parejos", "RH revisa que un mismo producto cueste igual en todas las empresas."],
 ];
 
@@ -51,9 +50,9 @@ export default {
         ${board()}
         <aside class="math-card">
           <h2 class="h4">Para darte una idea</h2>
-          <p>Una chispa al mes que pasa a revisión da unos <b>${cacaos(15)}</b>.</p>
+          <p>Una chispa al mes que pasa a revisión da unos <b>${cacaos(15)}</b> (≈ ${money(store.pesos(15))}).</p>
           <ul class="math-card__list" role="list">
-            <li><span>Comida en el comedor</span><span class="num">≈ 2 meses</span></li>
+            <li><span>Comida en el comedor</span><span class="num">≈ 1 mes</span></li>
             <li><span>Consulta con nutrióloga</span><span class="num">≈ 4 meses</span></li>
             <li><span>Examen de la vista</span><span class="num">≈ 1 año</span></li>
           </ul>

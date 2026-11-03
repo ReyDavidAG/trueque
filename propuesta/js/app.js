@@ -1,8 +1,13 @@
 import { art, bean, wordmark } from "./art.js";
-import { roleNames } from "./data.js";
+import { APP_VERSION, roleNames } from "./data.js";
 import * as store from "./store.js";
-import { companyName, esc, icon, toast } from "./ui.js";
+import { companyName, esc, icon, shortDate, toast } from "./ui.js";
 import company from "./views/company.js";
+import dashboard from "./views/dashboard.js";
+import productForm from "./views/product_form.js";
+import redeem from "./views/redeem.js";
+import review from "./views/review.js";
+import settings from "./views/settings.js";
 import coupons from "./views/coupons.js";
 import earn from "./views/earn.js";
 import market from "./views/market.js";
@@ -19,7 +24,12 @@ const routes = [
   { pattern: /^\/products\/([\w-]+)$/, view: product, nav: "market" },
   { pattern: /^\/trade\/([\w-]+)$/, view: trade, nav: "market" },
   { pattern: /^\/earn$/, view: earn, nav: "earn" },
-  { pattern: /^\/panel$/, view: company, nav: "panel", roles: ["company", "hr"] },
+  { pattern: /^\/panel$/, view: { title: "Panel", render: (...a) => (store.role() === "hr" ? review : company).render(...a), bind: (...a) => (store.role() === "hr" ? review : company).bind?.(...a) }, nav: "panel", roles: ["company", "hr"] },
+  { pattern: /^\/panel\/new$/, view: productForm, nav: "panel", roles: ["company"] },
+  { pattern: /^\/panel\/edit\/([\w-]+)$/, view: productForm, nav: "panel", roles: ["company"] },
+  { pattern: /^\/redeem$/, view: redeem, nav: "redeem", roles: ["company"] },
+  { pattern: /^\/dashboard$/, view: dashboard, nav: "dashboard", roles: ["hr"] },
+  { pattern: /^\/settings$/, view: settings, nav: "settings", roles: ["hr"] },
 ];
 
 const app = document.getElementById("app");
@@ -32,14 +42,31 @@ function parseHash() {
 
 export const go = (path) => (location.hash = `#${path}`);
 
-function items(role) {
-  const list = [
-    { id: "market", href: "#/", label: "El mercado", icon: "store" },
-    { id: "coupons", href: "#/coupons", label: "Mis cupones", icon: "ticket" },
-    { id: "earn", href: "#/earn", label: "Cómo gano", icon: "spark" },
-  ];
-  if (role !== "member") list.push({ id: "panel", href: "#/panel", label: role === "hr" ? "Aprobar" : "Mi puesto", icon: role === "hr" ? "scale" : "building" });
-  return list;
+const NAV = {
+  market: { href: "#/", label: "El mercado", icon: "store" },
+  coupons: { href: "#/coupons", label: "Mis cupones", icon: "ticket" },
+  earn: { href: "#/earn", label: "Cómo gano", icon: "spark" },
+  panel: { href: "#/panel", label: "Mi puesto", icon: "building" },
+  redeem: { href: "#/redeem", label: "Canjear", icon: "scan" },
+  review: { href: "#/panel", label: "Aprobar", icon: "scale", id: "panel" },
+  dashboard: { href: "#/dashboard", label: "Tablero", icon: "chart" },
+  settings: { href: "#/settings", label: "Ajustes", icon: "settings" },
+};
+const NAV_BY_ROLE = {
+  member: ["market", "coupons", "earn"],
+  company: ["market", "panel", "redeem", "coupons"],
+  hr: ["market", "review", "dashboard", "settings"],
+};
+const items = (role) => NAV_BY_ROLE[role].map((k) => ({ id: NAV[k].id ?? k, ...NAV[k] }));
+
+const NOTE_ICON = { earn: "spark", expire: "clock", coupon: "ticket", review: "scale", rejected: "info", budget: "coins", custodia: "laptop" };
+
+function notesPanel(role) {
+  const list = store.notifications(role);
+  return `<div class="menu notes" id="notes" hidden>
+    <div class="notes__head"><b>Avisos</b>${list.some((n) => !n.read) ? `<button class="link-btn" type="button" data-action="read-all">Marcar como leídos</button>` : ""}</div>
+    <ul class="notes__list" role="list">${list.map((n) => `<li class="note${n.read ? "" : " is-new"}"><a href="${n.href}" data-action="note">${icon(NOTE_ICON[n.kind] ?? "info")}<span>${esc(n.text)}<small>${shortDate(n.date)}</small></span></a></li>`).join("")}</ul>
+  </div>`;
 }
 
 function menu(role) {
@@ -53,7 +80,14 @@ function menu(role) {
     <label class="menu-item menu-item--toggle"><span>${icon("wifiOff")}Simular sin conexión</span><input type="checkbox" name="demo-offline"${store.offline() ? " checked" : ""}></label>
     <button class="menu-item" type="button" data-action="reset">${icon("refresh")}Reiniciar datos de ejemplo</button>
     <button class="menu-item" type="button" data-action="sign-out">${icon("logout")}Salir</button>
+    <p class="menu__version">El Trueque <span class="num">v${APP_VERSION}</span> · propuesta</p>
   </div>`;
+}
+
+function bell(role) {
+  const unread = store.notifications(role).filter((n) => !n.read).length;
+  return `<button class="bell" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="notes" data-action="notes" aria-label="Avisos${unread ? `, ${unread} sin leer` : ""}">${icon("bell")}${unread ? `<span class="bell__n num" aria-hidden="true">${unread}</span>` : ""}</button>
+    ${notesPanel(role)}`;
 }
 
 function shell(route, content) {
@@ -64,8 +98,10 @@ function shell(route, content) {
   <header class="topbar">
     <div class="topbar__inner">
       <a class="topbar__brand" href="#/" aria-label="El Trueque, el mercado">${wordmark()}</a>
+      <span class="version-tag num" title="Versión de la propuesta">v${APP_VERSION}</span>
       <nav class="topnav" aria-label="Principal">${nav.map((i) => `<a class="topnav__link" href="${i.href}"${i.id === route.nav ? ' aria-current="page"' : ""}>${i.label}</a>`).join("")}</nav>
       <div class="topbar__actions">
+        ${bell(role)}
         <a class="purse-chip" href="#/wallet" aria-label="Tienes ${bal} cacaos">${bean("purse-chip__bean")}<b class="num">${bal}</b><span class="purse-chip__unit">cacaos</span></a>
         <button class="role-chip" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu" data-action="menu">${icon("eye", "role-chip__icon")}<span class="role-chip__label"><span class="sr-only">Ver la demo como </span>${roleNames[role]}</span>${icon("chevronDown")}</button>
         ${menu(role)}
@@ -129,16 +165,38 @@ function render() {
 }
 
 function closeMenu() {
-  const m = document.getElementById("menu");
-  if (m && !m.hidden) {
-    m.hidden = true;
-    document.querySelector('[data-action="menu"]')?.setAttribute("aria-expanded", "false");
+  for (const [id, action] of [["menu", "menu"], ["notes", "notes"]]) {
+    const m = document.getElementById(id);
+    if (m && !m.hidden) {
+      m.hidden = true;
+      document.querySelector(`[data-action="${action}"]`)?.setAttribute("aria-expanded", "false");
+    }
   }
 }
 
 document.addEventListener("click", (e) => {
   const a = e.target.closest("[data-action]")?.dataset.action;
+  if (a === "notes") {
+    const n = document.getElementById("notes");
+    const opening = n.hidden;
+    closeMenu();
+    n.hidden = !opening;
+    e.target.closest("button").setAttribute("aria-expanded", String(opening));
+    return;
+  }
+  if (a === "read-all") {
+    store.markAllRead(store.role());
+    render();
+    document.getElementById("notes").hidden = false;
+    return;
+  }
+  if (a === "note") {
+    store.markAllRead(store.role());
+    closeMenu();
+    return;
+  }
   if (a === "menu") {
+    document.getElementById("notes").hidden = true;
     const m = document.getElementById("menu");
     m.hidden = !m.hidden;
     e.target.closest("button").setAttribute("aria-expanded", String(!m.hidden));
@@ -156,7 +214,7 @@ document.addEventListener("click", (e) => {
     render();
     return toast("Datos de ejemplo reiniciados");
   }
-  if (!e.target.closest(".menu")) closeMenu();
+  if (!e.target.closest(".menu, .notes")) closeMenu();
 });
 
 document.addEventListener("change", (e) => {

@@ -1,5 +1,5 @@
 import { art, bean } from "./art.js";
-import { companies, places } from "./data.js";
+import { companies } from "./data.js";
 import * as store from "./store.js";
 
 const paths = {
@@ -25,6 +25,18 @@ const paths = {
   ticket: '<path d="M3 8a2 2 0 0 0 0 4v0a2 2 0 0 1 0 4v2h18v-2a2 2 0 0 1 0-4v0a2 2 0 0 0 0-4V6H3z"/><path d="M14 6v12" stroke-dasharray="2 2"/>',
   laptop: '<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/>',
   scale: '<path d="M12 3v18M5 7h14M5 7l-3 7a3 3 0 0 0 6 0zM19 7l-3 7a3 3 0 0 0 6 0zM8 21h8"/>',
+  bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/>',
+  camera: '<path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/>',
+  image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',
+  pause: '<path d="M8 5v14M16 5v14"/>',
+  play: '<path d="M7 5l12 7-12 7z"/>',
+  trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+  edit: '<path d="M4 20l4-1 11-11-3-3L5 16zM14 6l3 3"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+  chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  scan: '<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/>',
+  coins: '<circle cx="9" cy="9" r="6"/><path d="M15.5 9.5a6 6 0 1 1-6 6"/>',
+  users: '<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2.4.6 4 2.8 4 6"/>',
 };
 
 export const icon = (name, cls = "") =>
@@ -36,6 +48,7 @@ export function esc(value) {
 
 export const plural = (n, one, many) => `${n.toLocaleString("es-MX")} ${n === 1 ? one : many}`;
 export const cacaos = (n) => plural(n, "cacao", "cacaos");
+export const money = (n) => n.toLocaleString("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: n % 1 ? 2 : 0 });
 
 const MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
 export const shortDate = (iso) => {
@@ -44,7 +57,7 @@ export const shortDate = (iso) => {
 };
 
 export const companyName = (id) => companies.find((c) => c.id === id)?.name ?? "";
-export const placeName = (id) => places[id] ?? "";
+export const placeName = (id) => store.locationById(id)?.name ?? "";
 
 export const stagger = (i) => `--i:${Math.min(i, 12)}`;
 
@@ -59,17 +72,26 @@ export function reach(p, bal = store.balance()) {
   return `<span class="reach is-short">Te faltan ${cacaos(p.price - bal)}</span>`;
 }
 
-export function stall(p, i = 0) {
+export function cover(p, label = "", cls = "", pics = store.images(p.id)) {
+  const [first] = pics;
+  return first
+    ? `<img class="cover ${cls}" src="${first}" alt="${esc(label)}" loading="lazy" decoding="async">`
+    : art(p.art, label);
+}
+
+export function stall(p, i = 0, pics = store.images(p.id)) {
   const left = store.stockLeft(p);
-  return `<article class="stall animate-tile-in" data-stall="${p.stall}" style="${stagger(i)}">
+  const photo = pics.length > 0;
+  return `<article class="stall animate-tile-in${photo ? " has-photo" : ""}" data-stall="${p.stall}" style="${stagger(i)}">
     <div class="stall__awning" aria-hidden="true"></div>
     <a class="stall__link" href="#/products/${p.id}">
-      <div class="stall__art">${art(p.art, "")}</div>
+      <div class="stall__art">${cover(p, "", "stall__photo", pics)}</div>
       ${priceSign(p.price, "stall__sign")}
       <div class="stall__body">
         ${p.fromCustodia ? `<span class="badge badge--custodia">${icon("laptop")}De Custodia</span>` : ""}
         <h3 class="stall__name">${esc(p.name)}</h3>
         <p class="stall__blurb">${esc(p.blurb)}</p>
+        <p class="stall__by">${icon("building")}${esc(companyName(p.company))}</p>
         <div class="stall__foot">
           ${reach(p)}
           <span class="stall__meta">${left == null ? "Sin límite" : left === 0 ? "" : `Quedan ${left}`}</span>
@@ -79,12 +101,36 @@ export function stall(p, i = 0) {
   </article>`;
 }
 
-export function toast(message) {
+export function toast(message, tone = "") {
   const host = document.getElementById("toasts");
   const el = document.createElement("div");
-  el.className = "toast";
+  el.className = `toast${tone ? ` is-${tone}` : ""}`;
   el.textContent = message;
   host.append(el);
   setTimeout(() => el.classList.add("is-leaving"), 2600);
   setTimeout(() => el.remove(), 3000);
+}
+
+export const demoNote = (text) => `<p class="demo-note">${icon("info")}${text}</p>`;
+
+export function fieldHelp(id, text, error = "") {
+  return `<p class="field__help${error ? " is-error" : ""}" id="${id}-help" data-help-for="${id}" data-default="${esc(text)}">${esc(error || text)}</p>`;
+}
+
+export function setError(root, id, message) {
+  const help = root.querySelector(`[data-help-for="${id}"]`);
+  const input = root.querySelector(`#${id}`);
+  if (help) {
+    help.textContent = message || help.dataset.default;
+    help.classList.toggle("is-error", !!message);
+  }
+  if (input) {
+    input.setAttribute("aria-invalid", message ? "true" : "false");
+    if (message) {
+      input.classList.remove("animate-nudge");
+      void input.offsetWidth;
+      input.classList.add("animate-nudge");
+    }
+  }
+  return !message;
 }
