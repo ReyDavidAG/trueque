@@ -6,10 +6,9 @@ export const redeemCouponSchema = z.object({
 		.trim()
 		.toUpperCase()
 		.regex(
-			/^CAC-[A-Z0-9]{6,12}$/,
-			'El código empieza con CAC- y trae letras y números.'
+			/^CAC-[A-Z0-9]{4,12}$/,
+			'Ese no parece un código: empieza con CAC- seguido de letras y números.'
 		),
-	locationId: z.string(),
 })
 
 export type RedeemCouponForm = z.infer<typeof redeemCouponSchema>

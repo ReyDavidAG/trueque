@@ -20,6 +20,7 @@ export interface CouponCard {
 	productId: string
 	productName: string
 	art: string
+	stall: string
 	locationId: string | null
 	code: string
 	codeType: 'qr' | 'barcode' | 'text'

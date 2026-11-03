@@ -5,7 +5,6 @@ import { Art, Coin } from '@/components/ui/art'
 import { Icon } from '@/components/ui/icon'
 import { EmptyState } from '@/components/ui/state_views'
 import { ROUTES } from '@/constants/routes'
-import { stallOf } from '@/constants/stall'
 import { useLocationMap, useProducts } from '@/hooks/market/use_market'
 import { useBalance, useTrade } from '@/hooks/wallet/use_wallet'
 import LoadingPage from '@/pages/core/loading/loading_page'
@@ -50,7 +49,7 @@ export default function TradeReviewPage() {
 				<Icon name='arrowLeft' />
 				{p.name}
 			</Link>
-			<section className='confirm' data-stall={stallOf(p.art)}>
+			<section className='confirm' data-stall={p.stall}>
 				<div className='confirm__art'>
 					<Art id={p.art} />
 				</div>
