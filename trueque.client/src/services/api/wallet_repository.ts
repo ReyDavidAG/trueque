@@ -102,23 +102,32 @@ export const walletRepository: WalletRepository = {
 	async rules() {
 		const { data, error } = await trueque
 			.from('earning_rules')
-			.select('code, label, cacaos, monthly_cap')
-			.eq('is_active', true)
+			.select(
+				'code, label, source, cacaos, monthly_cap, is_active, is_variable, note'
+			)
 			.order('position')
 			.returns<
 				{
 					code: string
 					label: string
+					source: EarningRule['source']
 					cacaos: number
 					monthly_cap: number | null
+					is_active: boolean
+					is_variable: boolean
+					note: string | null
 				}[]
 			>()
 		if (error) throw new Error(toMessage(error))
 		return (data ?? []).map(r => ({
 			code: r.code,
 			label: r.label,
+			source: r.source,
 			cacaos: r.cacaos,
 			monthlyCap: r.monthly_cap,
+			isActive: r.is_active,
+			isVariable: r.is_variable,
+			note: r.note,
 		}))
 	},
 }

@@ -27,6 +27,10 @@ export interface Movement {
 export interface EarningRule {
 	code: string
 	label: string
+	source: 'chispa' | 'insignias' | 'rh'
 	cacaos: number
 	monthlyCap: number | null
+	isActive: boolean
+	isVariable: boolean
+	note: string | null
 }
