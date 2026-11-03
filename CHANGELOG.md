@@ -1,5 +1,17 @@
 # Cambios
 
+## 0.3.0 · 2026-11-03
+
+Fase 1.1: la tienda completa.
+
+- El cacao vale $5 (lo cambia RH) y cada producto tiene su costo real en pesos; paga la empresa que lo ofrece, con presupuesto anual en pesos.
+- Alta y edición de productos en cinco pasos, con hasta dos fotos, qué incluye, fechas, existencias y lugar de canje.
+- Mis productos con editar, pausar, reanudar y retirar; cambiar precio, costo o categoría vuelve a pasar por RH.
+- Canje con cámara o código, con vista previa del cupón y mensaje claro para cada error.
+- RH ajusta el precio en la barra y aprueba en el mismo paso; ajustar o rechazar pide motivo.
+- Ajustes, tablero y campana de avisos.
+- 22 ilustraciones nuevas y toldo por color; explicación de qué es un cacao con enlace a Chispa.
+
 ## 0.2.0 · 2026-11-02
 
 Web de demostración (`trueque.client`).
