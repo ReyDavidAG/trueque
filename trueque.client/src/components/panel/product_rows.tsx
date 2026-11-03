@@ -1,95 +1,161 @@
+import { memo, useState } from 'react'
+import { Link } from 'react-router'
 import { toast } from 'sonner'
 
-import { Art, Coin } from '@/components/ui/art'
+import { Coin } from '@/components/ui/art'
+import { Cover } from '@/components/ui/cover'
 import { Icon } from '@/components/ui/icon'
+import { ROUTES } from '@/constants/routes'
+import { PRODUCT_STATUS } from '@/constants/stall'
 import { useSetProductStatus } from '@/hooks/panel/use_panel'
-import type { PriceReview } from '@/types/panel_type'
-import type { Product } from '@/types/product_type'
-import { cn } from '@/utils/cn'
+import type { Product, ProductStatus } from '@/types/product_type'
+import { formatMoney } from '@/utils/cacaos'
 import { stagger } from '@/utils/stagger'
 
-const LABEL = {
-	draft: ['Borrador', 'is-pending'],
-	pending: ['Esperando a RH', 'is-pending'],
-	live: ['Publicado', 'is-live'],
-	paused: ['Pausado', 'is-used'],
-	rejected: ['Rechazado', 'is-rejected'],
-	retired: ['Retirado', 'is-used'],
-} as const
+const DONE: Partial<Record<ProductStatus, string>> = {
+	paused: 'Pausado: ya no se ve en el mercado',
+	live: 'De vuelta en el mercado',
+	retired: 'Retirado. Los cupones ya emitidos siguen valiendo',
+}
 
-export function ProductRows({
-	products,
-	reviews,
+function Actions({
+	product,
+	editable,
 }: {
-	products: Product[]
-	reviews: Map<string, PriceReview>
+	product: Product
+	editable: boolean
 }) {
-	const setStatus = useSetProductStatus()
-	const change = (p: Product, status: Product['status'], msg: string) =>
-		setStatus.mutate(
-			{ id: p.id, status },
+	const status = useSetProductStatus()
+	const [confirming, setConfirming] = useState(false)
+	const set = (next: ProductStatus) =>
+		status.mutate(
+			{ id: product.id, status: next },
 			{
-				onSuccess: () => toast.success(msg),
+				onSuccess: () => toast(DONE[next]),
 				onError: e => toast.error(e.message),
 			}
 		)
-
+	if (confirming)
+		return (
+			<span
+				className='row__confirm animate-panel-in'
+				role='group'
+				aria-label='Confirmar retiro'>
+				¿Retirarlo del mercado?
+				<button
+					className='btn btn--sm btn--grana'
+					type='button'
+					onClick={() => set('retired')}>
+					Sí, retirar
+				</button>
+				<button
+					className='btn btn--sm btn--ghost'
+					type='button'
+					onClick={() => setConfirming(false)}>
+					No
+				</button>
+			</span>
+		)
 	return (
-		<ul className='rows' role='list'>
-			{products.map((p, i) => {
-				const [label, cls] = LABEL[p.status]
-				const review = reviews.get(p.id)
-				return (
-					<li key={p.id} className='row animate-row-in' style={stagger(i)}>
-						<span className='row__art'>
-							<Art id={p.art} />
-						</span>
-						<span className='row__name'>
-							{p.name}
-							{p.origin === 'custodia' && (
-								<small className='row__origin'>
-									<Icon name='laptop' />
-									De Custodia · {p.originRef}
-								</small>
-							)}
-							{review?.note && p.status !== 'live' && (
-								<small className='row__note'>RH: {review.note}</small>
-							)}
-						</span>
-						<span className='row__price num'>
-							<Coin />
-							{p.price}
-						</span>
-						<span className='row__status'>
-							<span className={cn('pill', cls)}>{label}</span>
-							{p.status === 'live' && (
-								<button
-									className='link-btn'
-									type='button'
-									disabled={setStatus.isPending}
-									onClick={() =>
-										change(
-											p,
-											'paused',
-											'Producto pausado: ya no aparece en el mercado'
-										)
-									}>
-									Pausar
-								</button>
-							)}
-							{(p.status === 'paused' || p.status === 'rejected') && (
-								<button
-									className='link-btn'
-									type='button'
-									disabled={setStatus.isPending}
-									onClick={() => change(p, 'pending', 'Mandado otra vez a RH')}>
-									Mandar a RH
-								</button>
-							)}
-						</span>
-					</li>
-				)
-			})}
+		<>
+			{editable && (
+				<Link
+					className='btn btn--sm btn--ghost'
+					to={ROUTES.editProduct(product.id)}>
+					<Icon name='edit' />
+					<span>Editar</span>
+				</Link>
+			)}
+			{product.status === 'live' && (
+				<button
+					className='btn btn--sm btn--ghost'
+					type='button'
+					disabled={status.isPending}
+					onClick={() => set('paused')}>
+					<Icon name='pause' />
+					<span>Pausar</span>
+				</button>
+			)}
+			{product.status === 'paused' && (
+				<button
+					className='btn btn--sm btn--ghost'
+					type='button'
+					disabled={status.isPending}
+					onClick={() => set('live')}>
+					<Icon name='play' />
+					<span>Reanudar</span>
+				</button>
+			)}
+			{product.status !== 'retired' && (
+				<button
+					className='btn btn--sm btn--ghost'
+					type='button'
+					onClick={() => setConfirming(true)}>
+					<Icon name='trash' />
+					<span>Retirar</span>
+				</button>
+			)}
+		</>
+	)
+}
+
+const Row = memo(function Row({
+	product,
+	cover,
+	index,
+}: {
+	product: Product
+	cover?: string
+	index: number
+}) {
+	const [label, cls] = PRODUCT_STATUS[product.status]
+	return (
+		<li
+			className='prow animate-row-in'
+			data-stall={product.stall}
+			style={stagger(index)}>
+			<span className='prow__art'>
+				<Cover art={product.art} src={cover} />
+			</span>
+			<span className='prow__main'>
+				<b>{product.name}</b>
+				<span className='prow__meta'>
+					<span className='num'>
+						<Coin />
+						{product.price}
+					</span>
+					· costo {formatMoney(product.cost)} ·{' '}
+					{product.stock == null
+						? 'sin límite'
+						: `${product.stockLeft ?? product.stock} en existencia`}
+				</span>
+				{product.reviewNote && (
+					<span className='prow__reason'>
+						<Icon name='info' />
+						RH: {product.reviewNote}
+					</span>
+				)}
+			</span>
+			<span className={`pill ${cls}`}>{label}</span>
+			<span className='prow__actions'>
+				<Actions product={product} editable={product.origin === 'manual'} />
+			</span>
+		</li>
+	)
+})
+
+export function ProductRows({
+	products,
+	covers,
+}: {
+	products: Product[]
+	covers: Map<string, string>
+}) {
+	return (
+		<ul className='prows' role='list'>
+			{products.map((p, i) => (
+				<Row key={p.id} product={p} cover={covers.get(p.id)} index={i} />
+			))}
 		</ul>
 	)
 }
