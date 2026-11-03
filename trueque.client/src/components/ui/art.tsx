@@ -50,10 +50,10 @@ export function Mark({ className = '' }: { className?: string }) {
 	)
 }
 
-export function Wordmark() {
+export function Wordmark({ mark = <Mark /> }: { mark?: ReactNode }) {
 	return (
 		<span className='wordmark' role='img' aria-label='El Trueque'>
-			<Mark />
+			{mark}
 			<span aria-hidden='true'>
 				<small>El</small>Trueque
 			</span>

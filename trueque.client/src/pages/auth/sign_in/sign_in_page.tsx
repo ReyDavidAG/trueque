@@ -58,9 +58,9 @@ export default function SignInPage() {
 		<div className='signin'>
 			<section className='signin__story'>
 				<span className='signin__brand'>
-					<Wordmark />
+					<Wordmark mark={<MarkScene />} />
 				</span>
-				<h1 className='display'>Lo que propones vale cacao.</h1>
+				<h1 className='display'>Siembra ideas, cosecha cacao.</h1>
 				<p className='lede'>
 					Cada chispa que ayuda a resolver un reto te da cacaos. Aquí los
 					cambias por servicios y artículos de las empresas del grupo.
