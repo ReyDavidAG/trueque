@@ -3032,10 +3032,6 @@ ol[role='list'] {
 	display: grid;
 	gap: var(--space-lg);
 }
-.scene-wrap .scene {
-	width: 100%;
-	height: auto;
-}
 .who__avatar.is-xs {
 	width: 30px;
 	height: 30px;

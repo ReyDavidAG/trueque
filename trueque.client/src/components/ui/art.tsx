@@ -61,40 +61,6 @@ export function Wordmark() {
 	)
 }
 
-const SCENE = `<svg class="scene" viewBox="0 0 480 300" role="img" aria-label="Tres puestos de mercado con sus precios en cacaos" focusable="false">
-  <ellipse class="a-shadow" cx="240" cy="284" rx="230" ry="12"/>
-  ${(
-		[
-			['grana', 20],
-			['anil', 170],
-			['achiote', 320],
-		] as const
-	)
-		.map(
-			([c, x], i) => `
-  <g class="scene__stall" data-stall="${c}" style="--i:${i}">
-    <path class="a-cacao ln" d="M${x + 12} 120v160M${x + 128} 120v160"/>
-    <path class="scene__awning ln" d="M${x} 70h140v42c0 8-6 12-14 12s-14-4-14-12c0 8-6 12-14 12s-14-4-14-12c0 8-6 12-14 12s-14-4-14-12c0 8-6 12-14 12s-14-4-14-12c0 8-6 12-14 12s-14-4-14-12z"/>
-    <path class="a-estraza" d="M${x + 28} 72h28v40h-28zM${x + 84} 72h28v40h-28z" opacity=".85"/>
-    <rect class="a-estraza ln" x="${x + 6}" y="200" width="128" height="80" rx="4"/>
-    <path class="ln" d="M${x + 6} 220h128"/>
-    <g transform="rotate(${i === 1 ? 5 : -5} ${x + 70} 150)">
-      <path class="ln" d="M${x + 50} 140l20-18 20 18"/>
-      <rect class="scene__sign ln" x="${x + 34}" y="138" width="72" height="40" rx="6"/>
-      <text class="sign-text sign-text--light" x="${x + 70}" y="166" text-anchor="middle">${[25, 60, 180][i]}</text>
-    </g>
-  </g>`
-		)
-		.join('')}
-  <g class="a-maiz ln"><circle cx="96" cy="236" r="12"/><circle cx="118" cy="244" r="12"/><circle cx="252" cy="240" r="12"/><circle cx="398" cy="238" r="12"/><circle cx="420" cy="246" r="12"/></g>
-</svg>`
-
-export function MarketScene() {
-	return (
-		<div className='scene-wrap' dangerouslySetInnerHTML={{ __html: SCENE }} />
-	)
-}
-
 export function Qr({ code }: { code: string }) {
 	const { eyes, cells } = qrPaths(code)
 	return (
