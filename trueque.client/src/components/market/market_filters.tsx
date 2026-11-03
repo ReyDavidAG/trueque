@@ -9,7 +9,14 @@ interface Props {
 	onAffordable: (v: boolean) => void
 }
 
-const isCategory = (v: string): v is CategoryFilter => v in CATEGORY_LABELS
+const STALL_TINT: Record<CategoryFilter, string> = {
+	all: 'cacao',
+	service: 'anil',
+	item: 'achiote',
+	custodia: 'nopal',
+}
+
+const isCategory =(v: string): v is CategoryFilter => v in CATEGORY_LABELS
 
 export function MarketFilters({
 	category,
@@ -21,7 +28,10 @@ export function MarketFilters({
 		<div className='market-tools' role='group' aria-label='Filtrar el mercado'>
 			<div className='chip-row' role='radiogroup' aria-label='Tipo'>
 				{Object.entries(CATEGORY_LABELS).map(([id, label]) => (
-					<label key={id} className='chip-radio'>
+					<label
+						key={id}
+						className='chip-radio chip-radio--stall'
+						data-stall={STALL_TINT[id as CategoryFilter]}>
 						<input
 							type='radio'
 							name='cat'

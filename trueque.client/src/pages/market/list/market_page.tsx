@@ -42,17 +42,20 @@ export default function MarketPage() {
 	)
 
 	const setCategory = (c: CategoryFilter) =>
-		setParams(prev => {
-			const next = new URLSearchParams(prev)
-			if (c === 'all') next.delete('type')
-			else next.set('type', c)
-			return next
-		})
+		setParams(
+			prev => {
+				const next = new URLSearchParams(prev)
+				if (c === 'all') next.delete('type')
+				else next.set('type', c)
+				return next
+			},
+			{ preventScrollReset: true }
+		)
 
 	return (
 		<div className='wrap'>
 			<header className='market-head'>
-				<h1 className='display'>Cambia tus cacaos por algo que sí uses.</h1>
+				<h1 className='display'>Lo que siembras en Chispa, aquí lo cosechas.</h1>
 				<p className='lede'>
 					Los ganas proponiendo en Chispa. Aquí los cambias por servicios y
 					artículos de las empresas del grupo.
@@ -98,6 +101,14 @@ export default function MarketPage() {
 						products.live.length
 							? 'Quita "sólo lo que me alcanza" o cambia de tipo para ver más.'
 							: 'Tu empresa aún no publica productos. Vuelve pronto.'
+					}
+					onAngry={
+						products.live.length
+							? () => {
+									setAffordable(false)
+									setCategory('all')
+								}
+							: undefined
 					}
 				/>
 			)}
