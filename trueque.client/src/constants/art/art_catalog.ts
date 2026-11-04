@@ -1,8 +1,10 @@
 import { EVERYDAY_ART } from './art_everyday'
+import { EXTRA_ART } from './art_extra'
 import { GOODS_ART } from './art_goods'
 import type { ArtGroup } from './art_types'
 
 export const ART_GROUPS: { id: ArtGroup; label: string }[] = [
+	{ id: 'work', label: 'Trabajo y turnos' },
 	{ id: 'food', label: 'Comida' },
 	{ id: 'health', label: 'Salud y bienestar' },
 	{ id: 'learn', label: 'Aprendizaje' },
@@ -12,7 +14,7 @@ export const ART_GROUPS: { id: ArtGroup; label: string }[] = [
 	{ id: 'custodia', label: 'Equipo de Custodia' },
 ]
 
-export const ART = [...EVERYDAY_ART, ...GOODS_ART]
+export const ART = [...EVERYDAY_ART, ...GOODS_ART, ...EXTRA_ART]
 
 export const ART_IDS = ART.map(a => a.id)
 

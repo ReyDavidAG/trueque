@@ -1,7 +1,24 @@
 import { z } from 'zod'
 
 import { ART_IDS } from '@/constants/art/art_catalog'
+import { SHAPE_IDS } from '@/constants/art/art_shapes'
 import type { CategoryInfo } from '@/types/product_type'
+import { decodeDesign, MAX_LAYERS } from '@/utils/art_recipe'
+
+const validArt = (v: string) => {
+	const layers = decodeDesign(v)
+	return (
+		layers.length > 0 &&
+		layers.length <= MAX_LAYERS &&
+		layers.every(l =>
+			l.kind === 'f'
+				? ART_IDS.includes(l.ref)
+				: l.kind === 's'
+					? SHAPE_IDS.includes(l.ref)
+					: l.ref.trim().length > 0
+		)
+	)
+}
 
 const whole = (msg: string) => z.string().trim().regex(/^\d+$/, msg)
 const money = z
@@ -49,7 +66,8 @@ export const productSchema = (categories: CategoryInfo[]) =>
 			category: z.enum(['service', 'item', 'custodia']),
 			art: z
 				.string()
-				.refine(v => ART_IDS.includes(v), 'Elige una ilustración.'),
+				.max(900, 'El diseño es demasiado grande.')
+				.refine(validArt, 'Elige una ilustración.'),
 			stall: z.enum(['grana', 'anil', 'nopal', 'achiote', 'maiz', 'cacao']),
 			cost: money,
 			price: whole('Pon un precio en cacaos, sólo números enteros.'),

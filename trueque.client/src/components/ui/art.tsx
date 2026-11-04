@@ -1,6 +1,16 @@
 import type { ReactNode } from 'react'
 
 import { ART, SYSTEM_ART } from '@/constants/art/art_catalog'
+import { SHAPES } from '@/constants/art/art_shapes'
+import {
+	decodeDesign,
+	type Layer,
+	MIX,
+	newLayer,
+	parseArt,
+	recolor,
+	TEXT_COLOR,
+} from '@/utils/art_recipe'
 import { qrPaths } from '@/utils/qr'
 
 const DRAWINGS = new Map(ART.map(a => [a.id, a.draw]))
@@ -13,8 +23,32 @@ export const POD_PATHS = {
 
 const POD = `<path class="pod__body" d="${POD_PATHS.body}"/><path class="pod__rib" d="${POD_PATHS.rib}"/><path class="pod__line" d="${POD_PATHS.body}"/><path class="pod__stem" d="${POD_PATHS.stem}"/>`
 
+const SHAPE_DRAWINGS = new Map<string, string>(SHAPES.map(s => [s.id, s.draw]))
+const escapeXml = (t: string) =>
+	t.replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`)
+
+export function layerDrawing(l: Layer) {
+	if (l.kind === 't')
+		return `<text class="art-word a-${TEXT_COLOR}" x="120" y="102" text-anchor="middle">${escapeXml(l.ref)}</text>`
+	if (l.kind === 's') return SHAPE_DRAWINGS.get(l.ref) ?? ''
+	return DRAWINGS.get(l.ref) ?? SYSTEM_ART[l.ref] ?? DRAWINGS.get('ticket') ?? ''
+}
+
+export function artBody(code: string) {
+	if (!code.startsWith(MIX)) {
+		const recipe = parseArt(code)
+		return recolor(layerDrawing({ ...newLayer('f', recipe.id) }), recipe.swaps)
+	}
+	return decodeDesign(code)
+		.map(l => {
+			const k = l.s / 100
+			return `<g transform="translate(${l.x} ${l.y}) rotate(${l.r}) scale(${l.flip ? -k : k} ${k}) translate(-120 -90)">${recolor(layerDrawing(l), l.swaps)}</g>`
+		})
+		.join('')
+}
+
 export function Art({ id, label = '' }: { id: string; label?: string }) {
-	const body = DRAWINGS.get(id) ?? SYSTEM_ART[id] ?? DRAWINGS.get('ticket')
+	const body = artBody(id)
 	return (
 		<svg
 			className='art'

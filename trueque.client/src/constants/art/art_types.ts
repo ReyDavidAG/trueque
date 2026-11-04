@@ -6,6 +6,7 @@ export type ArtGroup =
 	| 'merch'
 	| 'leisure'
 	| 'custodia'
+	| 'work'
 
 export interface ArtEntry {
 	id: string

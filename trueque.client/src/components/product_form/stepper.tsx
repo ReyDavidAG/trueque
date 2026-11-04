@@ -17,7 +17,10 @@ export function Stepper({
 	onGo: (i: number) => void
 }) {
 	return (
-		<ol className='stepper' role='list'>
+		<ol
+			className='stepper'
+			role='list'
+			style={{ '--p': step / (STEPS.length - 1) }}>
 			{STEPS.map((label, i) => (
 				<li
 					key={label}
