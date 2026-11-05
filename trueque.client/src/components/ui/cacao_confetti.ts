@@ -49,7 +49,9 @@ function podSprite(size: number, css: CSSStyleDeclaration) {
 	return c
 }
 
-export function burstCacao() {
+type Origin = { x: number; y: number; count?: number }
+
+export function burstCacao(origin?: Origin) {
 	if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
 	const css = getComputedStyle(document.documentElement)
 	const dpr = Math.min(devicePixelRatio, 2)
@@ -67,22 +69,40 @@ export function burstCacao() {
 	const chips = CHIPS.map(n => css.getPropertyValue(n).trim())
 	const reach = Math.max(W, H)
 
-	const bits: Bit[] = Array.from({ length: COUNT }, (_, i) => {
+	const life = origin ? LIFE_MS * 0.55 : LIFE_MS
+	const bits: Bit[] = Array.from({ length: origin?.count ?? COUNT }, (_, i) => {
 		const side = i % 3
-		const x = side === 0 ? W * 0.5 : side === 1 ? -10 : W + 10
-		const base = side === 0 ? -Math.PI / 2 : side === 1 ? -Math.PI / 3.2 : -Math.PI + Math.PI / 3.2
-		const angle = base + (Math.random() - 0.5) * (side === 0 ? 1.4 : 0.7)
-		const speed = reach * (0.9 + Math.random() * 0.8)
+		const x = origin ? origin.x : side === 0 ? W * 0.5 : side === 1 ? -10 : W + 10
+		const base =
+			origin || side === 0
+				? -Math.PI / 2
+				: side === 1
+					? -Math.PI / 3.2
+					: -Math.PI + Math.PI / 3.2
+		const angle =
+			base + (Math.random() - 0.5) * (origin ? 2.4 : side === 0 ? 1.4 : 0.7)
+		const speed = origin
+			? 260 + Math.random() * 420
+			: reach * (0.9 + Math.random() * 0.8)
 		const roll = Math.random()
-		const kind = roll < 0.45 ? 'coin' : roll < 0.7 ? 'pod' : 'chip'
+		const kind: Bit['kind'] = origin
+			? roll < 0.75
+				? 'coin'
+				: 'pod'
+			: roll < 0.45
+				? 'coin'
+				: roll < 0.7
+					? 'pod'
+					: 'chip'
+		const scale = origin ? 0.6 : 1
 		return {
 			kind,
 			color: chips[i % chips.length],
 			x,
-			y: H + 10,
+			y: origin ? origin.y : H + 10,
 			vx: Math.cos(angle) * speed,
 			vy: Math.sin(angle) * speed,
-			size: kind === 'chip' ? 8 + Math.random() * 6 : 18 + Math.random() * 16,
+			size: (kind === 'chip' ? 8 + Math.random() * 6 : 18 + Math.random() * 16) * scale,
 			spin: Math.random() * Math.PI * 2,
 			turn: (Math.random() - 0.5) * 10,
 			flip: Math.random() * Math.PI * 2,
@@ -98,7 +118,7 @@ export function burstCacao() {
 		const t = now - start
 		g.setTransform(1, 0, 0, 1, 0, 0)
 		g.clearRect(0, 0, canvas.width, canvas.height)
-		g.globalAlpha = Math.min(1, Math.max(0, (LIFE_MS - t) / FADE_MS))
+		g.globalAlpha = Math.min(1, Math.max(0, (life - t) / FADE_MS))
 		for (const b of bits) {
 			const drag = Math.exp(-DRAG * dt)
 			b.vx *= drag
@@ -119,7 +139,7 @@ export function burstCacao() {
 				g.drawImage(b.kind === 'coin' ? coin : pod, -b.size / 2, -b.size / 2, b.size, b.size)
 			}
 		}
-		if (t < LIFE_MS) {
+		if (t < life) {
 			requestAnimationFrame(frame)
 			return
 		}
