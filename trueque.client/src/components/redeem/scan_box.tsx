@@ -74,6 +74,12 @@ export function ScanBox({ onCode }: { onCode: (code: string) => void }) {
 					/>
 				)}
 				<span className='scan__frame' aria-hidden='true'>
+					{!on && (
+						<svg className='scan__qr' viewBox='0 0 7 7'>
+							<path d='M0 0h3v3H0zM4 0h3v3H4zM0 4h3v3H0zM4 4h1v1H4zM6 4h1v1H6zM5 5h1v1H5zM4 6h1v1H4zM6 6h1v1H6z' />
+							<path className='scan__qr-hole' d='M1 1h1v1H1zM5 1h1v1H5zM1 5h1v1H1z' />
+						</svg>
+					)}
 					<i />
 					<i />
 					<i />

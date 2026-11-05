@@ -87,17 +87,36 @@ export default function RedeemPage() {
 					es y si todavía vale.
 				</p>
 			</header>
+			<ol className='booth-steps' role='list'>
+				<li className={cn(!coupon && 'is-on')}>
+					<b>1</b>Escanea o escribe
+				</li>
+				<li className={cn(coupon && !done && 'is-on')}>
+					<b>2</b>Revisa para quién es
+				</li>
+				<li className={cn(done && 'is-on')}>
+					<b>3</b>Confirma y rómpelo
+				</li>
+			</ol>
 			<form
-				className='form-card'
+				className='booth'
 				noValidate
 				onSubmit={handleSubmit(v => find(v.code))}>
-				<ScanBox onCode={onScan} />
-				<div className='field'>
-					<label htmlFor='r-code'>O escribe el código</label>
+				<div className='stall__awning booth__awning' aria-hidden='true' />
+				<div className='booth__window'>
+					<ScanBox onCode={onScan} />
+				</div>
+				<p className='booth__or' aria-hidden='true'>
+					<span>o</span>
+				</p>
+				<div className='field booth__ticket'>
+					<label htmlFor='r-code' className='booth__label'>
+						Escribe el código del cupón
+					</label>
 					<div className='field-inline'>
 						<input
 							id='r-code'
-							className={cn('input num input--code', error && 'animate-nudge')}
+							className={cn('input num input--code booth__input', error && 'animate-nudge')}
 							autoComplete='off'
 							spellCheck={false}
 							placeholder='CAC-XXXX0000'
