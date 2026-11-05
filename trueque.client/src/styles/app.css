@@ -1034,11 +1034,11 @@ ol[role='list'] {
 		rotate(calc(-5deg + var(--swing, 0deg))) rotateY(var(--spin, 0deg));
 	transform-origin: 50% -14px;
 	touch-action: pan-y;
-	cursor: grab;
+	cursor: var(--cur-grab);
 	user-select: none;
 }
 .sign:active {
-	cursor: grabbing;
+	cursor: var(--cur-grabbing);
 }
 .sign__string {
 	display: block;

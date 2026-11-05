@@ -1128,11 +1128,11 @@ select {
 }
 .wizard__art.is-draggable {
 	pointer-events: auto;
-	cursor: grab;
+	cursor: var(--cur-grab);
 	touch-action: none;
 }
 .wizard__art.is-draggable:active {
-	cursor: grabbing;
+	cursor: var(--cur-grabbing);
 }
 .art .art-word {
 	font-family: var(--font-display);

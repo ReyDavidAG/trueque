@@ -180,13 +180,13 @@ export function MarkScene() {
 			state.moved = 0
 			state.lastT = e.timeStamp
 			canvas.setPointerCapture(e.pointerId)
-			canvas.style.cursor = 'grabbing'
+			canvas.style.cursor = 'var(--cur-grabbing)'
 		}
 
 		const move = (e: PointerEvent) => {
 			cast(e)
 			if (!state.held) {
-				canvas.style.cursor = ray.intersectObject(swing, true).length ? 'grab' : ''
+				canvas.style.cursor = ray.intersectObject(swing, true).length ? 'var(--cur-grab)' : ''
 				return
 			}
 			if (!ray.ray.intersectPlane(drag, aim)) return
@@ -205,7 +205,7 @@ export function MarkScene() {
 		const up = (e: PointerEvent) => {
 			if (!state.held) return
 			state.held = false
-			canvas.style.cursor = 'grab'
+			canvas.style.cursor = 'var(--cur-grab)'
 			if (e.timeStamp - state.lastT > 80) state.speed = 0
 			state.twist += state.moved < 0.05 ? 14 : state.speed * 1.5
 		}

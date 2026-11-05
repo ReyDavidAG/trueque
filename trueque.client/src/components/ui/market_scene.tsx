@@ -664,7 +664,7 @@ export function MarketScene() {
 			target.copy(center)
 			plane.setFromNormalAndCoplanarPoint(camera.getWorldDirection(aim).negate(), point)
 			canvas.setPointerCapture(e.pointerId)
-			canvas.style.cursor = 'grabbing'
+			canvas.style.cursor = 'var(--cur-grabbing)'
 		}
 
 		const down = (e: PointerEvent) => {
@@ -703,8 +703,8 @@ export function MarketScene() {
 				canvas.style.cursor = !hit
 					? ''
 					: hit.fruit || hit.part?.loose
-						? 'grab'
-						: 'pointer'
+						? 'var(--cur-grab)'
+						: 'var(--cur-pointer)'
 				return
 			}
 			if (Math.hypot(e.clientX - grab.x, e.clientY - grab.y) > TAP_PX) grab.moved = true
@@ -722,7 +722,7 @@ export function MarketScene() {
 			if (!grab) return
 			const g = grab
 			grab = null
-			canvas.style.cursor = 'grab'
+			canvas.style.cursor = 'var(--cur-grab)'
 			if (g.part && !g.moved) {
 				strike(g.part, g.point, g.dir, performance.now())
 				return
