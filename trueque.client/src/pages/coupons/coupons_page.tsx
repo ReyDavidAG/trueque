@@ -1,60 +1,11 @@
 import { Link } from 'react-router'
 
-import { Art, Qr } from '@/components/ui/art'
-import { Icon } from '@/components/ui/icon'
+import { Ticket3d as Ticket } from '@/components/coupons/ticket3d'
 import { DemoNote, EmptyState, ErrorState } from '@/components/ui/state_views'
 import { ROUTES } from '@/constants/routes'
 import { useLocationMap } from '@/hooks/market/use_market'
 import { useCoupons } from '@/hooks/wallet/use_wallet'
 import type { CouponCard } from '@/types/trade_type'
-import { cn } from '@/utils/cn'
-import { shortDate } from '@/utils/dates'
-import { stagger } from '@/utils/stagger'
-
-const STATE = {
-	valid: ['Vigente', 'is-live'],
-	used: ['Usado', 'is-used'],
-	expired: ['Venció', 'is-rejected'],
-	disabled: ['Cancelado', 'is-rejected'],
-} as const
-
-function Ticket({ c, i, place }: { c: CouponCard; i: number; place: string }) {
-	const [label, cls] = STATE[c.state]
-	const note =
-		c.state === 'valid'
-			? `Vale hasta ${shortDate(c.validUntil)}`
-			: c.state === 'used'
-				? 'Ya se canjeó'
-				: `Venció el ${shortDate(c.validUntil)}`
-	return (
-		<li
-			className={cn('ticket animate-tile-in', c.state !== 'valid' && 'is-off')}
-			data-stall={c.stall}
-			style={stagger(i)}>
-			<div className='ticket__art'>
-				<Art id={c.art} />
-			</div>
-			<div className='ticket__body'>
-				<span className={cn('pill', cls)}>{label}</span>
-				<h2 className='h4'>{c.productName}</h2>
-				<p className='muted small'>
-					{note} · {place}
-				</p>
-				{c.state === 'valid' && (
-					<details className='ticket__qr'>
-						<summary>
-							<Icon name='ticket' />
-							Mostrar código
-						</summary>
-						<Qr code={c.code} />
-						<span className='num'>{c.code}</span>
-					</details>
-				)}
-			</div>
-			<span className='ticket__folio num'>{c.orderFolio}</span>
-		</li>
-	)
-}
 
 export default function CouponsPage() {
 	const coupons = useCoupons()
