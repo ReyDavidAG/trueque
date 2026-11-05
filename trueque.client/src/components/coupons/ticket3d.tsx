@@ -1,6 +1,7 @@
 import { useRef, useState, type CSSProperties, type PointerEvent } from 'react'
 
 import { Art, Qr } from '@/components/ui/art'
+import { Hand } from '@/components/ui/hand'
 import { Icon } from '@/components/ui/icon'
 import type { CouponCard } from '@/types/trade_type'
 import { cn } from '@/utils/cn'
