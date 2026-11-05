@@ -98,8 +98,7 @@ ol[role='list'] {
 .stall__name,
 .coupon__name,
 .wordmark,
-.sign__n,
-.purse__n {
+.sign__n {
 	font-family: var(--font-display);
 	font-weight: 400;
 	font-style: normal;
@@ -767,93 +766,6 @@ ol[role='list'] {
 }
 .market-head .lede {
 	max-width: 46ch;
-}
-
-.purse {
-	display: grid;
-	grid-template-columns: auto minmax(0, 1fr);
-	gap: var(--space-md);
-	align-items: center;
-	padding: var(--space-lg);
-	border-radius: var(--radius-lg);
-	background: var(--color-cacao);
-	color: var(--color-on-dark);
-	position: relative;
-	overflow: hidden;
-	box-shadow: var(--shadow-card);
-}
-.purse::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	opacity: 0.18;
-	pointer-events: none;
-	background:
-		repeating-linear-gradient(
-			45deg,
-			var(--color-on-dark) 0 2px,
-			transparent 2px 9px
-		),
-		repeating-linear-gradient(
-			-45deg,
-			var(--color-on-dark) 0 2px,
-			transparent 2px 9px
-		);
-}
-.purse > * {
-	position: relative;
-}
-.purse__coins {
-	position: relative;
-	width: 76px;
-	height: 72px;
-}
-.purse__coin {
-	position: absolute;
-	width: 64px;
-	height: 64px;
-	right: 0;
-	top: 0;
-	filter: drop-shadow(0 4px 0 oklch(25% 0.04 40));
-}
-.purse__coin.is-back {
-	right: 12px;
-	top: 8px;
-	transform: rotate(-18deg);
-}
-.purse .kicker {
-	color: var(--color-maiz);
-}
-.purse__n {
-	font-size: var(--text-3xl);
-	line-height: 1;
-	margin: 2px 0 6px;
-}
-.purse__n span:last-child {
-	font-size: var(--text-xl);
-}
-.purse__warn,
-.purse__ok {
-	display: flex;
-	gap: 6px;
-	align-items: flex-start;
-	font-size: var(--text-sm);
-	max-width: 44ch;
-}
-.purse__warn .icon {
-	width: 16px;
-	height: 16px;
-	margin-top: 3px;
-	color: var(--color-maiz);
-}
-.purse__more {
-	grid-column: 1 / -1;
-	justify-self: start;
-	color: var(--color-on-dark);
-	border-color: oklch(96% 0.02 85 / 0.5);
-}
-.purse__more:hover:not(:disabled) {
-	background: oklch(96% 0.02 85 / 0.12);
 }
 
 .market-tools {
@@ -2207,14 +2119,6 @@ ol[role='list'] {
 }
 
 @media (min-width: 600px) {
-	.purse {
-		grid-template-columns: auto minmax(0, 1fr) auto;
-		padding: var(--space-lg) var(--space-xl);
-	}
-	.purse__more {
-		grid-column: auto;
-		justify-self: end;
-	}
 	.field-pair {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
