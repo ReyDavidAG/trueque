@@ -4,12 +4,14 @@ import { Link, useNavigate, useParams } from 'react-router'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 
+import { ConfirmPublish } from '@/components/product_form/confirm_publish'
 import { StepLook } from '@/components/product_form/step_look'
 import { StepPrice } from '@/components/product_form/step_price'
 import { StepReview } from '@/components/product_form/step_review'
 import { StepWhat } from '@/components/product_form/step_what'
 import { StepWhen } from '@/components/product_form/step_when'
 import { Stepper, STEPS } from '@/components/product_form/stepper'
+import { burstCacao } from '@/components/ui/cacao_confetti'
 import { Icon } from '@/components/ui/icon'
 import { ROUTES } from '@/constants/routes'
 import { useRequiredSession } from '@/hooks/auth/use_session'
@@ -81,6 +83,8 @@ function FormBody({
 	const navigate = useNavigate()
 	const save = useSaveProduct()
 	const [step, setStep] = useState(0)
+	const [dir, setDir] = useState(1)
+	const [confirming, setConfirming] = useState(false)
 	const [images, setImages] = useState<ProductImage[]>([])
 	const [imagesChanged, setImagesChanged] = useState(false)
 	const existing = useProductImages(product?.id, !!product?.hasImages)
@@ -95,6 +99,7 @@ function FormBody({
 		categories.find(c => c.code === watchedCategory) ?? categories[0]
 
 	const go = (i: number) => {
+		setDir(i >= step ? 1 : -1)
 		setStep(i)
 		window.scrollTo({ top: 0 })
 	}
@@ -104,6 +109,23 @@ function FormBody({
 	const next = async () => {
 		if (!(await form.trigger([...STEP_FIELDS[step]]))) return
 		if (step < STEPS.length - 1) return go(step + 1)
+		setConfirming(true)
+	}
+
+	const values = useWatch({ control: form.control })
+	const reach = useMemo(() => {
+		const result = schema.safeParse(values)
+		if (result.success) return STEPS.length - 1
+		const bad = new Set(result.error.issues.map(i => String(i.path[0])))
+		const first = STEP_FIELDS.findIndex(fields => fields.some(f => bad.has(f)))
+		return first < 0 ? STEPS.length - 1 : first
+	}, [schema, values])
+
+	const jump = (to: number) => {
+		if (to !== step && to <= reach) go(to)
+	}
+
+	const publish = () => {
 		const values = form.getValues()
 		save.mutate(
 			{
@@ -113,6 +135,8 @@ function FormBody({
 			},
 			{
 				onSuccess: () => {
+					setConfirming(false)
+					burstCacao()
 					toast.success(
 						product
 							? 'Cambios guardados'
@@ -161,11 +185,12 @@ function FormBody({
 					Cinco pasos. Puedes volver a cualquiera antes de mandarlo.
 				</p>
 			</header>
-			<Stepper step={step} onGo={i => i < step && go(i)} />
+			<Stepper step={step} reach={Math.max(reach, step)} onGo={jump} />
 			<FormProvider {...form}>
 				<form
 					key={step}
-					className='form-card step-card animate-page-in'
+					className='form-card step-card'
+					style={{ '--dir': dir }}
 					noValidate
 					onSubmit={e => {
 						e.preventDefault()
@@ -190,7 +215,10 @@ function FormBody({
 						<button
 							className='btn btn--grana'
 							type='submit'
-							disabled={save.isPending}>
+							disabled={
+								save.isPending ||
+								(step < STEPS.length - 1 ? reach <= step : reach < step)
+							}>
 							{save.isPending ? (
 								<span className='spinner' aria-hidden='true' />
 							) : (
@@ -206,6 +234,21 @@ function FormBody({
 					</div>
 				</form>
 			</FormProvider>
+			{confirming && (
+				<ConfirmPublish
+					open={confirming}
+					editing={!!product}
+					pending={save.isPending}
+					values={form.getValues()}
+					categoryName={category.name}
+					locationName={
+						locations.find(l => l.id === form.getValues('locationId'))?.name
+					}
+					photos={shown.length}
+					onCancel={() => setConfirming(false)}
+					onConfirm={publish}
+				/>
+			)}
 		</div>
 	)
 }
