@@ -9,7 +9,7 @@ import { useCovers } from '@/hooks/market/use_images'
 import { useCompanyMap, useProducts } from '@/hooks/market/use_market'
 import { useBudgets } from '@/hooks/panel/use_panel'
 
-import { BudgetCard } from './budget_card'
+import { BudgetVault } from './budget_card'
 import { ProductRows } from './product_rows'
 
 export function CompanyPanel() {
@@ -44,18 +44,18 @@ export function CompanyPanel() {
 						Lo que ofreces a tu gente y cuánto del presupuesto se ha usado.
 					</p>
 				</div>
-				<div className='page-head__actions'>
+				<div className='page-head__actions panel-actions'>
 					<Link className='btn btn--ghost' to={ROUTES.redeem}>
 						<Icon name='scan' />
 						Canjear cupón
 					</Link>
-					<Link className='btn btn--grana' to={ROUTES.newProduct}>
+					<Link className='btn btn--grana panel-actions__new' to={ROUTES.newProduct}>
 						<Icon name='plus' />
 						Publicar producto
 					</Link>
 				</div>
 			</header>
-			{budget && <BudgetCard budget={budget} />}
+			{budget && <BudgetVault budget={budget} />}
 			<section className='section'>
 				<div className='section__head'>
 					<h2 className='h3'>Tus productos</h2>
