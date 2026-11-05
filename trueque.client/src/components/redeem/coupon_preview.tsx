@@ -1,9 +1,10 @@
-import { Art } from '@/components/ui/art'
 import { Icon } from '@/components/ui/icon'
 import type { CouponLookup } from '@/types/config_type'
 import { formatMoney } from '@/utils/cacaos'
 import { cn } from '@/utils/cn'
 import { shortDate } from '@/utils/dates'
+
+import { RedeemTicket } from './redeem_ticket'
 
 function problem(c: CouponLookup): [string, string, string] | null {
 	if (c.state === 'used')
@@ -49,10 +50,8 @@ export function CouponPreview({
 				className='redeem-card is-done animate-tile-in'
 				data-stall={c.productStall}
 				aria-live='polite'>
-				<div className='redeem-card__art'>
-					<span className='done-head__mark'>
-						<Icon name='check' />
-					</span>
+				<div className='redeem-card__art redeem-card__ticket'>
+					<RedeemTicket c={c} torn />
 				</div>
 				<div className='redeem-card__body'>
 					<p className='kicker num'>{c.folio}</p>
@@ -75,8 +74,8 @@ export function CouponPreview({
 			className={cn('redeem-card animate-tile-in', bad ? bad[0] : 'is-ok')}
 			data-stall={c.productStall}
 			aria-live='polite'>
-			<div className='redeem-card__art'>
-				<Art id={c.productArt} />
+			<div className='redeem-card__art redeem-card__ticket'>
+				<RedeemTicket c={c} />
 			</div>
 			<div className='redeem-card__body'>
 				<p className='kicker num'>
