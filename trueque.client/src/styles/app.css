@@ -389,7 +389,7 @@ ol[role='list'] {
 	border: 1px solid var(--color-rule-strong);
 	border-radius: var(--radius-pill);
 	background: var(--color-estraza);
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 	font-weight: 600;
 	font-size: var(--text-sm);
 }
@@ -470,7 +470,7 @@ ol[role='list'] {
 	gap: var(--space-xs);
 	padding: 8px 10px;
 	border-radius: var(--radius-sm);
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 }
 .role-option:hover {
 	background: var(--color-amate-2);
@@ -489,7 +489,7 @@ ol[role='list'] {
 	border: 0;
 	border-top: 1px solid var(--color-rule);
 	background: none;
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 	text-align: left;
 	font-size: var(--text-sm);
 }
@@ -563,7 +563,7 @@ ol[role='list'] {
 	color: var(--btn-ink);
 	font-weight: 800;
 	text-decoration: none;
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 	white-space: nowrap;
 	box-shadow: 0 4px 0 var(--color-ink);
 	transition:
@@ -580,7 +580,7 @@ ol[role='list'] {
 }
 .btn:disabled {
 	opacity: 0.55;
-	cursor: not-allowed;
+	cursor: var(--cur-blocked);
 	box-shadow: 0 2px 0 var(--color-rule-strong);
 	border-color: var(--color-rule-strong);
 }
@@ -647,7 +647,7 @@ ol[role='list'] {
 	opacity: 0;
 	inset: 0;
 	margin: 0;
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 }
 .chip-radio span {
 	display: inline-flex;
@@ -710,7 +710,7 @@ ol[role='list'] {
 	gap: var(--space-sm);
 	font-weight: 700;
 	font-size: var(--text-sm);
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 	position: relative;
 	min-height: 40px;
 }
@@ -720,7 +720,7 @@ ol[role='list'] {
 	width: 46px;
 	height: 28px;
 	margin: 0;
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 }
 .switch__track {
 	width: 46px;
@@ -1526,7 +1526,7 @@ ol[role='list'] {
 	font-size: var(--text-sm);
 }
 .receipt__lots summary {
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 	font-weight: 700;
 	color: var(--color-anil);
 }
@@ -2482,7 +2482,7 @@ ol[role='list'] {
 }
 .menu-item--toggle {
 	justify-content: space-between;
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 }
 .menu-item--toggle span {
 	display: flex;
@@ -2507,7 +2507,7 @@ ol[role='list'] {
 	padding: 0;
 	border: 0;
 	background: none;
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 	border-radius: var(--radius-md);
 }
 .closed__door:focus-visible {
@@ -3318,7 +3318,7 @@ ol[role='list'] {
 	color: var(--color-ink);
 	font: 500 var(--text-base) var(--font-body);
 	text-align: left;
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 	transition:
 		border-color var(--dur-fast) var(--ease-out),
 		box-shadow var(--dur-fast) var(--ease-out);
@@ -3341,7 +3341,7 @@ ol[role='list'] {
 	background: var(--color-amate-2);
 	color: var(--color-muted);
 	border-style: dashed;
-	cursor: not-allowed;
+	cursor: var(--cur-blocked);
 }
 .combo__value {
 	display: flex;
@@ -3436,7 +3436,7 @@ ol[role='list'] {
 	gap: 10px;
 	padding: 9px 10px;
 	border-radius: var(--radius-sm);
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 	font-size: var(--text-sm);
 	color: var(--color-ink);
 }
@@ -3529,14 +3529,14 @@ ol[role='list'] {
 	padding: 0;
 	color: var(--color-anil);
 	font-weight: 700;
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 	text-decoration: underline;
 	text-underline-offset: 3px;
 	font-size: var(--text-sm);
 }
 .link-btn:disabled {
 	opacity: 0.5;
-	cursor: not-allowed;
+	cursor: var(--cur-blocked);
 }
 .input--area {
 	min-height: 96px;
@@ -3608,14 +3608,14 @@ ol[role='list'] {
 	display: grid;
 	gap: 4px;
 	justify-items: center;
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 }
 .art-pick input {
 	position: absolute;
 	opacity: 0;
 	inset: 0;
 	margin: 0;
-	cursor: pointer;
+	cursor: var(--cur-pointer);
 }
 .art-pick__box {
 	width: 100%;
