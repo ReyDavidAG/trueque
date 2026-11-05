@@ -1,16 +1,10 @@
 import { Link, useParams } from 'react-router'
 
-import { Gallery } from '@/components/product/gallery'
+import { Chalkboard } from '@/components/product/chalkboard'
 import { ProductCta } from '@/components/product/product_cta'
-import {
-	Includes,
-	Provenance,
-	Where,
-	Worth,
-} from '@/components/product/product_extras'
-import { PaymentPlan } from '@/components/trade/payment_plan'
+import { Pickup } from '@/components/product/product_extras'
+import { StallScene } from '@/components/product/stall_scene'
 import { Icon } from '@/components/ui/icon'
-import { PriceSign } from '@/components/ui/price_sign'
 import { ROUTES } from '@/constants/routes'
 import { useCacaoValue } from '@/hooks/config/use_config'
 import {
@@ -18,10 +12,9 @@ import {
 	useLocationMap,
 	useProducts,
 } from '@/hooks/market/use_market'
-import { useBalance, useLots } from '@/hooks/wallet/use_wallet'
+import { useBalance } from '@/hooks/wallet/use_wallet'
 import LoadingPage from '@/pages/core/loading/loading_page'
 import NotFoundPage from '@/pages/core/not_found/not_found_page'
-import { paymentPlan } from '@/utils/cacaos'
 
 export default function ProductDetailPage() {
 	const { id = '' } = useParams()
@@ -29,16 +22,20 @@ export default function ProductDetailPage() {
 	const locations = useLocationMap()
 	const companies = useCompanyMap()
 	const balance = useBalance()
-	const lots = useLots()
 	const cacaoValue = useCacaoValue()
 	if (products.isLoading) return <LoadingPage />
 	const p = products.data?.find(x => x.id === id && x.status === 'live')
 	if (!p) return <NotFoundPage />
 
 	const money = balance.data?.balance ?? 0
-	const can = money >= p.price && p.stockLeft !== 0
-	const plan = can ? paymentPlan(lots.data ?? [], p.price) : null
-	const facts = [
+	const missing = Math.max(0, p.price - money)
+	const greeting =
+		p.stockLeft === 0
+			? 'Ya se me acabó, marchante. Vuelva pronto.'
+			: missing === 0
+				? '¡Pásele, pásele! Sí le alcanza, ¿se lo lleva?'
+				: `No le alcanza todavía: le faltan ${missing} cacaos. Júntelos en Chispa y aquí lo espero.`
+	const facts: [string, string][] = [
 		['Lo ofrece', companies.get(p.companyId)?.name ?? 'Una empresa del grupo'],
 		['El cupón vale', `${p.couponDays} días`],
 		['Usos del cupón', p.swaps === 1 ? 'Uno' : String(p.swaps)],
@@ -51,6 +48,7 @@ export default function ProductDetailPage() {
 					: `Quedan ${p.stockLeft}`,
 		],
 	]
+	if (p.origin === 'custodia') facts.push(['Viene de Custodia', `Folio ${p.originRef}`])
 
 	return (
 		<div className='wrap'>
@@ -58,32 +56,28 @@ export default function ProductDetailPage() {
 				<Icon name='arrowLeft' />
 				El mercado
 			</Link>
-			<div className='product' data-stall={p.stall}>
-				<div className='product__stage'>
-					<div className='stall__awning' aria-hidden='true' />
-					<Gallery product={p} />
-					<PriceSign price={p.price} className='product__sign' />
-				</div>
-				<div className='product__info'>
-					<h1 className='h1'>{p.name}</h1>
-					<p className='lede'>{p.detail ?? p.blurb}</p>
-					<Worth price={p.price} cacaoValue={cacaoValue} />
-					<dl className='facts'>
-						{facts.map(([k, v]) => (
-							<div key={k}>
-								<dt>{k}</dt>
-								<dd>{v}</dd>
-							</div>
-						))}
-					</dl>
-					<Includes items={p.includes} />
-					<Where
-						location={p.locationId ? locations.get(p.locationId) : undefined}
-					/>
-					<Provenance product={p} />
+			<div className='product'>
+				<StallScene
+					product={p}
+					greeting={greeting}
+					missing={missing}
+					label={
+						<div className='stall3__label'>
+							<h1>{p.name}</h1>
+							<Pickup
+								location={p.locationId ? locations.get(p.locationId) : undefined}
+							/>
+						</div>
+					}
+				/>
+				<Chalkboard
+					lede={p.detail ?? p.blurb}
+					facts={facts}
+					includes={p.includes}
+					price={p.price}
+					cacaoValue={cacaoValue}>
 					<ProductCta product={p} balance={money} />
-					{plan && <PaymentPlan plan={plan} />}
-				</div>
+				</Chalkboard>
 			</div>
 		</div>
 	)

@@ -1,6 +1,6 @@
+import { useState } from 'react'
 import { Link } from 'react-router'
 
-import { Reach } from '@/components/market/reach'
 import { ROUTES } from '@/constants/routes'
 import type { Product } from '@/types/product_type'
 import { cacaos } from '@/utils/cacaos'
@@ -12,32 +12,50 @@ export function ProductCta({
 	product: Product
 	balance: number
 }) {
-	const can = balance >= product.price && product.stockLeft !== 0
+	const [declined, setDeclined] = useState(false)
+	const soldOut = product.stockLeft === 0
+	const can = balance >= product.price && !soldOut
+
 	return (
-		<div className='product__cta'>
-			<Reach product={product} balance={balance} />
-			{can ? (
+		<div className='chalk-cta' aria-live='polite'>
+			{soldOut ? (
+				<p>
+					<b>Agotado.</b> Vuelve pronto.
+				</p>
+			) : !can ? (
 				<>
-					<Link
-						className='btn btn--grana btn--lg btn--block'
-						to={ROUTES.trade(product.id)}>
-						Hacer el trueque
-					</Link>
-					<p className='muted small'>
-						Te quedarían {cacaos(balance - product.price)}. Puedes revisar antes
-						de confirmar.
+					<p>
+						<b>Te faltan {cacaos(product.price - balance)}.</b>
 					</p>
+					<Link className='chalk-btn' to={ROUTES.earn}>
+						Ve cómo ganar cacaos
+					</Link>
+				</>
+			) : declined ? (
+				<>
+					<p>
+						<b>Va, aquí te lo guardo.</b>
+					</p>
+					<button className='chalk-btn' type='button' onClick={() => setDeclined(false)}>
+						Pensándolo bien, sí
+					</button>
 				</>
 			) : (
 				<>
-					<button className='btn btn--lg btn--block' type='button' disabled>
-						{product.stockLeft === 0 ? 'Agotado' : 'Todavía no te alcanza'}
-					</button>
-					<Link className='link' to={ROUTES.earn}>
-						Ve cómo ganar cacaos en Chispa
-					</Link>
+					<p>
+						<b>¡Te alcanza!</b> Te quedarían {cacaos(balance - product.price)}.
+					</p>
+					<div className='chalk-cta__row'>
+						<Link className='chalk-btn is-main' to={ROUTES.trade(product.id)}>
+							Sí, me lo llevo
+						</Link>
+						<button className='chalk-btn' type='button' onClick={() => setDeclined(true)}>
+							Ahorita no
+						</button>
+					</div>
 				</>
 			)}
+			<p className='chalk-cta__note'>Se usan primero los cacaos que vencen más pronto.</p>
 		</div>
 	)
 }
