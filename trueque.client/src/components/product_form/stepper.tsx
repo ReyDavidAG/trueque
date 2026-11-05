@@ -1,4 +1,7 @@
-import { Icon } from '@/components/ui/icon'
+import { useEffect, useRef } from 'react'
+
+import { Coin } from '@/components/ui/art'
+import { burstCacao } from '@/components/ui/cacao_confetti'
 import { cn } from '@/utils/cn'
 
 export const STEPS = [
@@ -11,11 +14,26 @@ export const STEPS = [
 
 export function Stepper({
 	step,
+	reach,
 	onGo,
 }: {
 	step: number
+	reach: number
 	onGo: (i: number) => void
 }) {
+	const dots = useRef<(HTMLSpanElement | null)[]>([])
+	const last = useRef(step)
+
+	useEffect(() => {
+		const prev = last.current
+		last.current = step
+		if (step <= prev) return
+		const dot = dots.current[prev]
+		if (!dot) return
+		const r = dot.getBoundingClientRect()
+		burstCacao({ x: r.left + r.width / 2, y: r.top + r.height / 2, count: 26 })
+	}, [step])
+
 	return (
 		<ol
 			className='stepper'
@@ -31,11 +49,16 @@ export function Stepper({
 					)}>
 					<button
 						type='button'
-						disabled={i > step}
+						disabled={i > reach}
 						aria-current={i === step ? 'step' : undefined}
+						aria-label={i < step ? `${label}, listo` : undefined}
 						onClick={() => onGo(i)}>
-						<span className='stepper__n num'>
-							{i < step ? <Icon name='check' /> : i + 1}
+						<span
+							ref={el => {
+								dots.current[i] = el
+							}}
+							className='stepper__n num'>
+							{i < step ? <Coin className='stepper__coin' /> : i + 1}
 						</span>
 						<span className='stepper__label'>{label}</span>
 					</button>
