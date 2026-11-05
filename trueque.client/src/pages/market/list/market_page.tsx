@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router'
 
 import { Explainer } from '@/components/market/explainer'
@@ -6,7 +6,7 @@ import {
 	type CategoryFilter,
 	MarketFilters,
 } from '@/components/market/market_filters'
-import { Purse } from '@/components/market/purse'
+import { Pager } from '@/components/market/pager'
 import { Stall } from '@/components/market/stall'
 import {
 	DemoNote,
@@ -19,17 +19,20 @@ import { useCovers } from '@/hooks/market/use_images'
 import { useCompanyMap, useLiveProducts } from '@/hooks/market/use_market'
 import { useBalance } from '@/hooks/wallet/use_wallet'
 
+const PAGE_SIZE = 12
+
 const isCategory = (v: string | null): v is CategoryFilter =>
 	!!v && v in CATEGORY_LABELS
 
 export default function MarketPage() {
 	const [params, setParams] = useSearchParams()
 	const [affordable, setAffordable] = useState(false)
+	const [page, setPage] = useState(0)
+	const tools = useRef<HTMLDivElement>(null)
 	const raw = params.get('type')
 	const category: CategoryFilter = isCategory(raw) ? raw : 'all'
 	const products = useLiveProducts()
-	const balance = useBalance()
-	const money = balance.data?.balance ?? 0
+	const money = useBalance().data?.balance ?? 0
 	const covers = useCovers(products.live)
 	const companies = useCompanyMap()
 
@@ -41,7 +44,24 @@ export default function MarketPage() {
 		[products.live, category, affordable, money]
 	)
 
-	const setCategory = (c: CategoryFilter) =>
+	const pages = Math.ceil(shown.length / PAGE_SIZE)
+	const current = Math.min(page, Math.max(0, pages - 1))
+	const slice = shown.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE)
+
+	const turn = (next: number) => {
+		setPage(next)
+		const top = tools.current?.getBoundingClientRect().top
+		if (top !== undefined && top < 0)
+			window.scrollBy({
+				top: top - 80,
+				behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
+					? 'auto'
+					: 'smooth',
+			})
+	}
+
+	const setCategory = (c: CategoryFilter) => {
+		setPage(0)
 		setParams(
 			prev => {
 				const next = new URLSearchParams(prev)
@@ -51,6 +71,7 @@ export default function MarketPage() {
 			},
 			{ preventScrollReset: true }
 		)
+	}
 
 	return (
 		<div className='wrap'>
@@ -61,14 +82,18 @@ export default function MarketPage() {
 					artículos de las empresas del grupo.
 				</p>
 			</header>
-			{balance.data && <Purse balance={balance.data} />}
 			<Explainer products={products.live} />
-			<MarketFilters
-				category={category}
-				affordable={affordable}
-				onCategory={setCategory}
-				onAffordable={setAffordable}
-			/>
+			<div ref={tools}>
+				<MarketFilters
+					category={category}
+					affordable={affordable}
+					onCategory={setCategory}
+					onAffordable={v => {
+						setPage(0)
+						setAffordable(v)
+					}}
+				/>
+			</div>
 			{products.isLoading ? (
 				<StallSkeletons />
 			) : products.error ? (
@@ -77,18 +102,27 @@ export default function MarketPage() {
 					onRetry={() => void products.refetch()}
 				/>
 			) : shown.length ? (
-				<div className='stalls'>
-					{shown.map((p, i) => (
-						<Stall
-							key={p.id}
-							product={p}
-							balance={money}
-							index={i}
-							cover={covers.get(p.id)}
-							companyName={companies.get(p.companyId)?.name ?? ''}
-						/>
-					))}
-				</div>
+				<>
+					<div key={current} className='stalls'>
+						{slice.map((p, i) => (
+							<Stall
+								key={p.id}
+								product={p}
+								balance={money}
+								index={i}
+								cover={covers.get(p.id)}
+								companyName={companies.get(p.companyId)?.name ?? ''}
+							/>
+						))}
+					</div>
+					<Pager
+						page={current}
+						pages={pages}
+						total={shown.length}
+						size={PAGE_SIZE}
+						onPage={turn}
+					/>
+				</>
 			) : (
 				<EmptyState
 					art='closed'
