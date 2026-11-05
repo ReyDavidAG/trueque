@@ -20,7 +20,9 @@ export function CompanyPanel() {
 	const budgets = useBudgets()
 	const year = new Date().getFullYear()
 	const mine = useMemo(
-		() => (products.data ?? []).filter(p => p.companyId === companyId),
+		() => (products.data ?? []).filter(
+				p => p.companyId === companyId && p.status !== 'retired'
+			),
 		[products.data, companyId]
 	)
 	const covers = useCovers(mine)
