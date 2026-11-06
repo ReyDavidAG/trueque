@@ -42,12 +42,17 @@ export function editedFields(
 	imagesChanged: boolean
 ) {
 	const changed: EditField[] = []
-	if (before.name !== after.name) changed.push('name')
-	if (before.blurb !== after.blurb) changed.push('blurb')
+	if (before.name.trim() !== after.name) changed.push('name')
+	if (before.blurb.trim() !== after.blurb) changed.push('blurb')
 	if (before.price !== after.price) changed.push('price')
 	if (before.art !== after.art || imagesChanged) changed.push('look')
-	if ((before.detail ?? '') !== after.detail) changed.push('lede')
-	if (before.includes.join('|') !== after.includes.join('|'))
+	if ((before.detail ?? '').trim() !== after.detail) changed.push('lede')
+	if (
+		before.includes
+			.map(x => x.trim())
+			.filter(Boolean)
+			.join('|') !== after.includes.join('|')
+	)
 		changed.push('includes')
 	if ((before.locationId ?? '') !== after.locationId) changed.push('location')
 	if (before.couponDays !== after.couponDays) changed.push('couponDays')

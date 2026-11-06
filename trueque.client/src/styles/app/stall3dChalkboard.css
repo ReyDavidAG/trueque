@@ -171,15 +171,19 @@
 	opacity: 0;
 	animation: chalk-pen 2800ms var(--ease-in-out) 500ms backwards;
 }
-.chalk-val__writer {
+.chalk-val__hand {
 	position: absolute;
 	z-index: 2;
-	left: -42px;
-	bottom: -10px;
-	width: 46px;
-}
-.chalk-val__writer .mv-arm {
+	left: -12px;
+	bottom: 20%;
+	width: 26px;
+	rotate: -18deg;
 	animation: chalk-scribble 180ms linear 18 alternate 500ms;
+}
+.chalk-val__hand .hand__cuff,
+.stall__swapper .hand__cuff,
+.stall3__swapper .hand__cuff {
+	fill: var(--stall, var(--color-grana));
 }
 .mini-vendor {
 	overflow: visible;
@@ -223,18 +227,16 @@
 .stall3__swapper {
 	position: absolute;
 	z-index: 3;
-	right: 4%;
-	bottom: 0;
-	width: 34%;
-	max-width: 110px;
+	top: 0;
+	left: 50%;
+	width: 18%;
+	max-width: 64px;
+	margin-left: -9%;
 	pointer-events: none;
 	opacity: 0;
 	animation: swapper-visit 5s var(--ease-in-out);
 }
-.stall__swapper .mv-arm,
-.stall3__swapper .mv-arm {
-	animation: swapper-wave 420ms var(--ease-in-out) 8 alternate 1000ms;
-}
+
 .stall__art.is-fresh .stall__photo,
 .stall3__goods.is-fresh > img.is-on,
 .stall3__goods.is-fresh > .art {
@@ -243,21 +245,24 @@
 @keyframes swapper-visit {
 	0% {
 		opacity: 0;
-		transform: translateY(70%);
+		transform: translateY(-80%);
 	}
-	20%,
+	20% {
+		opacity: 1;
+		transform: translateY(10%);
+	}
+	35%,
+	45% {
+		transform: translateY(30%) rotate(-8deg);
+	}
+	55%,
 	80% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(10%) rotate(6deg);
 	}
 	100% {
 		opacity: 0;
-		transform: translateY(70%);
-	}
-}
-@keyframes swapper-wave {
-	to {
-		rotate: -18deg;
+		transform: translateY(-80%);
 	}
 }
 @keyframes swap-flip {

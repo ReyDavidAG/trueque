@@ -1,9 +1,8 @@
 import { Fragment } from 'react'
 
+import { Hand } from '@/components/ui/hand'
 import { useChangeCount } from '@/hooks/product/useChangeCount'
 import { cn } from '@/utils/cn'
-
-import { MiniVendor } from './miniVendor'
 
 export function ChalkValue({
 	value,
@@ -22,7 +21,7 @@ export function ChalkValue({
 				<Fragment key={writes}>
 					<span className='chalk-val__wipe' aria-hidden='true' />
 					<span className='chalk-val__pen' aria-hidden='true'>
-						<MiniVendor className='chalk-val__writer' />
+						<Hand className='chalk-val__hand' />
 					</span>
 					<span className='chalk-val__tag'>¡Nuevo!</span>
 				</Fragment>

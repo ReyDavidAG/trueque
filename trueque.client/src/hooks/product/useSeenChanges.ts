@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react'
 
 type Fields = Record<string, string>
 
+const STORE = 'trueque.seen.v2.'
+
 const read = (key: string): Fields | null => {
 	try {
-		const raw = localStorage.getItem(key)
+		const raw = localStorage.getItem(STORE + key)
 		return raw ? (JSON.parse(raw) as Fields) : null
 	} catch {
 		return null
@@ -13,7 +15,7 @@ const read = (key: string): Fields | null => {
 
 const write = (key: string, fields: Fields) => {
 	try {
-		localStorage.setItem(key, JSON.stringify(fields))
+		localStorage.setItem(STORE + key, JSON.stringify(fields))
 	} catch {
 		return
 	}

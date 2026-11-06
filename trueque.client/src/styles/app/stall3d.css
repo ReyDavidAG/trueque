@@ -51,7 +51,7 @@
 	position: absolute;
 	z-index: 4;
 	top: 22px;
-	left: 22px;
+	right: 22px;
 	padding: 0;
 	border: 0;
 	background: none;
@@ -80,11 +80,11 @@
 }
 .stall3__bell {
 	position: absolute;
-	z-index: 2;
-	left: 4%;
-	bottom: 6px;
-	width: 52px;
-	height: 52px;
+	z-index: 3;
+	left: 5%;
+	bottom: -14px;
+	width: 56px;
+	height: 56px;
 	padding: 0;
 	border: 0;
 	background: none;
@@ -123,7 +123,7 @@
 	position: absolute;
 	z-index: 2;
 	left: 3%;
-	bottom: 66px;
+	bottom: 52px;
 	max-width: min(18%, 170px);
 	padding: 6px 10px;
 	border: 2px solid var(--color-ink);

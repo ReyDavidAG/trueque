@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import { ChalkValue } from '@/components/product/chalkValue'
 import { MiniVendor } from '@/components/product/miniVendor'
 import { Cover } from '@/components/ui/cover'
+import { Hand } from '@/components/ui/hand'
 import { Icon } from '@/components/ui/icon'
 import { PriceSign } from '@/components/ui/priceSign'
 import { ROUTES } from '@/constants/routes'
@@ -37,7 +38,7 @@ export const Stall = memo(function Stall({
 	const left = product.stockLeft
 	const coverReady = !product.hasImages || Boolean(cover)
 	const fresh = useSeenChanges(
-		link && coverReady ? `trueque.seen.market.${product.id}` : null,
+		link && coverReady ? `market.${product.id}` : null,
 		{
 			name: product.name,
 			blurb: product.blurb,
@@ -52,7 +53,7 @@ export const Stall = memo(function Stall({
 		<>
 			<div className={cn('stall__art', isFresh('look') && 'is-fresh')}>
 				<Cover art={product.art} src={cover} className='stall__photo' />
-				{isFresh('look') && <MiniVendor className='stall__swapper' />}
+				{isFresh('look') && <Hand className='stall__swapper' />}
 			</div>
 			<PriceSign
 				price={product.price}

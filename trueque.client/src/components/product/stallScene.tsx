@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode, useEffect, useRef, useState } from 'react'
 
 import { Art } from '@/components/ui/art'
+import { Hand } from '@/components/ui/hand'
 import { PriceSign } from '@/components/ui/priceSign'
 import type { VendorPart } from '@/constants/vendor'
 import { useProductImages } from '@/hooks/market/useImages'
@@ -13,7 +14,6 @@ import { useVendorTalk } from '@/hooks/product/useVendorTalk'
 import type { Product } from '@/types/productType'
 import { cn } from '@/utils/cn'
 
-import { MiniVendor } from './miniVendor'
 import { CounterBell, VendorArm, VendorBody, VendorHat } from './vendorParts'
 
 const PHOTO_CYCLE_MS = 4500
@@ -57,7 +57,7 @@ export function StallScene({
 	const ready = images.isSuccess || !product.hasImages
 	const look = ready ? photoStamp(product.art, photos[0]) : undefined
 	const seen = useSeenChanges(
-		ready ? `trueque.seen.stall.${product.id}` : null,
+		ready ? `stall.${product.id}` : null,
 		{
 			price: String(product.price),
 			look: look ?? '',
@@ -152,7 +152,7 @@ export function StallScene({
 					{lookWrites > 0 && (
 						<Fragment key={lookWrites}>
 							<span className='stall3__sparkle' aria-hidden='true' />
-							<MiniVendor className='stall3__swapper' />
+							<Hand className='stall3__swapper' />
 						</Fragment>
 					)}
 					{photos.length > 0 ? (

@@ -81,7 +81,7 @@ function ProductDetail({
 	]
 	if (p.origin === 'custodia')
 		facts.push(['Viene de Custodia', `Folio ${p.originRef}`])
-	const seen = useSeenChanges(`trueque.seen.detail.${p.id}`, {
+	const seen = useSeenChanges(`detail.${p.id}`, {
 		...Object.fromEntries(
 			facts.filter(([k]) => k !== 'Existencias' && k !== 'Lo ofrece')
 		),
@@ -99,7 +99,7 @@ function ProductDetail({
 				<Icon name='arrowLeft' />
 				El mercado
 			</Link>
-			<div className='product'>
+			<div className='product' data-stall={p.stall}>
 				<StallScene
 					product={p}
 					greeting={greeting}
