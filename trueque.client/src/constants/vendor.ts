@@ -21,8 +21,19 @@ export type VendorPart =
 	| 'cheek'
 	| 'pit'
 	| 'head'
+	| 'board'
+	| 'newPrice'
+	| 'newName'
+	| 'newLook'
 
-export type VendorAct = 'shrug' | 'laugh' | 'bonk' | 'wince' | 'honk' | 'swing' | 'ring'
+export type VendorAct =
+	| 'shrug'
+	| 'laugh'
+	| 'bonk'
+	| 'wince'
+	| 'honk'
+	| 'swing'
+	| 'ring'
 
 export type VendorDent = { id: number; x: number; y: number }
 
@@ -57,6 +68,9 @@ export const ANNOYING_PARTS: VendorPart[] = [
 export const PRICE_TALK_PARTS: VendorPart[] = ['goods', 'sign', 'idle']
 
 export const HAT_TIP_MS = 700
+export const STAND_X = 0.45
+export const STAND_HALF_W = 0.22
+export const STAND_H = 44
 export const VENDOR_ARRIVE_MS = 700
 export const IDLE_TALK_MS = 11000
 export const IDLE_CHECK_MS = 3000

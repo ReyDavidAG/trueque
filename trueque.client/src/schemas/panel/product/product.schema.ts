@@ -1,9 +1,9 @@
 import { z } from 'zod'
 
-import { ART_IDS } from '@/constants/art/art_catalog'
-import { SHAPE_IDS } from '@/constants/art/art_shapes'
-import type { CategoryInfo } from '@/types/product_type'
-import { decodeDesign, MAX_LAYERS } from '@/utils/art_recipe'
+import { ART_IDS } from '@/constants/art/artCatalog'
+import { SHAPE_IDS } from '@/constants/art/artShapes'
+import type { CategoryInfo } from '@/types/productType'
+import { decodeDesign, MAX_LAYERS } from '@/utils/artRecipe'
 
 const validArt = (v: string) => {
 	const layers = decodeDesign(v)

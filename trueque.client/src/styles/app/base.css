@@ -28,13 +28,31 @@ html {
 		--cur-grabbing: url('/cursors/grabbing.svg') 15 16, grabbing;
 	}
 }
-:where(a[href], button, summary, label, [role='button'], [role='tab'], [role='option']) {
+:where(
+	a[href],
+	button,
+	summary,
+	label,
+	[role='button'],
+	[role='tab'],
+	[role='option']
+) {
 	cursor: var(--cur-pointer);
 }
 :where(button:disabled, [aria-disabled='true']) {
 	cursor: var(--cur-blocked);
 }
-:where(input:not([type='checkbox'], [type='radio'], [type='range'], [type='button'], [type='submit']), textarea, [contenteditable='true']) {
+:where(
+	input:not(
+		[type='checkbox'],
+		[type='radio'],
+		[type='range'],
+		[type='button'],
+		[type='submit']
+	),
+	textarea,
+	[contenteditable='true']
+) {
 	cursor: text;
 }
 :where(input[type='checkbox'], input[type='radio'], input[type='range']) {

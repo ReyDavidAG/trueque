@@ -1,0 +1,319 @@
+.rocks {
+	--crt: color-mix(in oklch, var(--color-nopal) 55%, var(--color-on-dark));
+	position: relative;
+	display: grid;
+	gap: 8px;
+	padding: 10px;
+	border-radius: var(--radius-lg);
+	background: var(--color-ink);
+	color: var(--crt);
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	letter-spacing: 0.08em;
+	text-shadow: 0 0 4px color-mix(in oklch, var(--crt) 60%, transparent);
+	outline: none;
+}
+.rocks:focus-visible {
+	outline: 3px solid var(--color-focus);
+	outline-offset: 4px;
+}
+.rocks__hud {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 6px 12px;
+}
+.rocks__screen {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 256 / 160;
+	border: 2px solid color-mix(in oklch, var(--crt) 40%, transparent);
+	border-radius: 6px;
+	background: var(--color-ink);
+	color: var(--crt);
+	image-rendering: pixelated;
+	box-shadow: inset 0 0 24px color-mix(in oklch, var(--crt) 18%, transparent);
+}
+.rocks__pads {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 8px;
+}
+.rocks__pad,
+.rocks__btn {
+	min-height: 40px;
+	padding: 0 12px;
+	border: 2px solid var(--crt);
+	border-radius: 4px;
+	background: transparent;
+	font: inherit;
+	color: var(--crt);
+	cursor: var(--cur-pointer);
+	touch-action: none;
+}
+.rocks__btn {
+	min-height: 32px;
+	text-transform: uppercase;
+}
+.rocks__pad:active,
+.rocks__btn:hover {
+	background: color-mix(in oklch, var(--crt) 22%, transparent);
+}
+.rocks__pad:focus-visible,
+.rocks__btn:focus-visible {
+	outline: 3px solid var(--color-focus);
+	outline-offset: 2px;
+}
+.rocks__over {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-content: center;
+	justify-items: center;
+	gap: 8px;
+	border-radius: var(--radius-lg);
+	background: color-mix(in oklch, var(--color-ink) 88%, transparent);
+	font-size: var(--text-sm);
+	text-align: center;
+}
+.rocks__title {
+	font-size: var(--text-xl);
+	animation: rocks-blink 900ms steps(2) infinite;
+}
+.rocks__row {
+	display: flex;
+	gap: 8px;
+}
+@keyframes rocks-blink {
+	50% {
+		opacity: 0.3;
+	}
+}
+@media (min-width: 720px) {
+	.rocks__pads {
+		display: none;
+	}
+}
+.egg {
+	position: absolute;
+	inset: 0;
+	z-index: 5;
+	display: grid;
+	place-items: center;
+	padding: var(--space-md);
+	border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+	background: color-mix(in oklch, var(--color-ink) 45%, transparent);
+	animation: egg-fade 240ms var(--ease-out);
+}
+.egg__card {
+	display: grid;
+	justify-items: center;
+	gap: var(--space-xs);
+	width: min(100%, 320px);
+	padding: var(--space-lg);
+	border: 2px solid var(--color-ink);
+	border-radius: var(--radius-lg);
+	background: var(--color-estraza);
+	box-shadow: var(--shadow-sign);
+	text-align: center;
+	animation: egg-pop 420ms var(--ease-out);
+}
+.egg__art {
+	width: 180px;
+	height: auto;
+	overflow: visible;
+}
+.egg__art * {
+	stroke: var(--color-ink);
+	stroke-width: 3;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+}
+.egg__title {
+	font-family: var(--font-display);
+	font-size: var(--text-xl);
+}
+.egg__line {
+	color: var(--color-muted);
+}
+.egg-cat .ec-fur,
+.egg-cat .ec-nose,
+.egg-cat .ec-line {
+	stroke: color-mix(in oklch, var(--color-ink) 55%, var(--color-on-dark));
+}
+.ec-fur {
+	fill: var(--color-ink);
+}
+.ec-tail {
+	fill: none;
+	stroke: var(--color-ink) !important;
+	stroke-width: 10 !important;
+}
+.ec-eye {
+	fill: var(--color-maiz);
+}
+.ec-pupil {
+	fill: none;
+	stroke-width: 3.5 !important;
+}
+.ec-gi {
+	fill: var(--color-on-dark);
+}
+.ec-paw {
+	fill: var(--color-achiote-soft);
+}
+.ec-belt {
+	fill: var(--color-ink);
+}
+.ec-nose {
+	fill: var(--color-grana-soft);
+}
+.ec-band {
+	fill: var(--color-grana);
+}
+.ec-line {
+	fill: none;
+}
+.ec-kick,
+.ec-punch {
+	transform-box: fill-box;
+	transform-origin: 0 50%;
+}
+.ec-kick {
+	animation: cat-kick 900ms var(--ease-in-out) infinite alternate;
+}
+.ec-punch {
+	animation: cat-punch 450ms var(--ease-in-out) infinite alternate;
+}
+.egg-cat {
+	animation: cat-hop 900ms var(--ease-in-out) infinite alternate;
+}
+.eb-bone,
+.eb-rib,
+.eb-line,
+.eb-foot {
+	fill: none;
+	stroke-width: 6 !important;
+}
+.eb-rib,
+.eb-line {
+	stroke-width: 3 !important;
+}
+.eb-bone,
+.eb-rib {
+	stroke: var(--color-on-dark) !important;
+	filter: drop-shadow(0 0 1px var(--color-ink))
+		drop-shadow(0 0 1px var(--color-ink));
+}
+.eb-skull,
+.eb-joint {
+	fill: var(--color-on-dark);
+}
+.eb-hole {
+	fill: var(--color-ink);
+}
+.eb-body {
+	transform-box: fill-box;
+	transform-origin: 50% 100%;
+	animation: bones-sway 520ms var(--ease-in-out) infinite alternate;
+}
+.eb-head {
+	transform-box: fill-box;
+	transform-origin: 50% 100%;
+	animation: bones-nod 260ms var(--ease-in-out) infinite alternate;
+}
+.eb-arm,
+.eb-leg {
+	transform-box: fill-box;
+}
+.eb-arm--l {
+	transform-origin: 100% 0;
+	animation: bones-arm-l 520ms var(--ease-in-out) infinite alternate;
+}
+.eb-arm--r {
+	transform-origin: 0 0;
+	animation: bones-arm-r 520ms var(--ease-in-out) infinite alternate;
+}
+.eb-leg--l {
+	transform-origin: 50% 0;
+	animation: bones-leg 520ms var(--ease-in-out) infinite alternate;
+}
+.eb-leg--r {
+	transform-origin: 50% 0;
+	animation: bones-leg 520ms var(--ease-in-out) infinite alternate-reverse;
+}
+@keyframes egg-fade {
+	from {
+		opacity: 0;
+	}
+}
+@keyframes egg-pop {
+	from {
+		opacity: 0;
+		transform: scale(0.7) rotate(-4deg);
+	}
+}
+@keyframes cat-kick {
+	from {
+		transform: rotate(30deg);
+	}
+	to {
+		transform: rotate(-12deg);
+	}
+}
+@keyframes cat-punch {
+	from {
+		transform: translateX(-10px);
+	}
+}
+@keyframes cat-hop {
+	to {
+		transform: translateY(-6px);
+	}
+}
+@keyframes bones-sway {
+	from {
+		transform: rotate(-6deg) translateY(0);
+	}
+	to {
+		transform: rotate(6deg) translateY(-6px);
+	}
+}
+@keyframes bones-nod {
+	to {
+		transform: rotate(10deg);
+	}
+}
+@keyframes bones-arm-l {
+	from {
+		transform: rotate(30deg);
+	}
+	to {
+		transform: rotate(-40deg);
+	}
+}
+@keyframes bones-arm-r {
+	from {
+		transform: rotate(40deg);
+	}
+	to {
+		transform: rotate(-30deg);
+	}
+}
+@keyframes bones-leg {
+	from {
+		transform: rotate(-12deg);
+	}
+	to {
+		transform: rotate(10deg);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.egg,
+	.egg *,
+	.rocks__title {
+		animation: none !important;
+	}
+}

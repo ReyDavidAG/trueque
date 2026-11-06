@@ -1,12 +1,12 @@
 import { Coin } from '@/components/ui/art'
 import { Icon } from '@/components/ui/icon'
-import { useExplainer } from '@/hooks/market/use_explainer'
-import { useExplainerSlides } from '@/hooks/market/use_explainer_slides'
-import type { Product } from '@/types/product_type'
+import { useExplainer } from '@/hooks/market/useExplainer'
+import { useExplainerSlides } from '@/hooks/market/useExplainerSlides'
+import type { Product } from '@/types/productType'
 import { formatMoney } from '@/utils/cacaos'
 import { cn } from '@/utils/cn'
 
-import { ExplainerTour } from './explainer_tour'
+import { ExplainerTour } from './explainerTour'
 
 export function Explainer({ products }: { products: Product[] }) {
 	const { slides, cacaoValue } = useExplainerSlides(products)
@@ -32,7 +32,8 @@ export function Explainer({ products }: { products: Product[] }) {
 						¿Qué es un cacao?
 					</b>
 					<span className='explainer__value'>
-						1 cacao vale <b className='num'>{formatMoney(cacaoValue)}</b> en productos
+						1 cacao vale <b className='num'>{formatMoney(cacaoValue)}</b> en
+						productos
 					</span>
 				</span>
 				<Icon name='chevronDown' className='explainer__chev' />

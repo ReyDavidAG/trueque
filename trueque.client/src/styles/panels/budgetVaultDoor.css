@@ -1,0 +1,337 @@
+.vault__hint {
+	position: absolute;
+	left: 50%;
+	bottom: var(--space-xs);
+	transform: translateX(-50%);
+	padding: 2px 10px;
+	border-radius: var(--radius-pill);
+	background: color-mix(in oklch, var(--color-estraza) 85%, transparent);
+	color: var(--color-muted);
+	white-space: nowrap;
+	pointer-events: none;
+}
+.vault__door {
+	position: absolute;
+	inset: var(--frame);
+	z-index: 2;
+	padding: 0;
+	border: 0;
+	border-radius: var(--radius-md);
+	font: inherit;
+	color: var(--color-estraza);
+	text-align: left;
+	background: var(--scratch), var(--steel);
+	box-shadow:
+		0 0 0 2px var(--steel-lo),
+		inset 2px 2px 0 var(--steel-hi),
+		inset -3px -3px 0 var(--steel-lo),
+		10px 0 24px color-mix(in oklch, var(--color-ink) 30%, transparent);
+	cursor: var(--cur-pointer);
+	transform-origin: left center;
+	transition:
+		transform 800ms var(--ease-out),
+		opacity 200ms var(--ease-out);
+}
+.vault.is-open .vault__door {
+	opacity: 0;
+	pointer-events: none;
+	transform: rotateY(-82deg);
+	transition:
+		transform 1000ms var(--ease-in-out) 650ms,
+		opacity 380ms var(--ease-in) 1250ms;
+}
+.vault__door:focus-visible {
+	outline: 3px solid var(--color-maiz);
+	outline-offset: -8px;
+}
+.vault__panel {
+	position: absolute;
+	inset: 18px;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas: 'etch plate' 'etch lock' 'open lock';
+	gap: var(--space-sm) var(--space-lg);
+	padding: var(--space-lg);
+	border-radius: 10px;
+	box-shadow:
+		inset 1px 1px 0 var(--steel-hi),
+		inset -1px -1px 0 var(--steel-lo),
+		1px 1px 0 var(--steel-lo),
+		-1px -1px 0 var(--steel-hi);
+}
+.vault__etch {
+	grid-area: etch;
+	display: grid;
+	align-content: center;
+	gap: var(--space-xs);
+	transform: rotate(-1.5deg);
+}
+.vault__etch > span {
+	background: repeating-linear-gradient(
+		100deg,
+		color-mix(in oklch, var(--color-estraza) 78%, transparent) 0 1px,
+		color-mix(in oklch, var(--color-estraza) 30%, transparent) 1px 2px,
+		transparent 2px 3px
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	filter: drop-shadow(0 -1px 0 var(--steel-lo))
+		drop-shadow(0 1px 0 var(--steel-hi));
+}
+.vault__etch-kicker {
+	font-family: var(--font-mono);
+	font-size: var(--text-sm);
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+}
+.vault__etch-title {
+	font-family: var(--font-display);
+	font-size: clamp(2.25rem, 6vw, 3.75rem);
+	line-height: 1;
+	letter-spacing: 0.02em;
+}
+.vault__etch-line {
+	font-family: var(--font-display);
+	font-size: var(--text-lg);
+	letter-spacing: 0.04em;
+}
+.vault__plate {
+	grid-area: plate;
+	justify-self: center;
+	padding: 6px 14px;
+	border: 2px solid var(--steel-lo);
+	border-radius: 4px;
+	background: var(--steel-lo);
+	box-shadow:
+		inset 0 0 0 1px var(--steel-hi),
+		0 1px 0 var(--steel-hi);
+	font-family: var(--font-display);
+	font-size: var(--text-lg);
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--chrome);
+}
+.vault__lock {
+	grid-area: lock;
+	display: grid;
+	justify-items: center;
+	align-content: center;
+	gap: 6px;
+}
+.vault__dial {
+	width: 104px;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background:
+		radial-gradient(
+			circle,
+			var(--color-ink) 0 20%,
+			var(--chrome) 21% 28%,
+			var(--steel-lo) 29% 31%,
+			transparent 32%
+		),
+		repeating-conic-gradient(var(--chrome) 0 1.5deg, transparent 1.5deg 9deg),
+		radial-gradient(
+			circle,
+			var(--color-ink) 0 60%,
+			var(--chrome) 61% 67%,
+			var(--steel-lo) 68% 71%,
+			var(--chrome) 72%
+		);
+	box-shadow:
+		0 4px 10px color-mix(in oklch, var(--color-ink) 45%, transparent),
+		inset 0 0 0 3px var(--steel-lo);
+	transition: transform 700ms var(--ease-in-out);
+}
+.vault__wheel {
+	position: relative;
+	width: 116px;
+	aspect-ratio: 1;
+	transition: transform 520ms var(--ease-in-out);
+}
+.vault__wheel::after {
+	content: '';
+	position: absolute;
+	inset: 38px;
+	border-radius: 50%;
+	background: radial-gradient(
+		circle at 35% 30%,
+		var(--color-estraza),
+		var(--chrome) 45%,
+		var(--steel-hi)
+	);
+	box-shadow: 0 3px 8px color-mix(in oklch, var(--color-ink) 50%, transparent);
+}
+.vault__wheel i {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 10px;
+	margin-top: -5px;
+	border-radius: 5px;
+	background: linear-gradient(
+		var(--color-estraza),
+		var(--chrome) 40%,
+		var(--steel-hi)
+	);
+	box-shadow: 0 3px 6px color-mix(in oklch, var(--color-ink) 45%, transparent);
+	transform: rotate(45deg);
+}
+.vault__wheel i:nth-child(2) {
+	transform: rotate(-45deg);
+}
+.vault__wheel i::before,
+.vault__wheel i::after {
+	content: '';
+	position: absolute;
+	top: -5px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: radial-gradient(
+		circle at 35% 30%,
+		var(--color-estraza),
+		var(--chrome) 55%,
+		var(--steel-hi)
+	);
+}
+.vault__wheel i::before {
+	left: -6px;
+}
+.vault__wheel i::after {
+	right: -6px;
+}
+.vault__open {
+	grid-area: open;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	justify-self: start;
+	padding: 4px 12px;
+	border-radius: var(--radius-pill);
+	background: var(--steel-lo);
+	box-shadow: inset 0 0 0 1px var(--steel-hi);
+	font-weight: 800;
+	color: var(--color-estraza);
+}
+.vault__open .icon {
+	width: 16px;
+	height: 16px;
+}
+.vault__bolts,
+.vault__hinges {
+	position: absolute;
+	top: 14%;
+	bottom: 14%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.vault__bolts {
+	right: -12px;
+}
+.vault__bolts i {
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: radial-gradient(
+		circle at 35% 30%,
+		var(--color-estraza),
+		var(--chrome) 45%,
+		var(--steel-lo)
+	);
+	box-shadow: 0 2px 4px color-mix(in oklch, var(--color-ink) 55%, transparent);
+	transition: transform 300ms var(--ease-in-out) 500ms;
+}
+.vault__hinges {
+	left: -10px;
+}
+.vault__hinges i {
+	width: 12px;
+	height: 60px;
+	border-radius: 4px;
+	background: linear-gradient(
+		90deg,
+		var(--steel-lo),
+		var(--chrome) 45%,
+		var(--steel-hi)
+	);
+}
+.vault__door:hover .vault__wheel {
+	transform: rotate(14deg);
+}
+.vault.is-open .vault__dial {
+	transform: rotate(-540deg);
+}
+.vault.is-open .vault__wheel {
+	transform: rotate(135deg);
+	transition-delay: 380ms;
+}
+.vault.is-open .vault__bolts i {
+	transform: translateX(-16px) scale(0.85);
+	transition-delay: 520ms;
+}
+@media (min-width: 768px) {
+	.vault__inside {
+		grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+	}
+	.vault__drawers {
+		grid-column: 1 / -1;
+	}
+	.vault__tray::before {
+		content: '';
+		position: absolute;
+		top: calc(var(--space-md) * -1 - var(--wall));
+		bottom: calc(var(--shelf) * -1);
+		left: calc(var(--space-xl) / -2 - 5px);
+		width: 10px;
+		background: linear-gradient(
+			90deg,
+			var(--steel-lo),
+			var(--steel-hi) 40%,
+			var(--steel)
+		);
+	}
+}
+@media (max-width: 639px) {
+	.vault__panel {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: auto auto 1fr auto;
+		grid-template-areas: 'plate' 'etch' 'lock' 'open';
+		justify-items: center;
+		text-align: center;
+	}
+	.vault__etch {
+		justify-items: center;
+	}
+	.vault__open {
+		justify-self: center;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.vault *,
+	.vault__door,
+	.vault.is-open .vault__door {
+		transition-delay: 0ms !important;
+	}
+}
+.budget__bar span {
+	transform-origin: left;
+	animation: bar-fill 900ms var(--ease-out) 350ms both;
+}
+.budget__bar .is-committed {
+	animation-delay: 750ms;
+}
+.budget__legend > div {
+	animation: tile-in var(--dur-slow) var(--ease-out) both;
+}
+.budget__legend > div:nth-child(2) {
+	animation-delay: 90ms;
+}
+.budget__legend > div:nth-child(3) {
+	animation-delay: 180ms;
+}

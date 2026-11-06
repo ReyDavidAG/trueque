@@ -1,0 +1,210 @@
+.empty__art {
+	width: min(260px, 80%);
+}
+.closed {
+	position: relative;
+}
+.closed__door {
+	display: block;
+	width: 100%;
+	padding: 0;
+	border: 0;
+	background: none;
+	cursor: var(--cur-pointer);
+	border-radius: var(--radius-md);
+}
+.closed__door:focus-visible {
+	outline: 3px solid var(--color-focus);
+	outline-offset: 4px;
+}
+.closed__door > span {
+	position: relative;
+	display: block;
+	transform-origin: 50% 100%;
+}
+.closed .art .closed__shutter {
+	transform-box: view-box;
+}
+.closed.is-open .art .closed__shutter {
+	animation: none;
+	transform: translateY(-84px);
+	transition: transform 380ms var(--ease-in-out);
+}
+.closed.is-open .art .closed__sign {
+	animation: none;
+	opacity: 0;
+}
+.closed__window {
+	position: absolute;
+	left: 18.4%;
+	width: 63.2%;
+	top: 41.2%;
+	height: 46.6%;
+	overflow: hidden;
+	pointer-events: none;
+}
+.closed__person {
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	width: 56%;
+	height: auto;
+	overflow: visible;
+	transform: translate(-50%, 105%);
+	transition: transform 320ms var(--ease-out);
+}
+.closed.is-shout .closed__person {
+	transform: translate(-50%, 4%);
+	transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.closed.is-shout .closed__fist {
+	transform-box: fill-box;
+	transform-origin: 0% 100%;
+	animation: fist-shake 260ms var(--ease-in-out) infinite alternate;
+}
+.closed__person .p-skin,
+.closed__person .p-shirt,
+.closed__person .p-hair {
+	stroke: var(--color-ink);
+	stroke-width: 3;
+	stroke-linejoin: round;
+}
+.closed__person .p-skin {
+	fill: var(--color-achiote-soft);
+}
+.closed__person .p-shirt {
+	fill: var(--color-grana);
+}
+.closed__person .p-hair {
+	fill: var(--color-ink);
+}
+.closed__person .p-ink {
+	fill: var(--color-ink);
+}
+.closed__person .p-line,
+.closed__person .p-mad {
+	fill: none;
+	stroke: var(--color-ink);
+	stroke-width: 3.5;
+	stroke-linecap: round;
+}
+.closed__person .p-mad {
+	stroke: var(--color-grana);
+}
+.closed__bubble.is-angry {
+	border-color: var(--color-grana);
+	background: var(--color-grana);
+	color: var(--color-on-dark);
+	box-shadow: 3px 3px 0 var(--color-ink);
+}
+.closed__bubble.is-angry::after {
+	border-color: var(--color-grana);
+	background: var(--color-grana);
+}
+@keyframes fist-shake {
+	from {
+		transform: rotate(-12deg);
+	}
+	to {
+		transform: rotate(14deg);
+	}
+}
+.closed__bubble {
+	position: absolute;
+	z-index: 2;
+	bottom: 78%;
+	left: 50%;
+	width: max-content;
+	max-width: min(240px, 80vw);
+	padding: var(--space-xs) var(--space-sm);
+	border: 2px solid var(--color-ink);
+	border-radius: var(--radius-md);
+	background: var(--color-estraza);
+	box-shadow: 3px 3px 0 var(--color-ink);
+	font-weight: 700;
+	font-size: var(--text-sm);
+	color: var(--color-ink);
+	translate: -50% 0;
+	transform-origin: 50% 100%;
+	animation: bubble-in 320ms var(--ease-out) both;
+	pointer-events: none;
+}
+.closed__bubble::after {
+	content: '';
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	width: 12px;
+	height: 12px;
+	margin: -6px 0 0 -6px;
+	border: 2px solid var(--color-ink);
+	border-top: 0;
+	border-left: 0;
+	background: var(--color-estraza);
+	transform: rotate(45deg);
+}
+@keyframes bubble-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(0.7);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.closed__bubble,
+	.closed.is-shout .closed__fist {
+		animation: none;
+	}
+	.closed__person,
+	.closed.is-open .art .closed__shutter {
+		transition: none;
+	}
+}
+.empty--error .h2,
+.empty--error .h3 {
+	color: var(--color-cacao);
+}
+.stall--ghost {
+	padding-bottom: var(--space-lg);
+	box-shadow: none;
+	animation: tile-in var(--dur-slow) var(--ease-out) both;
+	animation-delay: calc(var(--i, 0) * 70ms);
+}
+.ghost {
+	background: var(--color-amate-2);
+	border-radius: 8px;
+	margin: 0 var(--space-md) var(--space-sm);
+	position: relative;
+	overflow: hidden;
+}
+.ghost::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		oklch(98% 0.01 85 / 0.6),
+		transparent
+	);
+	transform: translateX(-100%);
+	animation: shimmer 1200ms var(--ease-in-out) infinite;
+}
+.ghost--awning {
+	height: 26px;
+	margin: 0 0 var(--space-md);
+	border-radius: 4px 4px 0 0;
+	background: var(--color-amate-3);
+}
+.ghost--art {
+	aspect-ratio: 4 / 3;
+}
+.ghost--line {
+	height: 16px;
+}
+.ghost--line.is-short {
+	width: 55%;
+}

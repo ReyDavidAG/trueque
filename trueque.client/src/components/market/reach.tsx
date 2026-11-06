@@ -1,5 +1,5 @@
 import { Icon } from '@/components/ui/icon'
-import type { Product } from '@/types/product_type'
+import type { Product } from '@/types/productType'
 import { cacaos } from '@/utils/cacaos'
 
 export function Reach({

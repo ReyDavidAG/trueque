@@ -1,5 +1,5 @@
 import { Icon, type IconName } from '@/components/ui/icon'
-import type { DashboardData } from '@/types/config_type'
+import type { DashboardData } from '@/types/configType'
 import { formatMoney } from '@/utils/cacaos'
 import { stagger } from '@/utils/stagger'
 

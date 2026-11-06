@@ -1,10 +1,10 @@
-import { useOrchardScene } from '@/hooks/wallet/use_orchard_scene'
-import { useOrchardTrees } from '@/hooks/wallet/use_orchard_trees'
-import type { Movement } from '@/types/wallet_type'
+import { useOrchardScene } from '@/hooks/wallet/useOrchardScene'
+import { useOrchardTrees } from '@/hooks/wallet/useOrchardTrees'
+import type { Movement } from '@/types/walletType'
 import { shortDate } from '@/utils/dates'
-import { movementReference } from '@/utils/movement_label'
+import { movementReference } from '@/utils/movementLabel'
 
-import { OrchardTip } from './orchard_tip'
+import { OrchardTip } from './orchardTip'
 
 export function Orchard({ moves }: { moves: Movement[] }) {
 	const trees = useOrchardTrees(moves)
@@ -33,7 +33,10 @@ export function Orchard({ moves }: { moves: Movement[] }) {
 					<li key={tree.source}>
 						{tree.source}: {tree.total} cacaos en {tree.moves.length} abonos.{' '}
 						{tree.moves
-							.map(m => `+${m.amount} ${movementReference(m)} ${shortDate(m.createdAt)}`)
+							.map(
+								m =>
+									`+${m.amount} ${movementReference(m)} ${shortDate(m.createdAt)}`
+							)
 							.join('; ')}
 					</li>
 				))}

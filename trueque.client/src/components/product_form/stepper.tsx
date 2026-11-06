@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 import { Coin } from '@/components/ui/art'
-import { burstCacao } from '@/components/ui/cacao_confetti'
+import { burstCacao } from '@/components/ui/cacaoConfetti'
 import { cn } from '@/utils/cn'
 
 export const STEPS = [

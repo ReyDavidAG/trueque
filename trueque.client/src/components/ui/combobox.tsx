@@ -1,10 +1,10 @@
 import * as Popover from '@radix-ui/react-popover'
 
-import { useCombobox } from '@/hooks/ui/use_combobox'
-import type { ComboboxOption } from '@/types/combobox_type'
+import { useCombobox } from '@/hooks/ui/useCombobox'
+import type { ComboboxOption } from '@/types/comboboxType'
 import { cn } from '@/utils/cn'
 
-import { ComboboxList } from './combobox_list'
+import { ComboboxList } from './comboboxList'
 import { Icon } from './icon'
 
 export type { ComboboxOption }
@@ -38,19 +38,34 @@ export function Combobox({
 	describedBy,
 	variant = 'field',
 }: ComboboxProps) {
-	const combo = useCombobox({ options, value, clearLabel, onChange })
-	const { selected, filtered, active, listId } = combo
+	const {
+		selected,
+		filtered,
+		active,
+		listId,
+		open,
+		toggle,
+		inputRef,
+		listRef,
+		query,
+		search,
+		onKeyDown,
+		setActive,
+		commit,
+	} = useCombobox({ options, value, clearLabel, onChange })
 
 	return (
-		<Popover.Root open={combo.open} onOpenChange={combo.toggle}>
+		<Popover.Root open={open} onOpenChange={toggle}>
 			<Popover.Trigger asChild>
 				<button
 					type='button'
 					id={id}
 					disabled={disabled}
 					aria-haspopup='listbox'
-					aria-expanded={combo.open}
-					aria-label={label ? `${label}: ${selected?.label ?? placeholder}` : undefined}
+					aria-expanded={open}
+					aria-label={
+						label ? `${label}: ${selected?.label ?? placeholder}` : undefined
+					}
 					aria-invalid={invalid || undefined}
 					aria-describedby={describedBy}
 					className={cn('combo', variant === 'pill' && 'combo--pill')}>
@@ -75,32 +90,34 @@ export function Combobox({
 					style={{ width: 'max(var(--radix-popover-trigger-width), 240px)' }}
 					onOpenAutoFocus={e => {
 						e.preventDefault()
-						combo.inputRef.current?.focus()
+						inputRef.current?.focus()
 					}}>
 					<div className='combo-pop__search'>
 						<Icon name='search' />
 						<input
-							ref={combo.inputRef}
+							ref={inputRef}
 							role='combobox'
 							aria-expanded='true'
 							aria-controls={listId}
-							aria-activedescendant={filtered[active] ? `${listId}-${active}` : undefined}
+							aria-activedescendant={
+								filtered[active] ? `${listId}-${active}` : undefined
+							}
 							aria-autocomplete='list'
 							aria-label={searchPlaceholder}
-							value={combo.query}
+							value={query}
 							placeholder={searchPlaceholder}
-							onChange={e => combo.search(e.target.value)}
-							onKeyDown={combo.onKeyDown}
+							onChange={e => search(e.target.value)}
+							onKeyDown={onKeyDown}
 						/>
 					</div>
 					<ComboboxList
-						listRef={combo.listRef}
+						listRef={listRef}
 						listId={listId}
 						options={filtered}
 						active={active}
 						value={value}
-						onHover={combo.setActive}
-						onPick={combo.commit}
+						onHover={setActive}
+						onPick={commit}
 					/>
 				</Popover.Content>
 			</Popover.Portal>

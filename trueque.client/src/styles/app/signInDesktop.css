@@ -1,0 +1,31 @@
+@media (min-width: 900px) {
+	.signin {
+		grid-template-areas: 'story panel' 'scene panel';
+		grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+		grid-template-rows: auto minmax(0, 1fr);
+	}
+	.signin__story,
+	.signin__scene {
+		background: var(--color-estraza);
+		background-image: var(--tex-grain);
+		border-right: 1px solid var(--color-rule);
+	}
+	.signin__story {
+		padding: var(--space-2xl) var(--space-2xl) 0;
+		gap: var(--space-md);
+	}
+	.signin__panel {
+		padding: var(--space-lg) var(--gutter);
+		align-content: center;
+		overflow-y: auto;
+	}
+}
+@media (max-width: 899px) and (max-height: 760px) {
+	.signin__story .lede {
+		display: none;
+	}
+	.signin__card {
+		padding: var(--space-lg) var(--space-md);
+		gap: var(--space-sm);
+	}
+}

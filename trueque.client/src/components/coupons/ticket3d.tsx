@@ -1,9 +1,9 @@
-import { useRef, useState, type CSSProperties, type PointerEvent } from 'react'
+import { type CSSProperties, type PointerEvent, useRef, useState } from 'react'
 
 import { Art, Qr } from '@/components/ui/art'
 import { Hand } from '@/components/ui/hand'
 import { Icon } from '@/components/ui/icon'
-import type { CouponCard } from '@/types/trade_type'
+import type { CouponCard } from '@/types/tradeType'
 import { cn } from '@/utils/cn'
 import { shortDate } from '@/utils/dates'
 
@@ -14,7 +14,11 @@ const STATE = {
 	disabled: ['Cancelado', 'is-rejected'],
 } as const
 
-const STAMP = { used: 'Canjeado', expired: 'Vencido', disabled: 'Cancelado' } as const
+const STAMP = {
+	used: 'Canjeado',
+	expired: 'Vencido',
+	disabled: 'Cancelado',
+} as const
 const SOON_DAYS = 7
 const DAY = 86_400_000
 const MAX_TILT = 9
@@ -34,7 +38,10 @@ const tornList = (): string[] => {
 
 const markTorn = (folio: string) => {
 	try {
-		localStorage.setItem(TORN_KEY, JSON.stringify([...tornList(), folio].slice(-50)))
+		localStorage.setItem(
+			TORN_KEY,
+			JSON.stringify([...tornList(), folio].slice(-50))
+		)
 	} catch {
 		return
 	}
@@ -49,7 +56,15 @@ function Stub({ folio }: { folio: string }) {
 	)
 }
 
-export function Ticket3d({ c, i, place }: { c: CouponCard; i: number; place: string }) {
+export function Ticket3d({
+	c,
+	i,
+	place,
+}: {
+	c: CouponCard
+	i: number
+	place: string
+}) {
 	const [now] = useState(Date.now)
 	const [seen] = useState(() => tornList().includes(c.orderFolio))
 	const [done, setDone] = useState(false)
@@ -105,52 +120,55 @@ export function Ticket3d({ c, i, place }: { c: CouponCard; i: number; place: str
 			onPointerLeave={rest}>
 			<div ref={card} className='ticket3d__card'>
 				<div className='ticket3d__spin'>
-				<div className='ticket3d__edge' aria-hidden />
-				<div className='ticket ticket3d__face' inert={flipped}>
-					<div className='ticket__art'>
-						<Art id={c.art} />
-					</div>
-					<div className='ticket__body'>
-						<span className={cn('pill', soon ? 'is-soon' : cls)}>
-							{soon && <Icon name='clock' />}
-							{soon ? 'Por vencer' : label}
-						</span>
-						<h2 className='h4'>{c.productName}</h2>
-						<p className='muted small'>
-							<span className={cn(soon && 'ticket3d__due')}>{note}</span> · {place}
-						</p>
-						{c.state === 'valid' && (
-							<button
-								type='button'
-								className='ticket3d__flip'
-								aria-expanded={flipped}
-								onClick={turn}>
-								<Icon name='ticket' />
-								Mostrar código
-							</button>
+					<div className='ticket3d__edge' aria-hidden />
+					<div className='ticket ticket3d__face' inert={flipped}>
+						<div className='ticket__art'>
+							<Art id={c.art} />
+						</div>
+						<div className='ticket__body'>
+							<span className={cn('pill', soon ? 'is-soon' : cls)}>
+								{soon && <Icon name='clock' />}
+								{soon ? 'Por vencer' : label}
+							</span>
+							<h2 className='h4'>{c.productName}</h2>
+							<p className='muted small'>
+								<span className={cn(soon && 'ticket3d__due')}>{note}</span> ·{' '}
+								{place}
+							</p>
+							{c.state === 'valid' && (
+								<button
+									type='button'
+									className='ticket3d__flip'
+									aria-expanded={flipped}
+									onClick={turn}>
+									<Icon name='ticket' />
+									Mostrar código
+								</button>
+							)}
+						</div>
+						<Stub folio={c.orderFolio} />
+						{c.state !== 'valid' && (
+							<span className='ticket3d__stamp' aria-hidden>
+								{STAMP[c.state]}
+							</span>
 						)}
 					</div>
-					<Stub folio={c.orderFolio} />
-					{c.state !== 'valid' && (
-						<span className='ticket3d__stamp' aria-hidden>
-							{STAMP[c.state]}
-						</span>
-					)}
-				</div>
-				{c.state === 'valid' && (
-					<div className='ticket ticket3d__face ticket3d__back' inert={!flipped}>
-						<Stub folio={c.orderFolio} />
-						<div className='ticket__body'>
-							<span className='small muted'>Enséñalo en {place}</span>
-							<span className='num ticket3d__code'>{c.code}</span>
-							<button type='button' className='ticket3d__flip' onClick={turn}>
-								<Icon name='refresh' />
-								Voltear
-							</button>
+					{c.state === 'valid' && (
+						<div
+							className='ticket ticket3d__face ticket3d__back'
+							inert={!flipped}>
+							<Stub folio={c.orderFolio} />
+							<div className='ticket__body'>
+								<span className='small muted'>Enséñalo en {place}</span>
+								<span className='num ticket3d__code'>{c.code}</span>
+								<button type='button' className='ticket3d__flip' onClick={turn}>
+									<Icon name='refresh' />
+									Voltear
+								</button>
+							</div>
+							<Qr code={c.code} />
 						</div>
-						<Qr code={c.code} />
-					</div>
-				)}
+					)}
 				</div>
 			</div>
 			{c.state === 'used' && (
@@ -161,7 +179,10 @@ export function Ticket3d({ c, i, place }: { c: CouponCard; i: number; place: str
 			{tearing && (
 				<>
 					<Hand className='ticket3d__hand' />
-					<span className='ticket3d__thanks' role='status' onAnimationEnd={finish}>
+					<span
+						className='ticket3d__thanks'
+						role='status'
+						onAnimationEnd={finish}>
 						¡Gracias! Que lo disfrutes
 					</span>
 				</>

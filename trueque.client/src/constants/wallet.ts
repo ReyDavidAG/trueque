@@ -1,5 +1,5 @@
 import type { IconName } from '@/components/ui/icon'
-import type { Movement } from '@/types/wallet_type'
+import type { Movement } from '@/types/walletType'
 
 export const WALLET_CHART_MONTHS = 6
 

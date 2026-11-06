@@ -1,11 +1,14 @@
 import * as THREE from 'three'
 
-import { tokenColors } from '@/utils/token_color'
+import { tokenColors } from '@/utils/tokenColor'
 
 import { createDisposables } from './disposables'
 
 export type PointerHandlers = Partial<
-	Record<'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel', (e: PointerEvent) => void>
+	Record<
+		'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel',
+		(e: PointerEvent) => void
+	>
 > & { click?: (e: MouseEvent) => void }
 
 export function createStage(host: HTMLElement, canvasClass: string) {
@@ -46,7 +49,18 @@ export function createStage(host: HTMLElement, canvasClass: string) {
 		canvas.remove()
 	}
 
-	return { css, cssVar, color, reducedMotion, keep, renderer, canvas, listen, observeSize, dispose }
+	return {
+		css,
+		cssVar,
+		color,
+		reducedMotion,
+		keep,
+		renderer,
+		canvas,
+		listen,
+		observeSize,
+		dispose,
+	}
 }
 
 export type Stage = ReturnType<typeof createStage>

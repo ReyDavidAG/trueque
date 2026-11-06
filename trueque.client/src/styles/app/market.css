@@ -98,9 +98,12 @@
 	background: var(--color-amate-2);
 	background-image: var(--tex-amate);
 	box-shadow:
-		inset 0 26px 20px -14px color-mix(in oklch, var(--color-ink) 45%, transparent),
-		inset 18px 0 18px -14px color-mix(in oklch, var(--color-ink) 30%, transparent),
-		inset -18px 0 18px -14px color-mix(in oklch, var(--color-ink) 30%, transparent);
+		inset 0 26px 20px -14px
+			color-mix(in oklch, var(--color-ink) 45%, transparent),
+		inset 18px 0 18px -14px
+			color-mix(in oklch, var(--color-ink) 30%, transparent),
+		inset -18px 0 18px -14px
+			color-mix(in oklch, var(--color-ink) 30%, transparent);
 }
 .stall__art::before,
 .stall__art::after {
@@ -140,6 +143,40 @@
 	animation: sign-sway 3.4s var(--ease-in-out) infinite alternate;
 	animation-delay: calc(var(--i, 0) * -0.7s);
 }
+.stall__sign.is-fresh {
+	animation:
+		sign-flip 1800ms var(--ease-out) 600ms backwards,
+		sign-sway 3.4s var(--ease-in-out) 2400ms infinite alternate;
+}
+.stall__fresh {
+	position: absolute;
+	z-index: 4;
+	top: 100px;
+	right: 22px;
+	padding: 2px 8px;
+	border: 2px solid var(--color-ink);
+	border-radius: 4px;
+	background: var(--color-maiz);
+	box-shadow: 2px 2px 0 var(--color-ink);
+	font-family: var(--font-display);
+	font-size: var(--text-sm);
+	white-space: nowrap;
+	color: var(--color-ink);
+	opacity: 0;
+	rotate: -4deg;
+	pointer-events: none;
+	animation: chalk-tag 7s var(--ease-out) 2400ms;
+}
+@media (prefers-reduced-motion: reduce) {
+	.stall__sign.is-fresh,
+	.stall__art.is-fresh .stall__photo {
+		animation: none;
+	}
+	.stall__fresh {
+		animation: none;
+		opacity: 1;
+	}
+}
 .stall__body {
 	position: relative;
 	padding: calc(var(--space-md) + 8px) var(--space-md) var(--space-lg);
@@ -155,8 +192,13 @@
 	height: 12px;
 	border: 2px solid var(--color-ink);
 	border-radius: 4px;
-	background: linear-gradient(to bottom, var(--color-cacao-2), var(--color-cacao));
-	box-shadow: 0 5px 8px -3px color-mix(in oklch, var(--color-ink) 40%, transparent);
+	background: linear-gradient(
+		to bottom,
+		var(--color-cacao-2),
+		var(--color-cacao)
+	);
+	box-shadow: 0 5px 8px -3px
+		color-mix(in oklch, var(--color-ink) 40%, transparent);
 }
 @keyframes sign-sway {
 	from {
@@ -192,4 +234,133 @@
 	font-family: var(--font-mono);
 	white-space: nowrap;
 }
-
+.stall.is-building .stall__art::before,
+.stall.is-building .stall__art::after {
+	transform-origin: 50% 100%;
+	animation: build-post 900ms var(--ease-out) 300ms backwards;
+}
+.stall.is-building .stall__art::after {
+	animation-delay: 700ms;
+}
+.stall.is-building .stall__awning {
+	animation: build-awning 1000ms var(--ease-out) 1300ms backwards;
+}
+.stall.is-building .stall__photo {
+	animation: build-pop 900ms var(--ease-out) 2200ms backwards;
+}
+.stall.is-building .stall__sign {
+	animation:
+		build-sign 1000ms var(--ease-out) 2900ms backwards,
+		sign-sway 3.4s var(--ease-in-out) 3900ms infinite alternate;
+}
+.stall.is-building .stall__body {
+	animation: build-body 900ms var(--ease-out) 3600ms backwards;
+}
+.stall__builder {
+	position: absolute;
+	z-index: 4;
+	left: 6px;
+	top: 38%;
+	width: 72px;
+	pointer-events: none;
+	opacity: 0;
+	animation: builder-visit 4.8s var(--ease-in-out);
+}
+.stall__builder .mv-arm {
+	animation: builder-hammer 260ms var(--ease-in-out) 14 alternate 300ms;
+}
+.stall__opening {
+	position: absolute;
+	z-index: 4;
+	top: 40px;
+	left: 14px;
+	padding: 2px 10px;
+	border: 2px solid var(--color-ink);
+	border-radius: 4px;
+	background: var(--color-grana);
+	box-shadow: 2px 2px 0 var(--color-ink);
+	font-family: var(--font-display);
+	font-size: var(--text-sm);
+	color: var(--color-on-dark);
+	white-space: nowrap;
+	opacity: 0;
+	rotate: -6deg;
+	pointer-events: none;
+	animation: chalk-tag 7s var(--ease-out) 4400ms;
+}
+@keyframes build-post {
+	from {
+		scale: 1 0;
+	}
+}
+@keyframes build-awning {
+	from {
+		opacity: 0;
+		scale: 1 0;
+	}
+	60% {
+		opacity: 1;
+		scale: 1 1.15;
+	}
+}
+@keyframes build-pop {
+	from {
+		opacity: 0;
+		scale: 0.3;
+	}
+	70% {
+		opacity: 1;
+		scale: 1.08;
+	}
+}
+@keyframes build-sign {
+	from {
+		opacity: 0;
+		translate: 0 -60px;
+		rotate: -25deg;
+	}
+	60% {
+		opacity: 1;
+		translate: 0 4px;
+		rotate: 10deg;
+	}
+}
+@keyframes build-body {
+	from {
+		opacity: 0;
+		translate: 0 24px;
+	}
+}
+@keyframes builder-visit {
+	0% {
+		opacity: 0;
+		translate: -40px 0;
+	}
+	10%,
+	85% {
+		opacity: 1;
+		translate: 0 0;
+	}
+	100% {
+		opacity: 0;
+		translate: -40px 0;
+	}
+}
+@keyframes builder-hammer {
+	to {
+		rotate: -28deg;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.stall.is-building *,
+	.stall.is-building *::before,
+	.stall.is-building *::after {
+		animation: none !important;
+	}
+	.stall__builder {
+		display: none;
+	}
+	.stall__opening {
+		opacity: 1;
+	}
+}

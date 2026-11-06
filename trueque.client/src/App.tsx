@@ -3,13 +3,12 @@ import { RouterProvider } from 'react-router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner'
 
-import { SessionProvider } from '@/context/session/session_context'
-import LoadingPage from '@/pages/core/loading/loading_page'
-import { queryClient } from '@/services/api/query_client'
+import { SessionProvider } from '@/context/session/sessionContext'
+import LoadingPage from '@/pages/core/loading/loadingPage'
+import { queryClient } from '@/services/api/queryClient'
+import { installTabFace } from '@/utils/tabFace'
 
-import { installTabFace } from '@/utils/tab_face'
-
-import router from './router/app_router'
+import router from './router/appRouter'
 
 installTabFace(
 	fn => router.subscribe(state => fn(state.location.pathname)),

@@ -45,10 +45,14 @@
 .ticket3d__edge {
 	--cut: calc(100% - var(--stub));
 	--notches:
-		radial-gradient(circle var(--notch) at var(--cut) 0, transparent 96%, black) top / 100% 51%
-			no-repeat,
-		radial-gradient(circle var(--notch) at var(--cut) 100%, transparent 96%, black) bottom /
-			100% 51% no-repeat;
+		radial-gradient(circle var(--notch) at var(--cut) 0, transparent 96%, black)
+			top / 100% 51% no-repeat,
+		radial-gradient(
+				circle var(--notch) at var(--cut) 100%,
+				transparent 96%,
+				black
+			)
+			bottom / 100% 51% no-repeat;
 	grid-area: 1 / 1;
 	backface-visibility: hidden;
 	-webkit-mask: var(--notches);
@@ -66,7 +70,11 @@
 			transparent 0 6px,
 			color-mix(in oklch, var(--color-amate-3) 30%, transparent) 6px 7px
 		),
-		linear-gradient(to left, var(--color-amate-2) var(--stub), transparent var(--stub)),
+		linear-gradient(
+			to left,
+			var(--color-amate-2) var(--stub),
+			transparent var(--stub)
+		),
 		var(--color-estraza);
 	transform: translateZ(6px);
 }
@@ -118,7 +126,11 @@
 			transparent 0 6px,
 			color-mix(in oklch, var(--color-amate-3) 30%, transparent) 6px 7px
 		),
-		linear-gradient(to right, var(--color-amate-2) var(--stub), transparent var(--stub)),
+		linear-gradient(
+			to right,
+			var(--color-amate-2) var(--stub),
+			transparent var(--stub)
+		),
 		var(--color-estraza);
 	transform: rotateY(180deg) translateZ(6px);
 }
@@ -131,9 +143,15 @@
 }
 .ticket3d.is-used :is(.ticket3d__face, .ticket3d__edge) {
 	--notches:
-		conic-gradient(from -135deg at right, transparent, black 1deg 89deg, transparent 90deg)
+		conic-gradient(
+				from -135deg at right,
+				transparent,
+				black 1deg 89deg,
+				transparent 90deg
+			)
 			calc(100% - var(--stub)) 50% / 7px 14px repeat-y,
-		linear-gradient(black 0 0) 0 0 / calc(100% - var(--stub) - 7px) 100% no-repeat;
+		linear-gradient(black 0 0) 0 0 / calc(100% - var(--stub) - 7px) 100%
+			no-repeat;
 }
 .ticket3d__rip {
 	position: absolute;
@@ -147,12 +165,22 @@
 	border-radius: 0 var(--radius-md) var(--radius-md) 0;
 	background: var(--color-amate-2);
 	-webkit-mask:
-		conic-gradient(from 45deg at left, transparent, black 1deg 89deg, transparent 90deg) 0 50% /
-			7px 14px repeat-y,
+		conic-gradient(
+				from 45deg at left,
+				transparent,
+				black 1deg 89deg,
+				transparent 90deg
+			)
+			0 50% / 7px 14px repeat-y,
 		linear-gradient(black 0 0) 100% 0 / calc(100% - 7px) 100% no-repeat;
 	mask:
-		conic-gradient(from 45deg at left, transparent, black 1deg 89deg, transparent 90deg) 0 50% /
-			7px 14px repeat-y,
+		conic-gradient(
+				from 45deg at left,
+				transparent,
+				black 1deg 89deg,
+				transparent 90deg
+			)
+			0 50% / 7px 14px repeat-y,
 		linear-gradient(black 0 0) 100% 0 / calc(100% - 7px) 100% no-repeat;
 	transform-origin: 30% 10%;
 	transform: translate(14px, 8px) rotate(7deg);
