@@ -1,0 +1,329 @@
+.panel-actions .btn .icon {
+	transition: transform 320ms var(--ease-out);
+}
+.panel-actions .btn:hover .icon,
+.panel-actions .btn:focus-visible .icon {
+	transform: scale(1.15);
+}
+.panel-actions__new:hover .icon,
+.panel-actions__new:focus-visible .icon {
+	transform: rotate(90deg) scale(1.15);
+}
+.prow-groups {
+	display: grid;
+	gap: var(--space-lg);
+	overflow-x: clip;
+	overflow-clip-margin: 12px;
+}
+.prow__lid {
+	--kraft-top: color-mix(in oklch, var(--color-amate-3) 72%, var(--color-estraza));
+	position: absolute;
+	bottom: 100%;
+	left: -2px;
+	right: -2px;
+	z-index: 2;
+	height: var(--depth);
+	pointer-events: none;
+	transform-style: preserve-3d;
+	transform-origin: bottom;
+	transform: rotateX(90deg);
+}
+.prow__lid::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(var(--color-cacao-3), var(--color-cacao));
+}
+.prow__lid i {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 50%;
+	background:
+		repeating-linear-gradient(
+			90deg,
+			transparent 0 3px,
+			color-mix(in oklch, var(--color-cacao-2) 7%, transparent) 3px 4px
+		),
+		var(--kraft-top);
+	backface-visibility: visible;
+}
+.prow__lid i:first-child {
+	left: 0;
+	border: 2px solid color-mix(in oklch, var(--color-cacao-2) 45%, transparent);
+	border-right: 0;
+	transform-origin: left center;
+	box-shadow: inset -2px 0 0 color-mix(in oklch, var(--color-cacao-2) 35%, transparent);
+}
+.prow__lid i:nth-child(2) {
+	right: 0;
+	border: 2px solid color-mix(in oklch, var(--color-cacao-2) 45%, transparent);
+	border-left: 0;
+	transform-origin: right center;
+	background:
+		linear-gradient(90deg, color-mix(in oklch, var(--color-cacao-2) 12%, transparent), transparent 30%),
+		repeating-linear-gradient(
+			90deg,
+			transparent 0 3px,
+			color-mix(in oklch, var(--color-cacao-2) 7%, transparent) 3px 4px
+		),
+		var(--kraft-top);
+}
+.prow__seam {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	width: 46px;
+	transform: translateX(-50%) translateZ(1px);
+	background: color-mix(in oklch, var(--color-maiz) 70%, var(--kraft-top));
+}
+.prow__seam::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	width: 2px;
+	margin-left: -1px;
+	background: var(--color-ink);
+	transform: scaleY(0);
+	transform-origin: top;
+}
+.prow__knife {
+	position: absolute;
+	top: calc(var(--lid) * -1 - 40px);
+	z-index: 5;
+	pointer-events: none;
+	left: 50%;
+	width: 22px;
+	height: 58px;
+	opacity: 0;
+	overflow: visible;
+	transform: translateX(-50%) rotate(160deg);
+}
+.prow__blade {
+	fill: color-mix(in oklch, var(--color-ink) 18%, var(--color-estraza));
+	stroke: var(--color-ink);
+	stroke-width: 1.5;
+	stroke-linejoin: round;
+}
+.prow__grip {
+	fill: var(--color-maiz);
+	stroke: var(--color-ink);
+	stroke-width: 2;
+}
+.prow__ridge {
+	fill: none;
+	stroke: var(--color-ink);
+	stroke-width: 1.5;
+	stroke-linecap: round;
+}
+.prow.is-open .prow__knife {
+	animation: knife-cut 760ms var(--ease-in-out) both;
+}
+.prow.is-open .prow__seam::after {
+	animation: seam-cut 480ms var(--ease-in-out) 140ms both;
+}
+.prow.is-open .prow__seam {
+	animation: tape-split 260ms var(--ease-in) 640ms both;
+}
+.prow.is-open::before {
+	animation: tape-split 260ms var(--ease-in) 680ms both;
+}
+.prow.is-open .prow__lid i:first-child {
+	animation: flap-left 460ms var(--ease-out) 700ms both;
+}
+.prow.is-open .prow__lid i:nth-child(2) {
+	animation: flap-right 460ms var(--ease-out) 760ms both;
+}
+.prow.is-open .prow__art {
+	overflow: visible;
+}
+.prow.is-open .prow__cover {
+	position: relative;
+	z-index: 3;
+	animation: cover-pop 420ms var(--ease-out) 950ms both;
+}
+.prow.is-open {
+	z-index: 4;
+	animation: box-open 1350ms var(--ease-in-out) both;
+}
+@keyframes knife-cut {
+	0% {
+		opacity: 0;
+		transform: translate(-50%, -24px) rotate(160deg);
+	}
+	15% {
+		opacity: 1;
+		transform: translate(-50%, 0) rotate(160deg);
+	}
+	75% {
+		opacity: 1;
+		transform: translate(-50%, calc(var(--lid) + 26px)) rotate(170deg);
+	}
+	100% {
+		opacity: 0;
+		transform: translate(-30%, calc(var(--lid) + 10px)) rotate(200deg);
+	}
+}
+@keyframes seam-cut {
+	to {
+		transform: scaleY(1);
+	}
+}
+@keyframes cover-pop {
+	to {
+		transform: translateY(-34px) scale(1.12) rotate(-4deg);
+	}
+}
+.prow__stamp {
+	position: absolute;
+	top: 34%;
+	left: 50%;
+	z-index: 3;
+	padding: 6px 18px;
+	border: 3px solid var(--color-ink);
+	border-radius: 6px;
+	background: var(--color-maiz);
+	box-shadow:
+		inset 0 0 0 3px var(--color-maiz),
+		inset 0 0 0 5px var(--color-ink),
+		4px 5px 0 color-mix(in oklch, var(--color-ink) 30%, transparent);
+	font-family: var(--font-display);
+	font-size: clamp(1.5rem, 3vw, 2.1rem);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	white-space: nowrap;
+	color: var(--color-ink);
+	pointer-events: none;
+	transform: translate(-50%, -50%) rotate(-8deg);
+	animation: pause-slap 480ms var(--ease-out) both;
+}
+.prow[data-status='paused'] .prow__main,
+.prow[data-status='paused'] .prow__art {
+	opacity: 0.7;
+}
+.prow__dolly {
+	position: absolute;
+	left: -10px;
+	bottom: -6px;
+	z-index: 3;
+	width: 52px;
+	height: 78%;
+	opacity: 0;
+	pointer-events: none;
+}
+.prow__dolly::before {
+	content: '';
+	position: absolute;
+	right: -6px;
+	bottom: 8px;
+	width: 34px;
+	height: 7px;
+	border-radius: 2px;
+	background: var(--color-grana);
+	box-shadow: 0 0 0 2px var(--color-ink);
+}
+.prow__dolly i:first-child {
+	position: absolute;
+	right: 22px;
+	bottom: 10px;
+	width: 7px;
+	height: 100%;
+	border-radius: 4px 4px 0 0;
+	background: var(--color-grana);
+	box-shadow: 0 0 0 2px var(--color-ink);
+	transform: rotate(-12deg);
+	transform-origin: bottom;
+}
+.prow__dolly i:last-child {
+	position: absolute;
+	right: 14px;
+	bottom: -6px;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: radial-gradient(circle, var(--color-amate) 0 25%, var(--color-ink) 27%);
+}
+.prow.is-carry {
+	z-index: 4;
+	transform-origin: bottom left;
+	animation: box-carry 1500ms var(--ease-in-out) both;
+}
+.prow.is-carry .prow__dolly {
+	animation: dolly-in 1500ms var(--ease-in-out) both;
+}
+.prow.is-carry .prow__dolly i:last-child {
+	animation: bean-spin 500ms linear 600ms 3;
+}
+@keyframes tape-split {
+	to {
+		opacity: 0;
+		transform: translateX(-50%) scaleX(1.4) scaleY(0.3);
+	}
+}
+@keyframes flap-left {
+	to {
+		transform: rotateY(-165deg);
+	}
+}
+@keyframes flap-right {
+	to {
+		transform: rotateY(165deg);
+	}
+}
+@keyframes box-open {
+	0%,
+	80% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(-10px) scale(1.08);
+		opacity: 0;
+	}
+}
+@keyframes pause-slap {
+	0% {
+		opacity: 0;
+		transform: translate(-50%, -50%) rotate(-22deg) scale(2);
+	}
+	65% {
+		opacity: 1;
+		transform: translate(-50%, -50%) rotate(-6deg) scale(0.94);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(-50%, -50%) rotate(-8deg) scale(1);
+	}
+}
+@keyframes dolly-in {
+	0% {
+		opacity: 0;
+		transform: translateX(-60px);
+	}
+	25%,
+	100% {
+		opacity: 1;
+		transform: none;
+	}
+}
+@keyframes box-carry {
+	0%,
+	25% {
+		transform: none;
+		opacity: 1;
+	}
+	40% {
+		transform: rotate(-5deg) translateY(-6px);
+		opacity: 1;
+	}
+	85% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(115%) rotate(-5deg) translateY(-6px);
+		opacity: 0;
+	}
+}

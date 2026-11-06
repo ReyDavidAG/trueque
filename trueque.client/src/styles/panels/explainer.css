@@ -1,0 +1,50 @@
+.explainer {
+	margin-top: var(--space-md);
+	border-radius: var(--radius-lg);
+	background: var(--color-estraza);
+	border: 2px solid var(--color-maiz-2);
+	box-shadow: var(--shadow-card);
+	overflow: hidden;
+}
+.explainer__head {
+	display: flex;
+	align-items: center;
+	gap: var(--space-md);
+	padding: var(--space-md) var(--space-lg);
+	cursor: var(--cur-pointer);
+	list-style: none;
+}
+.explainer__head::-webkit-details-marker {
+	display: none;
+}
+.explainer__head > span {
+	display: grid;
+	flex: 1;
+	min-width: 0;
+}
+.explainer__coin {
+	width: 44px;
+	height: 44px;
+}
+.explainer__title {
+	font-family: var(--font-display);
+	font-weight: 400;
+	font-size: var(--text-xl);
+	color: var(--color-cacao);
+	line-height: 1.1;
+}
+.explainer__value {
+	color: var(--color-muted);
+	font-size: var(--text-sm);
+}
+.explainer__value b {
+	color: var(--color-ink);
+	font-size: var(--text-base);
+}
+.explainer__chev {
+	transition: transform var(--dur-base) var(--ease-out);
+}
+.explainer[open] .explainer__chev {
+	transform: rotate(180deg);
+}
+

@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router'
 import AuthGuard from '@/layouts/auth/auth_guard'
 import RoleGuard from '@/layouts/auth/role_guard'
 import NotFoundPage from '@/pages/core/not_found/not_found_page'
+import RouteErrorPage from '@/pages/core/route_error/route_error_page'
 
 const SignInPage = lazy(() => import('@/pages/auth/sign_in/sign_in_page'))
 const ProtectedLayout = lazy(
@@ -31,9 +32,14 @@ const DashboardPage = lazy(() => import('@/pages/dashboard/dashboard_page'))
 const SettingsPage = lazy(() => import('@/pages/settings/settings_page'))
 
 const router = createBrowserRouter([
-	{ path: '/sign-in', element: <SignInPage /> },
+	{
+		path: '/sign-in',
+		element: <SignInPage />,
+		errorElement: <RouteErrorPage />,
+	},
 	{
 		element: <AuthGuard />,
+		errorElement: <RouteErrorPage />,
 		children: [
 			{
 				element: <ProtectedLayout />,

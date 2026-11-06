@@ -27,5 +27,5 @@ export function toMessage(error: { message?: string } | null | undefined) {
 	if (/duplicate key/i.test(msg)) return 'Eso ya estaba registrado.'
 	if (/could not find the function|schema cache/i.test(msg))
 		return 'La base de datos necesita una actualización pendiente. Avisa a quien administra la demo.'
-	return msg || 'Algo salió mal. Inténtalo de nuevo.'
+	return 'Algo salió mal. Inténtalo de nuevo.'
 }

@@ -1,0 +1,118 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+[hidden] {
+	display: none !important;
+}
+html,
+body {
+	overflow-x: clip;
+}
+html {
+	-webkit-text-size-adjust: 100%;
+	--cur-default: default;
+	--cur-pointer: pointer;
+	--cur-blocked: not-allowed;
+	--cur-grab: grab;
+	--cur-grabbing: grabbing;
+	cursor: var(--cur-default);
+}
+@media (pointer: fine) {
+	html {
+		--cur-default: url('/cursors/arrow.svg') 4 3, default;
+		--cur-pointer: url('/cursors/hand.svg') 14 2, pointer;
+		--cur-blocked: url('/cursors/blocked.svg') 16 16, not-allowed;
+		--cur-grab: url('/cursors/grab.svg') 15 15, grab;
+		--cur-grabbing: url('/cursors/grabbing.svg') 15 16, grabbing;
+	}
+}
+:where(a[href], button, summary, label, [role='button'], [role='tab'], [role='option']) {
+	cursor: var(--cur-pointer);
+}
+:where(button:disabled, [aria-disabled='true']) {
+	cursor: var(--cur-blocked);
+}
+:where(input:not([type='checkbox'], [type='radio'], [type='range'], [type='button'], [type='submit']), textarea, [contenteditable='true']) {
+	cursor: text;
+}
+:where(input[type='checkbox'], input[type='radio'], input[type='range']) {
+	cursor: var(--cur-pointer);
+}
+body {
+	margin: 0;
+	min-height: 100svh;
+	font-family: var(--font-body);
+	font-size: var(--text-base);
+	line-height: 1.55;
+	color: var(--color-ink);
+	background-color: var(--color-amate);
+	background-image: var(--tex-amate), var(--tex-grain);
+	background-size: cover, auto;
+	background-attachment: fixed;
+	-webkit-font-smoothing: antialiased;
+}
+img,
+svg {
+	display: block;
+	max-width: 100%;
+}
+a {
+	color: inherit;
+}
+button,
+input {
+	font: inherit;
+	color: inherit;
+}
+h1,
+h2,
+h3,
+h4,
+p,
+dl,
+dd,
+ol,
+ul,
+figure {
+	margin: 0;
+}
+ul[role='list'],
+ol[role='list'] {
+	list-style: none;
+	padding: 0;
+}
+:focus-visible {
+	outline: 3px solid var(--color-focus);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+.skip-link {
+	position: absolute;
+	left: var(--space-md);
+	top: -60px;
+	z-index: 50;
+	background: var(--color-ink);
+	color: var(--color-on-dark);
+	padding: var(--space-xs) var(--space-md);
+	border-radius: var(--radius-sm);
+}
+.skip-link:focus {
+	top: var(--space-xs);
+}
+
+.num {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+}

@@ -1,0 +1,16 @@
+export const VAULT = {
+	halfX: 1.7,
+	halfZ: 1.05,
+	coinRadius: 0.19,
+	coinHeight: 0.06,
+	maxCoins: 42,
+	roof: 2,
+	wall: 1,
+	maxCoinSpeed: 7,
+	step: 1 / 120,
+	pushRadius: 0.42,
+	pushY: 0.16,
+	maxPush: 18,
+	stirRadius: 0.85,
+	stirStrength: 0.0028,
+} as const

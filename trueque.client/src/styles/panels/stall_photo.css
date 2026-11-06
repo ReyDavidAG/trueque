@@ -1,0 +1,28 @@
+.cover {
+	display: block;
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: var(--radius-md);
+	border: 2px solid var(--color-ink);
+	background: var(--color-amate-2);
+}
+.stall.has-photo .stall__art {
+	padding: var(--space-sm) var(--space-sm) 0;
+}
+.stall__by {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: var(--text-xs);
+	color: var(--color-muted);
+	font-weight: 600;
+}
+.stall__by .icon {
+	width: 14px;
+	height: 14px;
+}
+.stalls--one {
+	grid-template-columns: minmax(0, 18rem);
+}
+

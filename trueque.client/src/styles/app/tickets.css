@@ -1,0 +1,224 @@
+.tickets {
+	display: grid;
+	gap: var(--space-md);
+}
+.ticket {
+	position: relative;
+	display: grid;
+	grid-template-columns: 96px minmax(0, 1fr);
+	gap: var(--space-md);
+	padding: var(--space-md);
+	padding-right: var(--space-lg);
+	border-radius: var(--radius-md);
+	background: var(--color-estraza);
+	box-shadow: var(--shadow-card);
+	border-left: 8px solid var(--stall);
+}
+.ticket3d {
+	--stub: 64px;
+	--notch: 11px;
+	position: relative;
+	perspective: 1100px;
+	list-style: none;
+	filter: drop-shadow(
+		0 6px 8px color-mix(in oklch, var(--color-ink) 22%, transparent)
+	);
+}
+.ticket3d__card {
+	--rx: 0deg;
+	--ry: 0deg;
+	display: grid;
+	transform-style: preserve-3d;
+	transform: rotateX(var(--rx)) rotateY(var(--ry));
+	transition: transform 420ms var(--ease-out);
+}
+.ticket3d:hover .ticket3d__card {
+	transition-duration: 120ms;
+}
+.ticket3d__spin {
+	display: grid;
+	transform-style: preserve-3d;
+	transform: rotateY(calc(var(--turns, 0) * 180deg));
+	transition: transform 700ms var(--ease-out);
+}
+.ticket3d__face,
+.ticket3d__edge {
+	--cut: calc(100% - var(--stub));
+	--notches:
+		radial-gradient(circle var(--notch) at var(--cut) 0, transparent 96%, black) top / 100% 51%
+			no-repeat,
+		radial-gradient(circle var(--notch) at var(--cut) 100%, transparent 96%, black) bottom /
+			100% 51% no-repeat;
+	grid-area: 1 / 1;
+	backface-visibility: hidden;
+	-webkit-mask: var(--notches);
+	mask: var(--notches);
+}
+.ticket3d__face {
+	grid-template-columns: 96px minmax(0, 1fr) var(--stub);
+	padding-block: var(--space-md);
+	padding-right: 0;
+	overflow: hidden;
+	box-shadow: none;
+	background:
+		repeating-linear-gradient(
+			-45deg,
+			transparent 0 6px,
+			color-mix(in oklch, var(--color-amate-3) 30%, transparent) 6px 7px
+		),
+		linear-gradient(to left, var(--color-amate-2) var(--stub), transparent var(--stub)),
+		var(--color-estraza);
+	transform: translateZ(6px);
+}
+.ticket3d__edge {
+	position: relative;
+	border-radius: var(--radius-md);
+	background: var(--color-cacao-2);
+	transform: translateZ(-2px);
+}
+.ticket3d__stub {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: var(--space-xs);
+	margin-block: calc(var(--space-md) * -1);
+	border-left: 2px dashed var(--color-rule-strong);
+}
+.ticket3d__stub-label {
+	font-family: var(--font-display);
+	font-size: var(--text-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: var(--color-cacao);
+}
+.ticket3d__stub-folio {
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+	font-size: var(--text-sm);
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	color: var(--color-ink);
+}
+@media (min-width: 480px) {
+	.ticket3d {
+		--stub: 84px;
+	}
+}
+.ticket3d__back {
+	--cut: var(--stub);
+	grid-template-columns: var(--stub) minmax(0, 1fr) 96px;
+	align-items: center;
+	padding-left: 0;
+	padding-right: var(--space-md);
+	border-left: 0;
+	border-right: 8px solid var(--stall);
+	background:
+		repeating-linear-gradient(
+			45deg,
+			transparent 0 6px,
+			color-mix(in oklch, var(--color-amate-3) 30%, transparent) 6px 7px
+		),
+		linear-gradient(to right, var(--color-amate-2) var(--stub), transparent var(--stub)),
+		var(--color-estraza);
+	transform: rotateY(180deg) translateZ(6px);
+}
+.ticket3d__back .ticket3d__stub {
+	border-left: 0;
+	border-right: 2px dashed var(--color-rule-strong);
+}
+.ticket3d.is-used .ticket3d__face .ticket3d__stub {
+	visibility: hidden;
+}
+.ticket3d.is-used :is(.ticket3d__face, .ticket3d__edge) {
+	--notches:
+		conic-gradient(from -135deg at right, transparent, black 1deg 89deg, transparent 90deg)
+			calc(100% - var(--stub)) 50% / 7px 14px repeat-y,
+		linear-gradient(black 0 0) 0 0 / calc(100% - var(--stub) - 7px) 100% no-repeat;
+}
+.ticket3d__rip {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 2;
+	display: grid;
+	width: var(--stub);
+	padding-block: var(--space-xs);
+	border-radius: 0 var(--radius-md) var(--radius-md) 0;
+	background: var(--color-amate-2);
+	-webkit-mask:
+		conic-gradient(from 45deg at left, transparent, black 1deg 89deg, transparent 90deg) 0 50% /
+			7px 14px repeat-y,
+		linear-gradient(black 0 0) 100% 0 / calc(100% - 7px) 100% no-repeat;
+	mask:
+		conic-gradient(from 45deg at left, transparent, black 1deg 89deg, transparent 90deg) 0 50% /
+			7px 14px repeat-y,
+		linear-gradient(black 0 0) 100% 0 / calc(100% - 7px) 100% no-repeat;
+	transform-origin: 30% 10%;
+	transform: translate(14px, 8px) rotate(7deg);
+}
+.ticket3d.is-tearing .ticket3d__rip {
+	animation: rip-off 2600ms var(--ease-in-out) both;
+}
+.ticket3d__rip .ticket3d__stub {
+	gap: 4px;
+	margin: 0;
+	border: 0;
+}
+.ticket3d__rip .ticket3d__stub-folio {
+	font-size: var(--text-xs);
+	letter-spacing: 0.06em;
+}
+.ticket3d:is(.is-used, .is-expired, .is-disabled) .ticket__body {
+	padding-right: clamp(0px, 22vw - 60px, 150px);
+}
+@media (max-width: 559px) {
+	.ticket3d__stamp {
+		left: 8px;
+		right: auto;
+		font-size: var(--text-base);
+	}
+}
+.ticket3d__hand {
+	position: absolute;
+	top: -70px;
+	right: calc(var(--stub) / 2 - 30px);
+	z-index: 3;
+	width: 60px;
+	height: 96px;
+	pointer-events: none;
+	animation: hand-take 2600ms var(--ease-in-out) both;
+}
+.hand__cuff {
+	fill: var(--color-grana);
+	stroke: var(--color-ink);
+	stroke-width: 2.5;
+}
+.hand__skin {
+	fill: var(--color-achiote-soft);
+	stroke: var(--color-ink);
+	stroke-width: 2.5;
+}
+.ticket3d__thanks {
+	position: absolute;
+	top: -20px;
+	right: calc(var(--stub) + var(--space-sm));
+	z-index: 3;
+	padding: 6px 14px;
+	border: 2px solid var(--color-ink);
+	border-radius: 14px 14px 4px 14px;
+	background: var(--color-estraza);
+	box-shadow: 3px 3px 0 var(--color-ink);
+	font-family: var(--font-display);
+	font-size: var(--text-lg);
+	white-space: nowrap;
+	color: var(--color-ink);
+	pointer-events: none;
+	animation: thanks-pop 2600ms var(--ease-out) both;
+}
+.ticket3d.is-tearing .ticket3d__card {
+	animation: tear-jolt 2600ms var(--ease-out) both;
+}
+.ticket3d.is-tearing .ticket3d__stamp {
+	animation-delay: 2300ms;
+}

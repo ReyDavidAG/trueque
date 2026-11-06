@@ -1,0 +1,125 @@
+.settings {
+	display: grid;
+	gap: var(--space-lg);
+}
+.settings-card {
+	padding: var(--space-lg);
+	border-radius: var(--radius-lg);
+	background: var(--color-estraza);
+	box-shadow: var(--shadow-card);
+}
+.settings-card > header {
+	display: grid;
+	gap: 4px;
+	margin-bottom: var(--space-md);
+	padding-bottom: var(--space-md);
+	border-bottom: 1px dashed var(--color-rule);
+}
+.settings-card form {
+	display: grid;
+	gap: var(--space-md);
+}
+.impact {
+	display: grid;
+	gap: var(--space-xs);
+	padding: var(--space-md);
+	border-radius: var(--radius-md);
+	background: var(--color-amate);
+	font-size: var(--text-sm);
+}
+.impact p {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+}
+.impact .icon {
+	width: 16px;
+	height: 16px;
+	color: var(--color-nopal);
+}
+.impact .is-warn {
+	color: var(--color-warn);
+	font-weight: 700;
+}
+.impact .is-warn .icon {
+	color: var(--color-warn);
+}
+.table-wrap {
+	overflow-x: auto;
+	margin-inline: calc(-1 * var(--space-sm));
+	padding-inline: var(--space-sm);
+}
+.rules-table {
+	width: 100%;
+	min-width: 520px;
+	border-collapse: collapse;
+	font-size: var(--text-sm);
+}
+.rules-table th,
+.rules-table td {
+	padding: var(--space-xs);
+	text-align: left;
+	vertical-align: middle;
+	border-bottom: 1px solid var(--color-rule);
+}
+.rules-table thead th {
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--color-muted);
+}
+.rules-table tbody th {
+	font-weight: 400;
+}
+.rules-table tbody th small {
+	display: block;
+	color: var(--color-muted);
+}
+.rules-table .input--sm {
+	width: 90px;
+}
+.switch--solo {
+	min-height: 0;
+}
+.field-row {
+	display: grid;
+	gap: var(--space-sm);
+	padding: var(--space-sm) 0;
+	border-bottom: 1px solid var(--color-rule);
+}
+.field-row__label small {
+	display: block;
+	color: var(--color-muted);
+	font-weight: 400;
+	font-size: var(--text-sm);
+}
+.locations {
+	display: grid;
+	gap: var(--space-xs);
+}
+.locations li {
+	display: flex;
+	gap: var(--space-sm);
+	padding: var(--space-sm) var(--space-md);
+	border-radius: var(--radius-md);
+	background: var(--color-amate);
+}
+.locations b {
+	display: block;
+}
+.locations small {
+	display: block;
+	color: var(--color-muted);
+}
+.locations .icon {
+	color: var(--color-grana);
+	margin-top: 2px;
+}
+@media (min-width: 768px) {
+	.field-row {
+		grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1fr));
+		align-items: start;
+	}
+}
+

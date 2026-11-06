@@ -1,0 +1,156 @@
+.v-bell {
+	fill: var(--color-maiz);
+}
+.v-base {
+	fill: var(--color-cacao);
+}
+.v-white {
+	fill: var(--color-estraza);
+	stroke-width: 2 !important;
+}
+.v-nose {
+	fill: var(--color-achiote);
+	transform-box: fill-box;
+	transform-origin: center;
+}
+.stall3.do-honk .v-nose {
+	animation: v-honk 650ms var(--ease-out);
+}
+@keyframes v-honk {
+	25% {
+		transform: scale(1.5, 0.7);
+	}
+	55% {
+		transform: scale(0.85, 1.2);
+	}
+}
+[data-dent] {
+	transform-box: fill-box;
+	transform-origin: center;
+}
+.is-dent {
+	animation: v-dent 450ms var(--ease-out);
+}
+@keyframes v-dent {
+	30% {
+		transform: scale(0.8);
+	}
+	65% {
+		transform: scale(1.06);
+	}
+}
+.v-dimple {
+	fill: var(--color-ink);
+	stroke: none !important;
+	opacity: 0;
+	pointer-events: none;
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: v-dimple 600ms var(--ease-out);
+}
+@keyframes v-dimple {
+	0% {
+		opacity: 0.3;
+		transform: scale(1.4);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.4);
+	}
+}
+.v-shine {
+	fill: var(--color-estraza);
+	stroke: none !important;
+	opacity: 0.8;
+	pointer-events: none;
+}
+.v-pupils {
+	transform-box: view-box;
+}
+.v-eye {
+	animation: v-blink 5s infinite;
+}
+@keyframes v-blink {
+	0%,
+	95%,
+	100% {
+		scale: 1 1;
+	}
+	97% {
+		scale: 1 0.1;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.stall3 *,
+	.stall3 {
+		animation: none !important;
+	}
+}
+.stall3__sign .sign__n {
+	font-size: 2.6rem;
+}
+.stall3__vendor {
+	position: absolute;
+	z-index: 1;
+	right: 12%;
+	bottom: -20%;
+	height: 78%;
+	aspect-ratio: 160 / 230;
+}
+.v-hit {
+	fill: transparent;
+	stroke: none !important;
+}
+.v-eye {
+	transform-box: fill-box;
+	transform-origin: center;
+	transition: transform 120ms var(--ease-out);
+}
+.v-eye.is-shut {
+	transform: scaleY(0.15);
+}
+.v-stache-g {
+	transform-box: fill-box;
+	transform-origin: center;
+	cursor: var(--cur-grab);
+	touch-action: none;
+}
+.stall3__talk svg {
+	transform-origin: 50% 100%;
+}
+.stall3.do-shrug .stall3__talk svg {
+	animation: v-shrug 650ms var(--ease-out);
+}
+.stall3.do-laugh .stall3__talk svg {
+	animation: v-laugh 650ms var(--ease-in-out);
+}
+.stall3.do-bonk .stall3__talk svg {
+	animation: v-bonk 650ms var(--ease-out);
+}
+@keyframes v-shrug {
+	30%,
+	60% {
+		transform: translateY(-10px) scaleY(1.03);
+	}
+}
+@keyframes v-laugh {
+	20%,
+	60% {
+		transform: rotate(-3deg) translateY(-3px);
+	}
+	40%,
+	80% {
+		transform: rotate(3deg);
+	}
+}
+@keyframes v-bonk {
+	15% {
+		transform: rotate(-9deg) translateX(-6px);
+	}
+	45% {
+		transform: rotate(5deg);
+	}
+	75% {
+		transform: rotate(-2deg);
+	}
+}

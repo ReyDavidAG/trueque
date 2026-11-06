@@ -1,0 +1,62 @@
+.display,
+.h1,
+.h2,
+.h3,
+.h4,
+.board__title,
+.stall__name,
+.coupon__name,
+.wordmark,
+.sign__n {
+	font-family: var(--font-display);
+	font-weight: 400;
+	font-style: normal;
+	letter-spacing: 0.005em;
+	overflow-wrap: anywhere;
+	min-width: 0;
+}
+.display {
+	font-size: var(--text-display);
+	line-height: 0.98;
+}
+.h1 {
+	font-size: var(--text-3xl);
+	line-height: 1.02;
+}
+.h2 {
+	font-size: var(--text-2xl);
+	line-height: 1.08;
+}
+.h3 {
+	font-size: var(--text-xl);
+	line-height: 1.15;
+}
+.h4 {
+	font-size: var(--text-lg);
+	line-height: 1.2;
+}
+.lede {
+	font-size: var(--text-lg);
+	color: var(--color-muted);
+	max-width: 60ch;
+}
+.kicker {
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--color-cacao-2);
+	font-weight: 600;
+}
+.muted {
+	color: var(--color-muted);
+}
+.small {
+	font-size: var(--text-sm);
+}
+.link {
+	color: var(--color-anil);
+	font-weight: 700;
+	text-underline-offset: 3px;
+}
+

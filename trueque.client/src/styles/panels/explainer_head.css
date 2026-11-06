@@ -1,0 +1,118 @@
+@media (max-width: 399px) {
+	.topbar__inner {
+		gap: var(--space-xs);
+	}
+	.topbar__actions {
+		gap: 4px;
+	}
+	.bell {
+		width: 36px;
+		height: 36px;
+	}
+	.purse-chip {
+		padding: 0 8px 0 6px;
+		gap: 4px;
+	}
+	.role-chip {
+		padding: 0 8px;
+	}
+	.role-chip > .icon:last-child {
+		display: none;
+	}
+}
+
+.art .a-maiz-2 {
+	fill: var(--color-maiz-2);
+}
+.art .closed__shutter {
+	animation: shutter-down 900ms var(--ease-out) both;
+}
+.art .closed__sign {
+	transform-box: view-box;
+	transform-origin: 120px 64px;
+	animation:
+		sign-in 420ms var(--ease-out) 850ms both,
+		sign-swing 2400ms var(--ease-in-out) 1270ms 2;
+}
+@keyframes shutter-down {
+	from {
+		transform: translateY(-84px);
+	}
+	to {
+		transform: none;
+	}
+}
+@keyframes sign-in {
+	from {
+		opacity: 0;
+		transform: rotate(-30deg);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@keyframes sign-swing {
+	0%,
+	100% {
+		transform: rotate(0deg);
+	}
+	25% {
+		transform: rotate(7deg);
+	}
+	75% {
+		transform: rotate(-6deg);
+	}
+}
+
+.explainer__head {
+	width: 100%;
+	border: 0;
+	background: none;
+	text-align: left;
+	font: inherit;
+	color: inherit;
+}
+.explainer__head:hover .explainer__chev {
+	transform: translateY(2px);
+}
+.explainer.is-open .explainer__chev {
+	transform: rotate(180deg);
+}
+.explainer__item {
+	opacity: 0;
+	transform: translateY(10px);
+	transition:
+		opacity 280ms var(--ease-out),
+		transform 280ms var(--ease-out);
+	transition-delay: calc(var(--i, 0) * 45ms);
+}
+.explainer.is-open .explainer__item {
+	opacity: 1;
+	transform: none;
+}
+.explainer.is-closing .explainer__item {
+	transition-duration: 200ms;
+	transition-delay: 0ms;
+	transform: translateY(-6px);
+}
+.explainer__coin {
+	transition: transform 420ms var(--ease-out);
+}
+.explainer.is-open .explainer__coin {
+	transform: rotate(-20deg) scale(1.05);
+}
+.explainer__body {
+	display: grid;
+	gap: var(--space-md);
+	padding: 0 var(--space-lg) var(--space-lg);
+}
+.explainer__links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-xs);
+}
+.explainer__links .icon {
+	width: 16px;
+	height: 16px;
+}
