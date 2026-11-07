@@ -1,33 +1,28 @@
+import {
+	EDIT_SCOPES,
+	type EditField,
+	type EditMarks,
+	editMarksSchema,
+	type EditScope,
+} from '@/schemas/panel/product/editMarks.schema'
 import type { Product, ProductInput } from '@/types/productType'
 
-export type EditField =
-	| 'name'
-	| 'blurb'
-	| 'price'
-	| 'look'
-	| 'lede'
-	| 'includes'
-	| 'location'
-	| 'couponDays'
-	| 'swaps'
+export type { EditField, EditScope }
 
-export type EditScope = 'market' | 'detail' | 'stall'
-
-type Marks = { fields: EditField[]; pending: EditScope[] }
-
-const SCOPES: EditScope[] = ['market', 'detail', 'stall']
 const keyFor = (id: string) => `trueque.edited.${id}`
 
-const read = (id: string): Marks | null => {
+const read = (id: string): EditMarks | null => {
 	try {
 		const raw = localStorage.getItem(keyFor(id))
-		return raw ? (JSON.parse(raw) as Marks) : null
+		if (!raw) return null
+		const parsed = editMarksSchema.safeParse(JSON.parse(raw))
+		return parsed.success ? parsed.data : null
 	} catch {
 		return null
 	}
 }
 
-const write = (id: string, marks: Marks | null) => {
+const write = (id: string, marks: EditMarks | null) => {
 	try {
 		if (marks) localStorage.setItem(keyFor(id), JSON.stringify(marks))
 		else localStorage.removeItem(keyFor(id))
@@ -61,7 +56,7 @@ export function editedFields(
 }
 
 export function markEdited(id: string, fields: EditField[]) {
-	if (fields.length) write(id, { fields, pending: SCOPES })
+	if (fields.length) write(id, { fields, pending: [...EDIT_SCOPES] })
 }
 
 export function readEdits(id: string, scope: EditScope) {
