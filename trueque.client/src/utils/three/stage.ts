@@ -46,6 +46,7 @@ export function createStage(host: HTMLElement, canvasClass: string) {
 		for (const detach of detachers) detach()
 		disposeAll()
 		renderer.dispose()
+		renderer.forceContextLoss()
 		canvas.remove()
 	}
 

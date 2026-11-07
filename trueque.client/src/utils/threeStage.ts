@@ -1,9 +1,8 @@
 import * as THREE from 'three'
 
 import { prefersReducedMotion } from '@/utils/reducedMotion'
+import { createDisposables } from '@/utils/three/disposables'
 import { tokenColors } from '@/utils/tokenColor'
-
-type Disposable = { dispose: () => void }
 
 type StageOptions = {
 	className: string
@@ -21,12 +20,8 @@ export function createThreeStage(host: HTMLElement, options: StageOptions) {
 	const css = getComputedStyle(host)
 	const color = tokenColors(css)
 	const reducedMotion = prefersReducedMotion()
-	const disposables: Disposable[] = []
+	const { keep, disposeAll } = createDisposables()
 	const cleanups: (() => void)[] = []
-	const keep = <T extends Disposable>(item: T) => {
-		disposables.push(item)
-		return item
-	}
 
 	const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
 	renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
@@ -85,8 +80,9 @@ export function createThreeStage(host: HTMLElement, options: StageOptions) {
 	const dispose = () => {
 		renderer.setAnimationLoop(null)
 		for (const cleanup of cleanups) cleanup()
-		for (const item of disposables) item.dispose()
+		disposeAll()
 		renderer.dispose()
+		renderer.forceContextLoss()
 		canvas.remove()
 	}
 
