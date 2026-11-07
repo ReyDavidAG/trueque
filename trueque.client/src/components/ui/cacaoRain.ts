@@ -1,4 +1,5 @@
 import { POD_PATHS } from '@/utils/artDrawing'
+import { prefersReducedMotion } from '@/utils/reducedMotion'
 
 const GRAVITY = 3200
 const FILL_MS = 1200
@@ -62,7 +63,7 @@ export function coinSprite(size: number, css: CSSStyleDeclaration) {
 
 export function rainCacao(onCovered: () => void) {
 	if (active) return
-	if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+	if (prefersReducedMotion()) {
 		onCovered()
 		return
 	}

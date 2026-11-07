@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react'
 
+import { prefersReducedMotion } from '@/utils/reducedMotion'
+
 const SWING_K = 90
 const SWING_DAMP = 4
 const SPIN_K = 60
@@ -12,7 +14,7 @@ export function useSwing<T extends HTMLElement>() {
 
 	useEffect(() => {
 		const el = ref.current
-		if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return
+		if (!el || prefersReducedMotion()) return
 		const s = {
 			a: 0,
 			v: 0,

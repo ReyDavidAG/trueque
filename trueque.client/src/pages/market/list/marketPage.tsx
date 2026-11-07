@@ -18,6 +18,7 @@ import { CATEGORY_LABELS } from '@/constants/stall'
 import { useCovers } from '@/hooks/market/useImages'
 import { useCompanyMap, useLiveProducts } from '@/hooks/market/useMarket'
 import { useBalance } from '@/hooks/wallet/useWallet'
+import { prefersReducedMotion } from '@/utils/reducedMotion'
 
 const PAGE_SIZE = 12
 
@@ -54,9 +55,7 @@ export default function MarketPage() {
 		if (top !== undefined && top < 0)
 			window.scrollBy({
 				top: top - 80,
-				behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
-					? 'auto'
-					: 'smooth',
+				behavior: prefersReducedMotion() ? 'auto' : 'smooth',
 			})
 	}
 

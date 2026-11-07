@@ -62,10 +62,7 @@ export function listen(
 	handlers: Partial<Record<PointerEventName, (e: PointerEvent) => void>>
 ) {
 	if (!node) return () => undefined
-	const entries = Object.entries(handlers) as unknown as [
-		string,
-		EventListener,
-	][]
+	const entries = Object.entries(handlers) as [string, EventListener][]
 	entries.forEach(([type, handler]) => node.addEventListener(type, handler))
 	return () =>
 		entries.forEach(([type, handler]) =>

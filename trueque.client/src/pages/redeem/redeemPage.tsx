@@ -15,7 +15,7 @@ import { useCouponLookup, useRedeem } from '@/hooks/panel/usePanel'
 import {
 	type RedeemCouponForm,
 	redeemCouponSchema,
-} from '@/schemas/panel/redeem/redeemCoupon.schema.ts'
+} from '@/schemas/panel/redeem/redeemCoupon.schema'
 import type { CouponLookup } from '@/types/configType'
 import { cn } from '@/utils/cn'
 

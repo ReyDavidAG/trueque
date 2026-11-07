@@ -69,29 +69,6 @@ function Figures({ budget, shown }: { budget: Budget; shown: number }) {
 	)
 }
 
-export function BudgetCard({
-	budget,
-	companyName,
-}: {
-	budget: Budget
-	companyName?: string
-}) {
-	const free = Math.max(0, budget.available)
-	const shown = useCountUp(free, 250)
-	return (
-		<section className='budget'>
-			<div className='budget__head'>
-				<h2 className='h4'>
-					Presupuesto {budget.period}
-					{companyName && ` · ${companyName}`}
-				</h2>
-				<span className='tag-example'>Prueba</span>
-			</div>
-			<Figures budget={budget} shown={shown} />
-		</section>
-	)
-}
-
 export function BudgetVault({ budget }: { budget: Budget }) {
 	const [open, setOpen] = useState(readOpen)
 	const free = Math.max(0, budget.available)

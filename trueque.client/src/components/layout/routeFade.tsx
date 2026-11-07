@@ -7,6 +7,8 @@ import {
 } from 'react'
 import { useLocation, useOutlet } from 'react-router'
 
+import { prefersReducedMotion } from '@/utils/reducedMotion'
+
 const LEAVE_MS = 150
 
 type View = { key: string; el: ReactNode }
@@ -20,11 +22,7 @@ export function RouteFade() {
 	useLayoutEffect(() => {
 		const before = last.current
 		last.current = { key: pathname, el: outlet }
-		if (
-			before.key !== pathname &&
-			!matchMedia('(prefers-reduced-motion: reduce)').matches
-		)
-			setLeaving(before)
+		if (before.key !== pathname && !prefersReducedMotion()) setLeaving(before)
 	}, [pathname, outlet])
 
 	useEffect(() => {

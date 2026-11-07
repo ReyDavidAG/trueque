@@ -22,7 +22,9 @@ export function createVaultWorld() {
 		allowSleep: true,
 	})
 	world.broadphase = new CANNON.SAPBroadphase(world)
-	;(world.solver as CANNON.GSSolver).iterations = 12
+	const solver = new CANNON.GSSolver()
+	solver.iterations = 12
+	world.solver = solver
 	Object.assign(world.defaultContactMaterial, {
 		friction: 0.35,
 		restitution: 0.25,
