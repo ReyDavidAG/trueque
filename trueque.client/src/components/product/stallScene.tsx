@@ -56,13 +56,10 @@ export function StallScene({
 	})
 	const ready = images.isSuccess || !product.hasImages
 	const look = ready ? photoStamp(product.art, photos[0]) : undefined
-	const seen = useSeenChanges(
-		ready ? `stall.${product.id}` : null,
-		{
-			price: String(product.price),
-			look: look ?? '',
-		}
-	)
+	const seen = useSeenChanges(ready ? `stall.${product.id}` : null, {
+		price: String(product.price),
+		look: look ?? '',
+	})
 	const edits = useEdits(product.id, 'stall', ready)
 	const priceWrites =
 		useChangeCount(product.price) +

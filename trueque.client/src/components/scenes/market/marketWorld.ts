@@ -10,7 +10,9 @@ export function createPhysicsWorld() {
 		allowSleep: true,
 	})
 	world.broadphase = new CANNON.SAPBroadphase(world)
-	;(world.solver as CANNON.GSSolver).iterations = 16
+	const solver = new CANNON.GSSolver()
+	solver.iterations = 16
+	world.solver = solver
 	Object.assign(world.defaultContactMaterial, {
 		friction: 0.45,
 		restitution: 0.22,
@@ -43,7 +45,7 @@ export function createLitScene({ color, keep }: Stage) {
 			1.4
 		)
 	)
-	const sun = new THREE.DirectionalLight(color('--color-amate'), 2)
+	const sun = keep(new THREE.DirectionalLight(color('--color-amate'), 2))
 	sun.position.set(3, 7, 5)
 	sun.castShadow = true
 	sun.shadow.mapSize.set(1024, 1024)

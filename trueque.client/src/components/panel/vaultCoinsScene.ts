@@ -22,7 +22,7 @@ function trackPointer(
 	const ndc = new THREE.Vector2()
 	const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -VAULT.pushY)
 	const hit = new THREE.Vector3()
-	const pointer = { target: null as THREE.Vector3 | null }
+	const pointer: { target: THREE.Vector3 | null } = { target: null }
 	const point = (event: PointerEvent) => {
 		stage.toNdc(event, ndc)
 		ray.setFromCamera(ndc, stage.camera)

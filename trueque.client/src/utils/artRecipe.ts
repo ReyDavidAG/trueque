@@ -13,7 +13,7 @@ export type ArtColor = (typeof ART_COLORS)[number][0]
 export type Swaps = Partial<Record<ArtColor, ArtColor>>
 
 const NAMES = ART_COLORS.map(([c]) => c)
-const isColor = (v: string): v is ArtColor => (NAMES as string[]).includes(v)
+const isColor = (v: string): v is ArtColor => NAMES.some(n => n === v)
 const CLASS = new RegExp(`a-(${NAMES.join('|')})(?=["\\s])`, 'g')
 
 export function parseArt(code: string) {

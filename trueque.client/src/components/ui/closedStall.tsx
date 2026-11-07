@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { cn } from '@/utils/cn'
+import { prefersReducedMotion } from '@/utils/reducedMotion'
 
 import { Art } from './art'
 
@@ -49,7 +50,7 @@ export function ClosedStall({ onAngry }: { onAngry?: () => void }) {
 	}, [])
 
 	const wobble = () => {
-		if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+		if (prefersReducedMotion()) return
 		const s = spring.current
 		s.side = -s.side
 		s.v += s.side * 70

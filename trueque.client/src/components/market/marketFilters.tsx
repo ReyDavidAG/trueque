@@ -31,7 +31,7 @@ export function MarketFilters({
 					<label
 						key={id}
 						className='chip-radio chip-radio--stall'
-						data-stall={STALL_TINT[id as CategoryFilter]}>
+						data-stall={isCategory(id) ? STALL_TINT[id] : undefined}>
 						<input
 							type='radio'
 							name='cat'

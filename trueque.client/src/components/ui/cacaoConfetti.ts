@@ -1,5 +1,6 @@
 import { coinSprite } from '@/components/ui/cacaoRain'
 import { POD_PATHS } from '@/utils/artDrawing'
+import { prefersReducedMotion } from '@/utils/reducedMotion'
 
 const GRAVITY = 1400
 const DRAG = 1.6
@@ -52,7 +53,7 @@ function podSprite(size: number, css: CSSStyleDeclaration) {
 type Origin = { x: number; y: number; count?: number }
 
 export function burstCacao(origin?: Origin) {
-	if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+	if (prefersReducedMotion()) return
 	const css = getComputedStyle(document.documentElement)
 	const dpr = Math.min(devicePixelRatio, 2)
 	const W = innerWidth

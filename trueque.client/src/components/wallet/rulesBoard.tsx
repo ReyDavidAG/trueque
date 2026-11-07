@@ -9,8 +9,9 @@ const CHALKS = ['maiz', 'estraza', 'estraza']
 const FIRST_MS = 500
 const STEP_MS = 650
 
-const writeStyle = (i: number) =>
-	({ '--write-delay': `${FIRST_MS + i * STEP_MS}ms` }) as CSSProperties
+const writeStyle = (i: number): CSSProperties => ({
+	'--write-delay': `${FIRST_MS + i * STEP_MS}ms`,
+})
 
 function Scribble({ children }: { children: ReactNode }) {
 	return (
@@ -91,7 +92,7 @@ export function RulesBoard({
 						<span
 							key={i}
 							className='crayon crayon--rest'
-							style={{ '--crayon': `var(--color-${c})` } as CSSProperties}
+							style={{ '--crayon': `var(--color-${c})` }}
 						/>
 					))}
 				</span>

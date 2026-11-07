@@ -21,28 +21,6 @@
 .facts dd {
 	font-weight: 700;
 }
-.checks {
-	display: grid;
-	gap: 6px;
-	font-size: var(--text-sm);
-}
-.checks li {
-	display: flex;
-	gap: var(--space-xs);
-	align-items: center;
-	color: var(--color-muted);
-}
-.checks .icon {
-	width: 18px;
-	height: 18px;
-}
-.checks .is-ok {
-	color: var(--color-ink);
-}
-.checks .is-ok .icon {
-	color: var(--color-nopal);
-	stroke-width: 3;
-}
 
 .confirm {
 	margin-top: var(--space-md);
@@ -216,7 +194,7 @@
 }
 .coupon__stub {
 	border-radius: 0 var(--radius-md) var(--radius-md) 0;
-	border-left: 3px dashed oklch(25% 0.032 42 / 0.35);
+	border-left: 3px dashed color-mix(in oklch, var(--color-ink) 35%, transparent);
 	-webkit-mask:
 		radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000) top / 100% 51%
 			no-repeat,
@@ -284,7 +262,8 @@
 	.coupon__stub {
 		border-radius: 0 0 var(--radius-md) var(--radius-md);
 		border-left: 0;
-		border-top: 3px dashed oklch(25% 0.032 42 / 0.35);
+		border-top: 3px dashed
+			color-mix(in oklch, var(--color-ink) 35%, transparent);
 		padding: var(--space-lg) var(--space-md) var(--space-md);
 		-webkit-mask:
 			radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000) left / 51%

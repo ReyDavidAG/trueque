@@ -13,9 +13,9 @@ const read = (key: string): Fields | null => {
 	}
 }
 
-const write = (key: string, fields: Fields) => {
+const write = (key: string, snapshot: string) => {
 	try {
-		localStorage.setItem(STORE + key, JSON.stringify(fields))
+		localStorage.setItem(STORE + key, snapshot)
 	} catch {
 		return
 	}
@@ -34,7 +34,7 @@ export function useSeenChanges(key: string | null, fields: Fields) {
 	if (seen.key !== key && key) setSeen({ key, changed: diff(key, fields) })
 	const snapshot = JSON.stringify(fields)
 	useEffect(() => {
-		if (key) write(key, JSON.parse(snapshot) as Fields)
+		if (key) write(key, snapshot)
 	}, [key, snapshot])
 	return seen.key === key ? seen.changed : new Set<string>()
 }

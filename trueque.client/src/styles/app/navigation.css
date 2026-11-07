@@ -191,15 +191,7 @@
 	width: 16px;
 	height: 16px;
 }
-.role-chip__icon {
-	display: none;
-}
 @media (max-width: 599px) {
-	.role-chip__icon {
-		display: block;
-		width: 20px !important;
-		height: 20px !important;
-	}
 	.role-chip__label {
 		position: absolute;
 		width: 1px;
@@ -232,37 +224,6 @@
 	box-shadow: var(--shadow-lift);
 	padding: var(--space-sm);
 	z-index: 40;
-}
-.menu__roles {
-	border: 0;
-	margin: 0 0 var(--space-xs);
-	padding: 0;
-	display: grid;
-	gap: 4px;
-}
-.menu__roles legend {
-	font-family: var(--font-mono);
-	font-size: var(--text-xs);
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	color: var(--color-muted);
-	margin-bottom: 6px;
-}
-.role-option {
-	display: flex;
-	align-items: center;
-	gap: var(--space-xs);
-	padding: 8px 10px;
-	border-radius: var(--radius-sm);
-	cursor: var(--cur-pointer);
-}
-.role-option:hover {
-	background: var(--color-amate-2);
-}
-.role-option input {
-	accent-color: var(--color-grana);
-	width: 18px;
-	height: 18px;
 }
 .menu-item {
 	display: flex;
