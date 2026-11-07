@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router'
 
 import { Coin, Wordmark } from '@/components/ui/art'
-import { MarkScene } from '@/components/ui/markScene'
+import { LazyMarkScene } from '@/components/ui/lazyMarkScene'
 import { ROUTES } from '@/constants/routes'
 import { useBalance } from '@/hooks/wallet/useWallet'
 
@@ -19,7 +19,7 @@ export function TopBar({ items }: { items: NavItem[] }) {
 					className='topbar__brand'
 					to={ROUTES.market}
 					aria-label='El Trueque, el mercado'>
-					<Wordmark mark={<MarkScene />} />
+					<Wordmark mark={<LazyMarkScene />} />
 				</Link>
 				<span className='version-tag num' title='Versión de la demostración'>
 					v{import.meta.env.VITE_APP_VERSION}
