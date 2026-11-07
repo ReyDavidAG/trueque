@@ -23,7 +23,7 @@
 .combo:focus-visible {
 	outline: none;
 	border-color: var(--color-ink);
-	box-shadow: 0 0 0 3px var(--color-grana-soft);
+	box-shadow: 0 0 0 3px var(--color-focus);
 }
 .combo[aria-expanded='true'] {
 	border-color: var(--color-ink);

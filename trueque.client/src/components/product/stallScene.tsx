@@ -13,6 +13,7 @@ import { useVendorPoke } from '@/hooks/product/useVendorPoke'
 import { useVendorTalk } from '@/hooks/product/useVendorTalk'
 import type { Product } from '@/types/productType'
 import { cn } from '@/utils/cn'
+import { prefersReducedMotion } from '@/utils/reducedMotion'
 
 import { CounterBell, VendorArm, VendorBody, VendorHat } from './vendorParts'
 
@@ -21,7 +22,7 @@ const PHOTO_CYCLE_MS = 4500
 function useCycle(count: number, ms: number) {
 	const [index, setIndex] = useState(0)
 	useEffect(() => {
-		if (count < 2) return
+		if (count < 2 || prefersReducedMotion()) return
 		const id = window.setInterval(() => setIndex(i => (i + 1) % count), ms)
 		return () => clearInterval(id)
 	}, [count, ms])

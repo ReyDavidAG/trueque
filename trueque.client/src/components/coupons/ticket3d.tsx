@@ -1,4 +1,10 @@
-import { type CSSProperties, type PointerEvent, useRef, useState } from 'react'
+import {
+	type CSSProperties,
+	type PointerEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
 
 import { Art, Qr } from '@/components/ui/art'
 import { Hand } from '@/components/ui/hand'
@@ -6,6 +12,7 @@ import { Icon } from '@/components/ui/icon'
 import type { CouponCard } from '@/types/tradeType'
 import { cn } from '@/utils/cn'
 import { shortDate } from '@/utils/dates'
+import { prefersReducedMotion } from '@/utils/reducedMotion'
 
 const STATE = {
 	valid: ['Vigente', 'is-live'],
@@ -25,8 +32,7 @@ const MAX_TILT = 9
 const TORN_KEY = 'trueque.torn'
 
 const canTilt = () =>
-	matchMedia('(pointer: fine)').matches &&
-	!matchMedia('(prefers-reduced-motion: reduce)').matches
+	matchMedia('(pointer: fine)').matches && !prefersReducedMotion()
 
 const tornList = (): string[] => {
 	try {
@@ -67,7 +73,7 @@ export function Ticket3d({
 }) {
 	const [now] = useState(Date.now)
 	const [seen] = useState(() => tornList().includes(c.orderFolio))
-	const [done, setDone] = useState(false)
+	const [done, setDone] = useState(prefersReducedMotion)
 	const [turns, setTurns] = useState(0)
 	const card = useRef<HTMLDivElement>(null)
 	const flipped = turns % 2 === 1
@@ -100,10 +106,11 @@ export function Ticket3d({
 		card.current?.style.setProperty('--rx', '0deg')
 	}
 	const turn = () => setTurns(t => t + 1)
-	const finish = () => {
-		markTorn(c.orderFolio)
-		setDone(true)
-	}
+	const finish = () => setDone(true)
+
+	useEffect(() => {
+		if (done && c.state === 'used' && !seen) markTorn(c.orderFolio)
+	}, [done, c.state, c.orderFolio, seen])
 
 	return (
 		<li

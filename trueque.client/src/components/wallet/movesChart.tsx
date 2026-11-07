@@ -1,11 +1,6 @@
 import { useState } from 'react'
 
-export type MonthBar = {
-	key: string
-	label: string
-	earned: number
-	spent: number
-}
+import type { MonthBar } from '@/types/walletType'
 
 const W = 600
 const H = 250

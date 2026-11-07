@@ -9,6 +9,8 @@ import {
 } from '@/constants/scene/markScene'
 import { castPointer } from '@/utils/three/stage'
 
+const SETTLED_DELTA = 1e-5
+
 type SwingOptions = {
 	canvas: HTMLCanvasElement
 	camera: THREE.Camera
@@ -90,6 +92,8 @@ export function createMarkSwing({
 	}
 
 	const step = (dt: number, elapsed: number) => {
+		const previousAngle = state.angle
+		const previousSpin = state.spin
 		if (!state.held) {
 			const breeze = reducedMotion
 				? 0
@@ -109,6 +113,11 @@ export function createMarkSwing({
 		state.spin += state.twist * dt
 		swing.rotation.z = state.angle
 		swing.rotation.y = state.spin
+		return (
+			state.held ||
+			Math.abs(state.angle - previousAngle) > SETTLED_DELTA ||
+			Math.abs(state.spin - previousSpin) > SETTLED_DELTA
+		)
 	}
 
 	return {

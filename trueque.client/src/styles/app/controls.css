@@ -40,7 +40,7 @@
 	--btn-ink: var(--color-on-dark);
 }
 .btn--grana:hover:not(:disabled) {
-	background: oklch(45% 0.18 18);
+	background: var(--color-grana-hover);
 }
 .btn--ghost {
 	background: transparent;

@@ -67,9 +67,11 @@ function startRebuild(stall: Stall, now: number) {
 	}
 }
 
-function shake(stall: Stall, now: number) {
+const SHAKE_DECAY_PER_SECOND = 4
+
+function shake(stall: Stall, now: number, dt: number) {
 	if (!stall.shake) return
-	stall.shake = Math.max(0, stall.shake - (1 / 60) * 4)
+	stall.shake = Math.max(0, stall.shake - dt * SHAKE_DECAY_PER_SECOND)
 	const offset = Math.sin(now * 0.06) * 0.04 * stall.shake
 	for (const p of stall.parts)
 		if (!p.loose) p.mesh.position.x = p.home.x + offset
@@ -97,7 +99,7 @@ export function createStallRebuild(fruits: Fruit[], wakeAll: () => void) {
 		wakeAll()
 	}
 
-	return (stall: Stall, now: number, isHeld: boolean) => {
+	return (stall: Stall, now: number, dt: number, isHeld: boolean) => {
 		if (stall.rebuildStart) return animateRebuild(stall, now)
 		if (isHeld) stall.lastHit = now
 		if (
@@ -106,6 +108,6 @@ export function createStallRebuild(fruits: Fruit[], wakeAll: () => void) {
 		)
 			return startRebuild(stall, now)
 		for (const p of stall.parts) if (p.loose) copyBodyToMesh(p.body, p.mesh)
-		shake(stall, now)
+		shake(stall, now, dt)
 	}
 }

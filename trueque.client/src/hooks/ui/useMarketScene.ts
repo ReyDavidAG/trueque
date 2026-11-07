@@ -96,11 +96,14 @@ export function useMarketScene(host: RefObject<HTMLElement | null>) {
 			}
 			world.step(PHYSICS_STEP, dt, 8)
 			const heldStall = pointer.current()?.part?.stall
-			for (const s of stalls) settle(s, now, heldStall === s)
+			for (const s of stalls) settle(s, now, dt, heldStall === s)
 			for (const f of fruits) copyBodyToMesh(f.body, f.mesh)
 			renderer.render(scene, camera)
 		})
 
-		return stage.dispose
+		return () => {
+			pointer.dispose()
+			stage.dispose()
+		}
 	}, [host])
 }

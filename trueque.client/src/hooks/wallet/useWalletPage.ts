@@ -3,13 +3,17 @@ import { useMemo, useState } from 'react'
 import type { MoveFilter } from '@/constants/wallet'
 import { useBalance, useMovements } from '@/hooks/wallet/useWallet'
 import type { Movement } from '@/types/walletType'
+import { isEarned, isTraded } from '@/utils/movementKind'
 import { buildMonthBars } from '@/utils/walletMonths'
 
 const FILTER_TEST: Record<MoveFilter, (move: Movement) => boolean> = {
 	all: () => true,
-	earn: move => move.amount > 0,
-	spend: move => move.amount < 0,
+	earn: isEarned,
+	spend: isTraded,
 }
+
+const sumAmounts = (moves: Movement[]) =>
+	moves.reduce((sum, m) => sum + Math.abs(m.amount), 0)
 
 export function useWalletPage() {
 	const balance = useBalance()
@@ -17,12 +21,8 @@ export function useWalletPage() {
 	const list = useMemo(() => moves.data ?? [], [moves.data])
 	const totals = useMemo(
 		() => ({
-			earned: list
-				.filter(m => m.amount > 0)
-				.reduce((sum, m) => sum + m.amount, 0),
-			spent: -list
-				.filter(m => m.kind === 'spend')
-				.reduce((sum, m) => sum + m.amount, 0),
+			earned: sumAmounts(list.filter(isEarned)),
+			spent: sumAmounts(list.filter(isTraded)),
 		}),
 		[list]
 	)

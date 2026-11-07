@@ -15,11 +15,15 @@
 	opacity: 0.5;
 	cursor: var(--cur-blocked);
 }
-.redeem .h4 {
-	color: var(--color-grana);
-}
 .redeem {
 	border: 2px dashed var(--color-grana);
+	background: var(--color-estraza);
+}
+.redeem .h4 {
+	display: flex;
+	align-items: center;
+	gap: var(--space-xs);
+	color: var(--color-grana);
 }
 .approval__body .input {
 	min-height: 40px;
@@ -58,12 +62,4 @@
 	display: grid;
 	gap: var(--space-md);
 	min-width: 0;
-}
-.redeem {
-	background: var(--color-estraza);
-}
-.redeem .h4 {
-	display: flex;
-	align-items: center;
-	gap: var(--space-xs);
 }

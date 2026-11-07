@@ -71,10 +71,12 @@ function Figures({ budget, shown }: { budget: Budget; shown: number }) {
 
 export function BudgetVault({ budget }: { budget: Budget }) {
 	const [open, setOpen] = useState(readOpen)
+	const [everOpened, setEverOpened] = useState(open)
 	const free = Math.max(0, budget.available)
 	const shown = useCountUp(open ? free : 0, 900)
 	const toggle = () => {
 		setOpen(!open)
+		setEverOpened(true)
 		try {
 			localStorage.setItem(KEY, open ? '0' : '1')
 		} catch {
@@ -101,7 +103,9 @@ export function BudgetVault({ budget }: { budget: Budget }) {
 					<Figures key={String(open)} budget={budget} shown={shown} />
 				</div>
 				<div className='vault__tray'>
-					<VaultCoins active={open} free={free} total={budget.assigned} />
+					{everOpened && (
+						<VaultCoins active={open} free={free} total={budget.assigned} />
+					)}
 					<span className='vault__hint small'>
 						Pasa el mouse o toca para mover las monedas
 					</span>

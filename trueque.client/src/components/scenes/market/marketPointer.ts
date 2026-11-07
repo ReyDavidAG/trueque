@@ -96,14 +96,25 @@ export function createMarketPointer({
 		damage.strike(part, hit.point, direction, now)
 	}
 
+	let hoverEvent: PointerEvent | null = null
+	let hoverFrame = 0
+
+	const updateHoverCursor = () => {
+		hoverFrame = 0
+		if (!hoverEvent || grab) return
+		const hit = pick(hoverEvent)
+		hoverEvent = null
+		canvas.style.cursor = !hit
+			? ''
+			: hit.fruit || hit.part?.loose
+				? 'var(--cur-grab)'
+				: 'var(--cur-pointer)'
+	}
+
 	const pointermove = (e: PointerEvent) => {
 		if (!grab) {
-			const hit = pick(e)
-			canvas.style.cursor = !hit
-				? ''
-				: hit.fruit || hit.part?.loose
-					? 'var(--cur-grab)'
-					: 'var(--cur-pointer)'
+			hoverEvent = e
+			if (!hoverFrame) hoverFrame = requestAnimationFrame(updateHoverCursor)
 			return
 		}
 		if (Math.hypot(e.clientX - grab.x, e.clientY - grab.y) > TAP_TOLERANCE_PX)
@@ -154,5 +165,6 @@ export function createMarketPointer({
 		},
 		current: () => grab,
 		target,
+		dispose: () => cancelAnimationFrame(hoverFrame),
 	}
 }

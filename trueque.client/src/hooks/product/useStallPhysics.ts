@@ -230,10 +230,18 @@ export function useStallPhysics({
 			placeBody(hatNode, hat)
 			frame = requestAnimationFrame(tick)
 		}
-		frame = requestAnimationFrame(tick)
+
+		const visibility = new IntersectionObserver(([entry]) => {
+			cancelAnimationFrame(frame)
+			if (!entry.isIntersecting) return
+			prev = performance.now()
+			frame = requestAnimationFrame(tick)
+		})
+		visibility.observe(room)
 
 		return () => {
 			cancelAnimationFrame(frame)
+			visibility.disconnect()
 			resize.disconnect()
 			unbind.forEach(off => off())
 		}

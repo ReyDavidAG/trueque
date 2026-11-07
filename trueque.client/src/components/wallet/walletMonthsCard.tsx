@@ -1,6 +1,7 @@
 import { WALLET_CHART_MONTHS } from '@/constants/wallet'
+import type { MonthBar } from '@/types/walletType'
 
-import { type MonthBar, MovesChart } from './movesChart'
+import { MovesChart } from './movesChart'
 
 export function WalletMonthsCard({ months }: { months: MonthBar[] }) {
 	return (

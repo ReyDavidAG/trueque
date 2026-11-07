@@ -1,6 +1,6 @@
-import type { MonthBar } from '@/components/wallet/movesChart'
 import { WALLET_CHART_MONTHS } from '@/constants/wallet'
-import type { Movement } from '@/types/walletType'
+import type { MonthBar, Movement } from '@/types/walletType'
+import { isEarned, isTraded } from '@/utils/movementKind'
 
 const monthKey = (date: Date) => `${date.getFullYear()}-${date.getMonth()}`
 
@@ -25,8 +25,8 @@ export function buildMonthBars(moves: Movement[]): MonthBar[] {
 	for (const move of moves) {
 		const bucket = byKey.get(monthKey(new Date(move.createdAt)))
 		if (!bucket) continue
-		if (move.amount > 0) bucket.earned += move.amount
-		else bucket.spent += -move.amount
+		if (isEarned(move)) bucket.earned += move.amount
+		else if (isTraded(move)) bucket.spent += Math.abs(move.amount)
 	}
 	return months
 }

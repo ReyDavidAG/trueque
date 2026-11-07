@@ -132,7 +132,6 @@ function FormBody({
 						isLastStep={wizard.isLastStep}
 						isEditing={!!product}
 						isSaving={wizard.isSaving}
-						canAdvance={wizard.canAdvance}
 						onBack={() => wizard.go(step - 1)}
 					/>
 				</form>

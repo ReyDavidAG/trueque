@@ -69,6 +69,12 @@ export function useProductWizard({
 	const next = async () => {
 		if (!(await form.trigger([...STEP_FIELDS[step]]))) return
 		if (step < LAST_STEP) return go(step + 1)
+		if (reach < LAST_STEP) {
+			go(reach)
+			void form.trigger([...STEP_FIELDS[reach]])
+			toast.error('Falta corregir este paso antes de mandarlo.')
+			return
+		}
 		setConfirming(true)
 	}
 
@@ -110,7 +116,6 @@ export function useProductWizard({
 		reach,
 		category,
 		isLastStep: step === LAST_STEP,
-		canAdvance: step < LAST_STEP ? reach > step : reach >= step,
 		isSaving: save.isPending,
 		shownImages: imagesChanged ? images : (existing.data ?? []),
 		confirming,

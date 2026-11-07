@@ -8,7 +8,6 @@ interface WizardActionsProps {
 	isLastStep: boolean
 	isEditing: boolean
 	isSaving: boolean
-	canAdvance: boolean
 	onBack: () => void
 }
 
@@ -17,7 +16,6 @@ export function WizardActions({
 	isLastStep,
 	isEditing,
 	isSaving,
-	canAdvance,
 	onBack,
 }: WizardActionsProps) {
 	const submitLabel = !isLastStep
@@ -41,7 +39,7 @@ export function WizardActions({
 			<button
 				className='btn btn--grana'
 				type='submit'
-				disabled={isSaving || !canAdvance}>
+				disabled={isSaving}>
 				{isSaving ? (
 					<span className='spinner' aria-hidden='true' />
 				) : (

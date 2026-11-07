@@ -24,6 +24,13 @@ export interface Movement {
 	createdAt: string
 }
 
+export interface MonthBar {
+	key: string
+	label: string
+	earned: number
+	spent: number
+}
+
 export interface EarningRule {
 	code: string
 	label: string

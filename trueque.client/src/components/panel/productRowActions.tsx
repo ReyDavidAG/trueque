@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { type MouseEvent, useEffect, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router'
 import { toast } from 'sonner'
 
 import { Icon } from '@/components/ui/icon'
@@ -35,6 +35,10 @@ export function ProductRowActions({
 	const setStatus = useSetProductStatus()
 	const navigate = useNavigate()
 	const [confirming, setConfirming] = useState(false)
+	const timer = useRef(0)
+	const editPath = ROUTES.editProduct(productId)
+
+	useEffect(() => () => window.clearTimeout(timer.current), [])
 
 	const changeStatus = (next: ProductStatus) =>
 		setStatus.mutate(
@@ -47,13 +51,19 @@ export function ProductRowActions({
 				},
 			}
 		)
+	const later = (run: () => void, ms: number) => {
+		window.clearTimeout(timer.current)
+		timer.current = window.setTimeout(run, motionMs(ms))
+	}
 	const retire = () => {
 		onEffect('carry')
-		setTimeout(() => changeStatus('retired'), motionMs(CARRY_MS))
+		later(() => changeStatus('retired'), CARRY_MS)
 	}
-	const edit = () => {
+	const edit = (e: MouseEvent<HTMLAnchorElement>) => {
+		if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+		e.preventDefault()
 		onEffect('open')
-		setTimeout(() => navigate(ROUTES.editProduct(productId)), motionMs(OPEN_MS))
+		later(() => navigate(editPath), OPEN_MS)
 	}
 
 	if (confirming)
@@ -81,10 +91,10 @@ export function ProductRowActions({
 	return (
 		<>
 			{editable && (
-				<button className='btn btn--sm btn--ghost' type='button' onClick={edit}>
+				<Link className='btn btn--sm btn--ghost' to={editPath} onClick={edit}>
 					<Icon name='edit' />
 					<span>Editar</span>
-				</button>
+				</Link>
 			)}
 			{status === 'live' && (
 				<button

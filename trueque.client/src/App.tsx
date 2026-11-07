@@ -10,10 +10,11 @@ import { installTabFace } from '@/utils/tabFace'
 
 import router from './router/appRouter'
 
-installTabFace(
+const removeTabFace = installTabFace(
 	fn => router.subscribe(state => fn(state.location.pathname)),
 	router.state.location.pathname
 )
+import.meta.hot?.dispose(removeTabFace)
 
 const App = () => (
 	<QueryClientProvider client={queryClient}>

@@ -22,6 +22,7 @@ export function useMarkScene(host: RefObject<HTMLElement | null>) {
 		)
 
 		const swing = buildMarkModel(stage, scene)
+		let needsRender = true
 
 		stage.observeSize(canvas, () => {
 			const w = canvas.clientWidth
@@ -30,6 +31,7 @@ export function useMarkScene(host: RefObject<HTMLElement | null>) {
 			renderer.setSize(w, h, false)
 			camera.aspect = w / h
 			camera.updateProjectionMatrix()
+			needsRender = true
 		})
 
 		const controls = createMarkSwing({
@@ -41,12 +43,23 @@ export function useMarkScene(host: RefObject<HTMLElement | null>) {
 		stage.listen(controls.handlers)
 
 		const clock = new THREE.Clock()
-		renderer.setAnimationLoop(() => {
+		const frame = () => {
 			const dt = Math.min(clock.getDelta(), 1 / 30)
-			controls.step(dt, clock.elapsedTime)
+			const moving = controls.step(dt, clock.elapsedTime)
+			if (!moving && !needsRender) return
 			renderer.render(scene, camera)
-		})
+			needsRender = false
+		}
 
-		return stage.dispose
+		const visibility = new IntersectionObserver(([entry]) => {
+			clock.getDelta()
+			renderer.setAnimationLoop(entry.isIntersecting ? frame : null)
+		})
+		visibility.observe(canvas)
+
+		return () => {
+			visibility.disconnect()
+			stage.dispose()
+		}
 	}, [host])
 }
