@@ -14,8 +14,13 @@ export const supabase = createClient(
 
 export const trueque = supabase.schema('trueque')
 
-export function toMessage(error: { message?: string } | null | undefined) {
+const RAISED_BY_FUNCTION = 'P0001'
+
+export function toMessage(
+	error: { message?: string; code?: string } | null | undefined
+) {
 	const msg = error?.message ?? ''
+	if (error?.code === RAISED_BY_FUNCTION && msg) return msg
 	if (/anonymous sign-ins are disabled/i.test(msg))
 		return 'Falta activar los inicios anónimos en Supabase (Authentication → Sign In / Providers).'
 	if (/failed to fetch|network/i.test(msg))
