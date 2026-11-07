@@ -293,17 +293,3 @@
 	text-decoration: none;
 	color: inherit;
 }
-.menu-item--toggle {
-	justify-content: space-between;
-	cursor: var(--cur-pointer);
-}
-.menu-item--toggle span {
-	display: flex;
-	gap: var(--space-xs);
-	align-items: center;
-}
-.menu-item--toggle input {
-	width: 18px;
-	height: 18px;
-	accent-color: var(--color-grana);
-}

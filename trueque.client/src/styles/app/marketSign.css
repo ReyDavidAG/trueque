@@ -147,7 +147,7 @@
 	text-shadow: none;
 }
 .sign__board .sign__n {
-	text-shadow: 2px 2px 0 oklch(25% 0.032 42 / 0.35);
+	text-shadow: 2px 2px 0 color-mix(in oklch, var(--color-ink) 35%, transparent);
 }
 
 .reach {

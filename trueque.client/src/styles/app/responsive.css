@@ -18,9 +18,6 @@
 	.tabbar {
 		display: none;
 	}
-	.toasts {
-		bottom: var(--space-lg);
-	}
 	.topnav {
 		display: flex;
 		gap: var(--space-2xs);
@@ -50,10 +47,6 @@
 	}
 	.earn-split {
 		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-		align-items: start;
-	}
-	.panel-split {
-		grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
 		align-items: start;
 	}
 	.market-head {

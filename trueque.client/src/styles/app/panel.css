@@ -51,10 +51,6 @@
 .budget__legend dd {
 	font-size: var(--text-lg);
 }
-.panel-split {
-	display: grid;
-	gap: 0 var(--space-xl);
-}
 .rows {
 	display: grid;
 	gap: var(--space-xs);
@@ -69,20 +65,6 @@
 	padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-xs);
 	border-radius: var(--radius-md);
 	background: var(--color-estraza);
-}
-.row__art {
-	grid-area: a;
-	width: 56px;
-}
-.row__name {
-	grid-area: n;
-	font-weight: 700;
-}
-.row__price {
-	grid-area: p;
-	display: inline-flex;
-	align-items: center;
-	gap: 4px;
 }
 .row .pill {
 	grid-area: s;
@@ -161,22 +143,6 @@
 .form-card__actions {
 	display: flex;
 	justify-content: flex-end;
-}
-.custodia-list {
-	display: grid;
-	gap: var(--space-md);
-}
-.custodia-card {
-	padding: var(--space-md);
-	border-radius: var(--radius-md);
-	background: var(--color-estraza);
-	border: 2px dashed var(--color-anil);
-	display: grid;
-	gap: var(--space-sm);
-}
-.custodia-card header {
-	display: grid;
-	gap: 2px;
 }
 .folio {
 	font-size: var(--text-xs);

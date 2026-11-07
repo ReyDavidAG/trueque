@@ -306,17 +306,3 @@
 	background: var(--color-amate-2);
 	color: var(--color-muted);
 }
-.custodia-card__art {
-	background: var(--color-amate);
-	border-radius: var(--radius-sm);
-	padding: var(--space-xs);
-}
-.custodia-card__art .art {
-	max-height: 110px;
-	margin-inline: auto;
-}
-@media (min-width: 768px) {
-	.custodia-list {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-}
