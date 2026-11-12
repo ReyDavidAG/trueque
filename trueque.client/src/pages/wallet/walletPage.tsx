@@ -1,8 +1,8 @@
 import { Link } from 'react-router'
 
 import { EmptyState, ErrorState } from '@/components/ui/stateViews'
+import { Henhouse } from '@/components/wallet/henhouse'
 import { MovesFilter, MovesList } from '@/components/wallet/movesList'
-import { Orchard } from '@/components/wallet/orchard'
 import { WalletHero } from '@/components/wallet/walletHero'
 import { WalletMonthsCard } from '@/components/wallet/walletMonthsCard'
 import { ROUTES } from '@/constants/routes'
@@ -48,16 +48,16 @@ export default function WalletPage() {
 			/>
 
 			{totals.earned > 0 && (
-				<section className='wallet-card' aria-labelledby='orchard-title'>
+				<section className='wallet-card' aria-labelledby='henhouse-title'>
 					<div className='wallet-chart__head'>
-						<h2 className='h3' id='orchard-title'>
-							Tu huerto de cacao
+						<h2 className='h3' id='henhouse-title'>
+							Tu gallinero
 						</h2>
 						<p className='muted wallet-card__sub'>
-							Cada árbol es de dónde te llegan cacaos; cada mazorca, un abono.
+							Cada gallina es de dónde te llegan cacaos; cada huevo, un abono.
 						</p>
 					</div>
-					<Orchard moves={list} />
+					<Henhouse moves={list} />
 				</section>
 			)}
 

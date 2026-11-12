@@ -1,22 +1,22 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
-import { ORCHARD } from '@/constants/orchard'
-import type { OrchardTip, OrchardTree, PodInfo } from '@/types/orchardType'
+import { createHenKit, peck } from '@/components/scenes/hen/henKit'
+import { createHenPalette } from '@/components/scenes/hen/henPalette'
+import { HENHOUSE } from '@/constants/henhouse'
+import type { EggInfo, HenFlock, HenhouseTip } from '@/types/henhouseType'
 import { easeOutBack } from '@/utils/easing'
 import { seededRandom } from '@/utils/seededRandom'
 import { createThreeStage, type ThreeStage } from '@/utils/threeStage'
 
-import { buildOrchardField, treeSpots } from './orchardField'
-import { createOrchardPalette } from './orchardPalette'
-import { type Growth, plantOrchard } from './orchardPlanting'
-import { createTreeKit } from './orchardTreeKit'
+import { type Growth, settleHens } from './henhouseNesting'
+import { buildHenhouseYard, nestSpots } from './henhouseYard'
 
 type MountOptions = {
 	host: HTMLDivElement
-	trees: OrchardTree[]
+	flocks: HenFlock[]
 	labels: (HTMLLIElement | null)[]
-	onTip: (tip: OrchardTip | null) => void
+	onTip: (tip: HenhouseTip | null) => void
 }
 
 function createControls({
@@ -36,7 +36,7 @@ function createControls({
 		autoRotate: !reducedMotion,
 		autoRotateSpeed: 0.6,
 	})
-	controls.target.set(0, 1.1, 0)
+	controls.target.set(0, 0.6, 0)
 	controls.addEventListener('start', () => {
 		controls.autoRotate = false
 	})
@@ -45,7 +45,7 @@ function createControls({
 }
 
 function placeCamera(host: HTMLElement, camera: THREE.PerspectiveCamera) {
-	const width = ORCHARD.fieldRadius * 2 - 4
+	const width = HENHOUSE.yardRadius * 2 - 4
 	const aspect = Math.max(1, host.clientWidth / Math.max(1, host.clientHeight))
 	const distance = Math.min(
 		19,
@@ -54,12 +54,12 @@ function placeCamera(host: HTMLElement, camera: THREE.PerspectiveCamera) {
 			(width / 2 + 3) / Math.tan(THREE.MathUtils.degToRad(17)) / aspect
 		)
 	)
-	camera.position.set(0, distance * 0.55, distance)
+	camera.position.set(0, distance * 0.6, distance)
 }
 
-function bindPodHover(
+function bindEggHover(
 	stage: ThreeStage,
-	pods: THREE.Mesh[],
+	eggs: THREE.Mesh[],
 	highlight: THREE.Material,
 	onTip: MountOptions['onTip']
 ) {
@@ -72,7 +72,7 @@ function bindPodHover(
 	const point = (event: PointerEvent) => {
 		const rect = stage.toNdc(event, ndc)
 		ray.setFromCamera(ndc, stage.camera)
-		const hit = ray.intersectObjects(pods, false)[0]?.object as
+		const hit = ray.intersectObjects(eggs, false)[0]?.object as
 			| THREE.Mesh
 			| undefined
 		if (hovered && hovered !== hit) restore(hovered)
@@ -83,9 +83,8 @@ function bindPodHover(
 			return
 		}
 		hit.material = highlight
-		const info = hit.userData as PodInfo
 		onTip({
-			...info,
+			...(hit.userData as EggInfo),
 			x: event.clientX - rect.left,
 			y: event.clientY - rect.top,
 		})
@@ -104,48 +103,48 @@ function grow(growths: Growth[], elapsed: number, reducedMotion: boolean) {
 	for (const growth of growths) {
 		const k = reducedMotion
 			? 1
-			: easeOutBack((elapsed - growth.delay) / ORCHARD.growMs)
+			: easeOutBack((elapsed - growth.delay) / HENHOUSE.growMs)
 		growth.obj.visible = k > 0.001
 		growth.obj.scale.setScalar(Math.max(0.001, k) * growth.size)
 	}
 }
 
-export function mountOrchardScene({
+export function mountHenhouseScene({
 	host,
-	trees,
+	flocks,
 	labels,
 	onTip,
 }: MountOptions) {
 	const stage = createThreeStage(host, {
-		className: 'orchard__canvas',
+		className: 'henhouse__canvas',
 		fov: 34,
 		near: 0.1,
 		far: 100,
 		shadows: true,
 		prepend: true,
 	})
-	const palette = createOrchardPalette(stage)
-	const random = seededRandom(trees.length * 97 + trees[0].total)
-	buildOrchardField(stage, palette, random)
-	const spots = treeSpots(random)
-	const kit = createTreeKit(stage, palette, random)
-	const { growths, pods, anchors } = plantOrchard(
+	const palette = createHenPalette(stage)
+	const random = seededRandom(flocks.length * 97 + flocks[0].total)
+	buildHenhouseYard(stage, palette, random)
+	const kit = createHenKit(stage, palette, random)
+	const { growths, eggs, anchors, hens } = settleHens(
 		stage.scene,
-		palette,
 		kit,
 		random,
-		trees,
-		spots
+		flocks,
+		nestSpots(random)
 	)
 
 	const controls = createControls(stage)
 	placeCamera(host, stage.camera)
-	bindPodHover(stage, pods, kit.podHighlight, onTip)
+	bindEggHover(stage, eggs, kit.eggHighlight, onTip)
 
 	const projected = new THREE.Vector3()
 	const startedAt = performance.now()
 	stage.start(now => {
-		grow(growths, now - startedAt, stage.reducedMotion)
+		const elapsed = now - startedAt
+		grow(growths, elapsed, stage.reducedMotion)
+		if (!stage.reducedMotion) peck(hens, elapsed / 1000)
 		controls.update()
 		anchors.forEach((anchor, i) => {
 			const label = labels[i]

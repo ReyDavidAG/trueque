@@ -1,23 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { mountOrchardScene } from '@/components/wallet/orchardScene'
-import type { OrchardTip, OrchardTree } from '@/types/orchardType'
+import { mountHenhouseScene } from '@/components/wallet/henhouseScene'
+import type { HenFlock, HenhouseTip } from '@/types/henhouseType'
 
-export function useOrchardScene(trees: OrchardTree[]) {
+export function useHenhouseScene(flocks: HenFlock[]) {
 	const host = useRef<HTMLDivElement>(null)
 	const labels = useRef<(HTMLLIElement | null)[]>([])
-	const [tip, setTip] = useState<OrchardTip | null>(null)
+	const [tip, setTip] = useState<HenhouseTip | null>(null)
 
 	useEffect(() => {
 		const element = host.current
-		if (!element || !trees.length) return
-		return mountOrchardScene({
+		if (!element || !flocks.length) return
+		return mountHenhouseScene({
 			host: element,
-			trees,
+			flocks,
 			labels: labels.current,
 			onTip: setTip,
 		})
-	}, [trees])
+	}, [flocks])
 
 	const labelRef = (index: number) => (node: HTMLLIElement | null) => {
 		labels.current[index] = node
