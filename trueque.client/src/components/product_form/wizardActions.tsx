@@ -36,10 +36,7 @@ export function WizardActions({
 					Atrás
 				</button>
 			)}
-			<button
-				className='btn btn--grana'
-				type='submit'
-				disabled={isSaving}>
+			<button className='btn btn--grana' type='submit' disabled={isSaving}>
 				{isSaving ? (
 					<span className='spinner' aria-hidden='true' />
 				) : (

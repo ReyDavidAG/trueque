@@ -60,7 +60,8 @@ export function ProductRowActions({
 		later(() => changeStatus('retired'), CARRY_MS)
 	}
 	const edit = (e: MouseEvent<HTMLAnchorElement>) => {
-		if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+		if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+			return
 		e.preventDefault()
 		onEffect('open')
 		later(() => navigate(editPath), OPEN_MS)
