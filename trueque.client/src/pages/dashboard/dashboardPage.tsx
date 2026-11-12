@@ -38,7 +38,7 @@ export default function DashboardPage() {
 			<header className='page-head page-head--row'>
 				<div>
 					<p className='kicker'>RH y dirección · {year}</p>
-					<h1 className='h1'>Cómo va El Trueque</h1>
+					<h1 className='h1'>Cómo va La Despensa</h1>
 					<p className='lede'>
 						Lo que se ha dado, lo que se ha cambiado y lo que se debe, en cacaos
 						y en pesos (1 cacao = {formatMoney(cacaoValue)}).

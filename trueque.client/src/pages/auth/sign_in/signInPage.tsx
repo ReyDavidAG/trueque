@@ -60,7 +60,7 @@ export default function SignInPage() {
 				<span className='signin__brand'>
 					<Wordmark mark={<LazyMarkScene />} />
 				</span>
-				<h1 className='display'>Siembra ideas, cosecha cacao.</h1>
+				<h1 className='display'>Tus ideas llenan tu despensa.</h1>
 				<p className='lede'>
 					Cada chispa que ayuda a resolver un reto te da cacaos. Aquí los
 					cambias por servicios y artículos de las empresas del grupo.

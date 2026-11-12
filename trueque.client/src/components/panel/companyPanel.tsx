@@ -40,7 +40,7 @@ export function CompanyPanel() {
 			<header className='page-head page-head--row'>
 				<div>
 					<p className='kicker'>{companyName}</p>
-					<h1 className='h1'>Tu puesto en El Trueque</h1>
+					<h1 className='h1'>Tu puesto en La Despensa</h1>
 					<p className='lede'>
 						Lo que ofreces a tu gente y cuánto del presupuesto se ha usado.
 					</p>

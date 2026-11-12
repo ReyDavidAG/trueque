@@ -6,6 +6,8 @@ Guía para Claude Code en este repositorio. Es la fuente de verdad del proyecto;
 
 La tienda interna del grupo. Los colaboradores ganan **cacaos** (la moneda: en Mesoamérica el cacao fue moneda de verdad) cuando participan en la vida de la empresa, y los cambian por servicios y artículos que ofrecen las empresas del grupo. Cada trueque emite un **cupón** canjeable con código.
 
+En pantalla la app se llama **La Despensa**; el repo y el código siguen como `trueque`.
+
 Es parte de un ecosistema de tres apps que comparten base de datos y personas:
 
 | App | Repo | Qué hace |

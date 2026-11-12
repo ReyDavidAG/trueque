@@ -43,7 +43,7 @@ export default function TradeReceiptPage() {
 			</div>
 			<section className='receipt' aria-label='Recibo'>
 				<header className='receipt__head'>
-					<span className='receipt__brand'>El Trueque</span>
+					<span className='receipt__brand'>La Despensa</span>
 					<span className='num'>{r.orderFolio}</span>
 				</header>
 				<dl className='receipt__rows'>

@@ -21,7 +21,7 @@ export default function ProtectedLayout() {
 			<TopBar items={items} />
 			<div className='demo-ribbon' role='note'>
 				<Icon name='info' />
-				<span>Demo de El Trueque · cacaos y productos de prueba</span>
+				<span>Demo de La Despensa · cacaos y productos de prueba</span>
 			</div>
 			<main id='main' className='page' tabIndex={-1}>
 				<Suspense fallback={<LoadingPage />}>

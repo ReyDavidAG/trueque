@@ -44,7 +44,7 @@ export default function SettingsPage() {
 		<div className='wrap narrow-wide'>
 			<header className='page-head'>
 				<p className='kicker'>RH corporativo</p>
-				<h1 className='h1'>Ajustes de El Trueque</h1>
+				<h1 className='h1'>Ajustes de La Despensa</h1>
 				<p className='lede'>
 					Las reglas del mercado. Cada cambio aplica desde que lo guardas; lo ya
 					ganado y los cupones emitidos no cambian.

@@ -138,7 +138,7 @@ export function BudgetVault({ budget }: { budget: Budget }) {
 							Ábrela para ver cuánto queda
 						</span>
 					</span>
-					<span className='vault__plate'>El Trueque</span>
+					<span className='vault__plate'>La Despensa</span>
 					<span className='vault__lock'>
 						<span className='vault__dial' />
 						<span className='vault__wheel'>

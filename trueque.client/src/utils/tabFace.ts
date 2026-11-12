@@ -1,10 +1,10 @@
 import { ROUTES } from '@/constants/routes'
+import { eggFrame } from '@/utils/eggFavicon'
 import { prefersReducedMotion } from '@/utils/reducedMotion'
 
-const BRAND = 'El Trueque'
+const BRAND = 'La Despensa'
 const FRAME_MS = 90
-const SWING_DEG = 10
-const PERIOD_MS = 2400
+const PERIOD_MS = 3200
 
 const PAGES: [RegExp, string][] = [
 	[/^\/$/, 'El mercado'],

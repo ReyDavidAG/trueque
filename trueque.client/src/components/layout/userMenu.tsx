@@ -24,7 +24,7 @@ export function UserMenu() {
 	const leave = async () => {
 		setOpen(false)
 		await signOut()
-		toast('Saliste de El Trueque')
+		toast('Saliste de La Despensa')
 		navigate(ROUTES.signIn, { replace: true })
 	}
 
@@ -80,7 +80,7 @@ export function UserMenu() {
 						Salir
 					</button>
 					<p className='menu__version'>
-						El Trueque{' '}
+						La Despensa{' '}
 						<span className='num'>v{import.meta.env.VITE_APP_VERSION}</span> ·
 						demostración
 					</p>

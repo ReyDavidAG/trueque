@@ -19,7 +19,7 @@ export function TopBar({ items }: { items: NavItem[] }) {
 				<Link
 					className='topbar__brand'
 					to={ROUTES.market}
-					aria-label='El Trueque, el mercado'>
+					aria-label='La Despensa, el mercado'>
 					<Wordmark mark={<LazyMarkScene />} />
 				</Link>
 				<span className='version-tag num' title='Versión de la demostración'>

@@ -98,7 +98,7 @@ export function ConfirmPublish({
 
 				<div className='confirm-pub__label'>
 					<div className='confirm-pub__label-head'>
-						<span>{editing ? 'Cambios' : 'Envío'} · El Trueque</span>
+						<span>{editing ? 'Cambios' : 'Envío'} · La Despensa</span>
 						<Icon name='box' />
 					</div>
 					<div className='confirm-pub__route'>
