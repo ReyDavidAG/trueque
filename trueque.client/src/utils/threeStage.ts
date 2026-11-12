@@ -16,6 +16,8 @@ type StageOptions = {
 
 export type ThreeStage = ReturnType<typeof createThreeStage>
 
+export type SceneTools = Pick<ThreeStage, 'keep' | 'color'>
+
 export function createThreeStage(host: HTMLElement, options: StageOptions) {
 	const css = getComputedStyle(host)
 	const color = tokenColors(css)
@@ -103,7 +105,7 @@ export function createThreeStage(host: HTMLElement, options: StageOptions) {
 	}
 }
 
-export function outlineMaterial(stage: ThreeStage) {
+export function outlineMaterial(stage: SceneTools) {
 	return stage.keep(
 		new THREE.MeshBasicMaterial({
 			color: stage.color('--color-ink'),

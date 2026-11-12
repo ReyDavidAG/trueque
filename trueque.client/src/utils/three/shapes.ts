@@ -16,18 +16,6 @@ export function roundedRectShape(w: number, h: number, r: number) {
 	return s
 }
 
-export function starShape(outer: number, inner: number) {
-	const s = new THREE.Shape()
-	for (let i = 0; i < 8; i++) {
-		const radius = i % 2 ? inner : outer
-		const angle = (i / 8) * Math.PI * 2 + Math.PI / 2
-		if (i) s.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius)
-		else s.moveTo(Math.cos(angle) * radius, Math.sin(angle) * radius)
-	}
-	s.closePath()
-	return s
-}
-
 export function notchedTicketShape(w: number, h: number, notch: number) {
 	const x = -w / 2
 	const y = -h / 2
