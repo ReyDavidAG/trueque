@@ -3,25 +3,17 @@
 	top: 0;
 	z-index: 30;
 	background: var(--color-estraza);
-	border-bottom: 1px solid var(--color-rule);
+	box-shadow: 0 10px 24px -22px
+		color-mix(in oklch, var(--color-shadow) 60%, transparent);
 }
 .topbar::after {
+	--vichy-cell: 4px;
 	content: '';
 	position: absolute;
-	inset: auto 0 -7px 0;
-	height: 6px;
-	background:
-		repeating-linear-gradient(
-			45deg,
-			var(--color-cacao-2) 0 3px,
-			transparent 3px 7px
-		),
-		repeating-linear-gradient(
-			-45deg,
-			var(--color-achiote) 0 3px,
-			var(--color-amate-3) 3px 7px
-		);
-	opacity: 0.8;
+	inset: auto 0 -8px 0;
+	height: 8px;
+	background: var(--vichy);
+	border-top: 2px solid var(--color-anil);
 }
 .topbar__inner {
 	width: min(100% - 2 * var(--gutter), var(--content-max));
@@ -40,18 +32,19 @@
 	display: inline-flex;
 	align-items: center;
 	gap: var(--space-xs);
-	font-size: 1.55rem;
-	color: var(--color-cacao);
-	line-height: 1;
+	font-size: 1.6rem;
+	color: var(--color-tinta-text);
+	line-height: 0.9;
 }
 .wordmark small {
 	display: block;
-	font-family: var(--font-mono);
+	font-family: var(--font-display);
+	font-weight: 700;
 	font-size: 0.62rem;
-	letter-spacing: 0.14em;
+	letter-spacing: 0.24em;
 	text-transform: uppercase;
-	color: var(--color-grana);
-	margin-bottom: 1px;
+	color: var(--color-tinta-2);
+	margin-bottom: 2px;
 }
 .version-tag {
 	flex: none;
@@ -100,23 +93,28 @@
 	fill: var(--color-ink);
 }
 .mark__board {
-	fill: var(--color-grana);
+	fill: var(--color-tinta);
 	stroke: var(--color-ink);
 	stroke-width: 22;
 }
-.pod__body {
-	fill: var(--color-maiz);
-}
-.pod__rib {
-	fill: var(--color-maiz-2);
-}
-.pod__line,
-.pod__stem {
-	fill: none;
+.egg__shell {
+	fill: var(--color-cascara);
 	stroke: var(--color-ink);
 	stroke-width: 18;
-	stroke-linejoin: round;
-	stroke-linecap: round;
+}
+.egg__yolk,
+.coin__yolk {
+	fill: var(--color-maiz);
+}
+.egg__shine,
+.coin__shine {
+	fill: var(--color-estraza);
+	opacity: 0.85;
+}
+.coin__yolk-edge {
+	fill: none;
+	stroke: var(--color-maiz-2);
+	stroke-width: 16;
 }
 .coin {
 	width: 18px;
@@ -124,15 +122,15 @@
 	flex: none;
 }
 .coin__rim {
-	fill: var(--color-ink);
+	fill: var(--color-coin-rim);
 }
 .coin__face {
-	fill: var(--color-cacao);
+	fill: var(--color-coin-face);
 }
 .coin__ring {
 	fill: none;
-	stroke: var(--color-cacao-3);
-	stroke-width: 12;
+	stroke: var(--color-coin-ring);
+	stroke-width: 8;
 }
 .topnav {
 	display: none;
@@ -150,12 +148,12 @@
 	align-items: center;
 	gap: 6px;
 	min-height: 40px;
-	padding: 0 var(--space-sm) 0 10px;
+	padding: 0 var(--space-sm) 0 6px;
 	border-radius: var(--radius-pill);
-	background: var(--color-cacao);
+	background: var(--color-tinta);
 	color: var(--color-on-dark);
 	text-decoration: none;
-	box-shadow: inset 0 -3px 0 oklch(30% 0.06 40);
+	box-shadow: 0 6px 14px -8px var(--color-tinta);
 }
 .purse-chip b {
 	font-size: var(--text-base);
@@ -164,14 +162,14 @@
 	font-size: var(--text-sm);
 }
 .purse-chip:hover {
-	background: var(--color-cacao-2);
+	background: var(--color-tinta-3);
 }
 .purse-chip__bean {
-	width: 22px;
-	height: 22px;
+	width: 28px;
+	height: 28px;
 }
 .purse-chip__bean .coin__rim {
-	fill: oklch(30% 0.06 40);
+	fill: var(--color-estraza);
 }
 
 .role-chip {

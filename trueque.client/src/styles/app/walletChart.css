@@ -43,7 +43,7 @@
 	fill: var(--color-muted);
 }
 .mchart__tip,
-.orchard__tip {
+.henhouse__tip {
 	position: absolute;
 	top: 0;
 	z-index: 2;
@@ -62,7 +62,7 @@
 	animation: tip-in 180ms var(--ease-out) both;
 }
 .mchart__tip b,
-.orchard__tip b {
+.henhouse__tip b {
 	font-size: var(--text-sm);
 	text-transform: capitalize;
 }
@@ -82,11 +82,11 @@
 .mchart__tip .is-spend::before {
 	background: var(--color-maiz-2);
 }
-.orchard {
+.henhouse {
 	display: grid;
 	gap: var(--space-xs);
 }
-.orchard__stage {
+.henhouse__stage {
 	position: relative;
 	height: clamp(280px, 42vw, 380px);
 	border-radius: var(--radius-md);
@@ -97,7 +97,7 @@
 	);
 	overflow: hidden;
 }
-.orchard__canvas {
+.henhouse__canvas {
 	position: absolute;
 	inset: 0;
 	width: 100%;
@@ -105,15 +105,15 @@
 	display: block;
 	cursor: var(--cur-grab);
 }
-.orchard__canvas:active {
+.henhouse__canvas:active {
 	cursor: var(--cur-grabbing);
 }
-.orchard__tags {
+.henhouse__tags {
 	position: absolute;
 	inset: 0;
 	pointer-events: none;
 }
-.orchard__tags li {
+.henhouse__tags li {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -129,15 +129,15 @@
 	white-space: nowrap;
 	transition: opacity var(--dur-base) var(--ease-out);
 }
-.orchard__tags b {
+.henhouse__tags b {
 	font-size: var(--text-base);
 	color: var(--color-nopal);
 	line-height: 1.1;
 }
-.orchard__tip {
+.henhouse__tip {
 	translate: 14px calc(-100% - 10px);
 }
-.orchard__hint {
+.henhouse__hint {
 	text-align: center;
 	font-size: var(--text-xs);
 }

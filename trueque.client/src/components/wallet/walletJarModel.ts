@@ -14,7 +14,7 @@ export function addJarLights({ scene, color }: ThreeStage) {
 	scene.add(
 		new THREE.HemisphereLight(
 			color('--color-estraza'),
-			color('--color-cacao-3'),
+			color('--color-carton-sombra'),
 			1.5
 		)
 	)
@@ -38,26 +38,26 @@ export function buildJar(stage: ThreeStage) {
 			Math.PI / 2
 		)
 	)
-	const outside = new THREE.Mesh(shell, toon('--color-cacao-2'))
+	const outside = new THREE.Mesh(shell, toon('--color-carton-sombra'))
 	outside.scale.y = DEPTH
-	const inside = new THREE.Mesh(shell, toon('--color-cacao-3', THREE.BackSide))
+	const inside = new THREE.Mesh(shell, toon('--color-carton', THREE.BackSide))
 	inside.scale.set(0.96, DEPTH * 0.96, 0.96)
 	const line = new THREE.Mesh(shell, outlineMaterial(stage))
 	line.scale.set(1.035, DEPTH * 1.04, 1.035)
 	const rim = new THREE.Mesh(
 		keep(new THREE.TorusGeometry(R * 0.98, 0.05, 10, 64)),
-		toon('--color-maiz-2')
+		toon('--color-tinta')
 	)
 	rim.rotation.x = Math.PI / 2
 	const band = new THREE.Mesh(
 		keep(new THREE.TorusGeometry(R * 0.86, 0.035, 8, 64)),
-		toon('--color-maiz')
+		toon('--color-anil')
 	)
 	band.rotation.x = Math.PI / 2
 	band.position.y = -0.36
 	const foot = new THREE.Mesh(
 		keep(new THREE.CylinderGeometry(0.42, 0.5, 0.12, 32)),
-		toon('--color-cacao')
+		toon('--color-carton-sombra')
 	)
 	foot.position.y = -DEPTH * R - 0.02
 	jar.add(line, outside, inside, rim, band, foot)
@@ -102,7 +102,7 @@ export function buildHand(stage: ThreeStage) {
 	)
 	part(
 		new THREE.CylinderGeometry(0.21, 0.23, 0.34, 18),
-		toon('--color-grana'),
+		toon('--color-tinta'),
 		[0, 0.24, -0.04]
 	)
 	hand.visible = false

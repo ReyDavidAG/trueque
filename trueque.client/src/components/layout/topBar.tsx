@@ -7,6 +7,7 @@ import { useBalance } from '@/hooks/wallet/useWallet'
 
 import type { NavItem } from './navItems'
 import { NotificationsBell } from './notificationsBell'
+import { ThemeMenu } from './themeMenu'
 import { UserMenu } from './userMenu'
 
 export function TopBar({ items }: { items: NavItem[] }) {
@@ -32,6 +33,7 @@ export function TopBar({ items }: { items: NavItem[] }) {
 					))}
 				</nav>
 				<div className='topbar__actions'>
+					<ThemeMenu />
 					<NotificationsBell />
 					<Link
 						className='purse-chip'

@@ -65,9 +65,14 @@ body {
 	font-size: var(--text-base);
 	line-height: 1.55;
 	color: var(--color-ink);
-	background-color: var(--color-amate);
-	background-image: var(--tex-amate), var(--tex-grain);
-	background-size: cover, auto;
+	background-color: var(--color-estraza);
+	background-image: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--tono) 32%, var(--color-estraza)) 0%,
+		color-mix(in srgb, var(--tono) 17%, var(--color-estraza)) 26%,
+		color-mix(in srgb, var(--tono) 7%, var(--color-estraza)) 56%,
+		var(--color-estraza) 84%
+	);
 	background-attachment: fixed;
 	-webkit-font-smoothing: antialiased;
 }

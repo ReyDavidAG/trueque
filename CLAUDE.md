@@ -113,8 +113,9 @@ cd supabase/tests && npm install --ignore-scripts && npm run check
 
 - Móvil primero: 320, 375, 414, 768 y 1280 px sin desplazamiento horizontal.
 - Todo color y tipografía sale de los tokens. Nada de hex sueltos en componentes.
-- Tipografía: **Lilita One** (títulos, letra de rótulo), **Figtree** (texto), **IBM Plex Mono** (folios y cifras).
-- Piezas de identidad: el **puesto** con toldo, el **rótulo colgado** con el precio, la **moneda de cacao** (moneda café con la mazorca), el **recibo** dentado y el **boleto** troquelado.
+- Estilo "empaque": papel crema, cartón, cuadros **vichy**, azul San Juan (`--color-tinta`) y dorado yema (`--color-maiz`). Temas claro, oscuro y neutro (`data-palette`).
+- Tipografía: **Baloo 2** (títulos), **Nunito** (texto), **IBM Plex Mono** (folios y cifras).
+- Piezas de identidad: el **puesto** (tarjeta con franja vichy y ficha de color), la **etiqueta** crema con el precio, la **moneda de cacao** (borde azul, cara crema y mazorca dorada), el **recibo** dentado y el **boleto** troquelado.
 - Prohibido `<select>` nativo: combobox con búsqueda o chips.
 - Contraste AA, foco visible, animación sólo `transform`/`opacity` y apagada con `prefers-reduced-motion`.
 - Nada de métricas inventadas como reales: los datos de ejemplo se marcan como tales.

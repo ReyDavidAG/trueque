@@ -1,0 +1,193 @@
+.theme-btn {
+	display: inline-grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	border: 1px solid var(--color-rule-strong);
+	border-radius: 50%;
+	background: var(--color-estraza);
+	color: var(--color-ink);
+}
+.theme-btn:hover {
+	background: var(--color-amate-2);
+}
+.theme-menu {
+	width: 230px;
+}
+.theme-option {
+	display: flex;
+	align-items: center;
+	gap: var(--space-sm);
+	min-height: 44px;
+	padding: 6px 10px;
+	border-radius: var(--radius-sm);
+	font-weight: 700;
+	font-size: var(--text-sm);
+}
+.theme-option:hover {
+	background: var(--color-amate-2);
+}
+.theme-option input {
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	accent-color: var(--color-tinta);
+}
+.theme-option__swatch {
+	width: 28px;
+	height: 28px;
+	margin-left: auto;
+	border-radius: 50%;
+	border: 1px solid var(--color-rule-strong);
+}
+.theme-option__swatch.is-light {
+	background: conic-gradient(
+		oklch(39% 0.14 258) 0 33%,
+		oklch(80% 0.155 78) 0 66%,
+		oklch(97.6% 0.012 240) 0
+	);
+}
+.theme-option__swatch.is-dark {
+	background: conic-gradient(
+		oklch(82% 0.09 250) 0 33%,
+		oklch(80% 0.155 78) 0 66%,
+		oklch(22.5% 0.028 258) 0
+	);
+}
+.theme-option__swatch.is-neutral {
+	background: linear-gradient(
+		135deg,
+		oklch(97% 0.003 80) 0 50%,
+		oklch(30% 0.012 260) 50%
+	);
+}
+@media (max-width: 399px) {
+	.theme-btn {
+		width: 36px;
+		height: 36px;
+	}
+}
+
+.art,
+.coin,
+.mark,
+.scene3d,
+.jar,
+.henhouse,
+.vault-coins {
+	--color-grana: oklch(50% 0.19 18);
+	--color-grana-soft: oklch(93% 0.04 15);
+	--color-cacao: oklch(40% 0.075 42);
+	--color-cacao-2: oklch(52% 0.085 48);
+	--color-cacao-3: oklch(33% 0.065 40);
+	--color-cacao-soft: oklch(88% 0.035 60);
+	--color-anil: oklch(42% 0.12 262);
+	--color-anil-soft: oklch(93% 0.03 262);
+}
+
+:root[data-palette='dark'] {
+	color-scheme: dark;
+	--color-amate: oklch(19% 0.026 258);
+	--color-amate-2: oklch(26% 0.03 258);
+	--color-amate-3: oklch(31% 0.032 258);
+	--color-estraza: oklch(22.5% 0.028 258);
+	--color-cascara: oklch(27% 0.022 80);
+	--color-cascara-sombra: oklch(35% 0.03 78);
+	--color-carton: oklch(27% 0.02 75);
+	--color-carton-sombra: oklch(33% 0.025 75);
+	--color-fiber: oklch(36% 0.02 240);
+	--color-vichy-gris: oklch(38% 0.02 240);
+	--color-rule: oklch(32% 0.03 258);
+	--color-rule-strong: oklch(44% 0.035 258);
+	--color-muted: oklch(77% 0.03 258);
+	--color-ink: oklch(94% 0.01 258);
+	--color-tinta: oklch(47% 0.15 258);
+	--color-tinta-text: oklch(82% 0.09 250);
+	--color-tinta-2: oklch(66% 0.13 250);
+	--color-tinta-3: oklch(33% 0.11 260);
+	--color-tinta-soft: oklch(31% 0.06 255);
+	--color-anil-ink: oklch(78% 0.1 245);
+	--color-anil-soft: oklch(29% 0.045 240);
+	--color-maiz-ink: oklch(84% 0.13 82);
+	--color-maiz-soft: oklch(31% 0.05 80);
+	--color-achiote-soft: oklch(31% 0.05 55);
+	--color-nopal: oklch(80% 0.13 150);
+	--color-nopal-soft: oklch(30% 0.05 150);
+	--color-error: oklch(76% 0.14 28);
+	--color-error-soft: oklch(31% 0.06 28);
+	--color-focus: oklch(72% 0.15 250);
+	--color-shadow: oklch(5% 0.02 258);
+	--color-scrim: oklch(8% 0.02 258 / 0.72);
+	--tex-grain: none;
+	--tex-carton: none;
+}
+:root[data-palette='dark'],
+:root[data-palette='dark'] [data-stall] {
+	--stall-text: oklch(from var(--stall) 82% calc(c * 0.75) h);
+	--stall-soft: oklch(from var(--stall) 30% calc(c * 0.4) h);
+}
+:root[data-palette='dark']
+	:is(
+		.art,
+		.coin,
+		.mark,
+		.scene3d,
+		.jar,
+		.henhouse,
+		.signin__scene,
+		.tour__visor,
+		.vault-coins
+	) {
+	--color-estraza: oklch(99.6% 0.006 100);
+	--color-cascara: oklch(97.6% 0.02 80);
+	--color-cascara-sombra: oklch(89% 0.04 78);
+	--color-carton: oklch(91% 0.022 85);
+	--color-carton-sombra: oklch(84% 0.03 80);
+	--color-ink: oklch(25% 0.05 262);
+	--color-tinta: oklch(39% 0.14 258);
+}
+
+:root[data-palette='neutral'] {
+	--color-amate: oklch(97.4% 0.003 80);
+	--color-amate-2: oklch(94.8% 0.004 80);
+	--color-amate-3: oklch(90.5% 0.005 80);
+	--color-estraza: oklch(99.4% 0.002 80);
+	--color-cascara: oklch(97% 0.004 80);
+	--color-cascara-sombra: oklch(88% 0.006 80);
+	--color-carton: oklch(93% 0.004 80);
+	--color-carton-sombra: oklch(86% 0.005 80);
+	--color-fiber: oklch(86% 0.004 260);
+	--color-vichy-gris: oklch(86% 0.004 260);
+	--color-rule: oklch(90.5% 0.004 260);
+	--color-rule-strong: oklch(80% 0.006 260);
+	--color-muted: oklch(45% 0.01 260);
+	--color-ink: oklch(22% 0.01 260);
+	--color-tinta: oklch(27% 0.012 260);
+	--color-tinta-text: oklch(27% 0.012 260);
+	--color-tinta-2: oklch(46% 0.01 260);
+	--color-tinta-3: oklch(18% 0.01 260);
+	--color-tinta-soft: oklch(94% 0.004 260);
+	--color-anil: oklch(60% 0.008 260);
+	--color-anil-ink: oklch(40% 0.01 260);
+	--color-anil-soft: oklch(94.5% 0.004 260);
+	--color-focus: oklch(45% 0.02 260);
+	--color-shadow: oklch(25% 0.01 260);
+	--color-scrim: oklch(15% 0.01 260 / 0.6);
+	--vichy: linear-gradient(90deg, oklch(84% 0.004 260), oklch(92% 0.004 260)) 0
+		0 / 100% 100%;
+	--tex-grain: none;
+	--tex-carton: none;
+}
+:root[data-palette='neutral'],
+:root[data-palette='neutral'] [data-stall] {
+	--stall: oklch(27% 0.012 260);
+	--stall-claro: oklch(66% 0.006 260);
+	--stall-soft: oklch(95% 0.003 260);
+	--stall-ink: var(--color-on-dark);
+	--stall-text: oklch(27% 0.012 260);
+	--ficha: linear-gradient(135deg, oklch(90% 0.004 260), oklch(80% 0.006 260));
+}
+:root[data-palette='neutral'] :is(.art, .coin, .mark, .scene3d) {
+	--color-tinta: oklch(39% 0.14 258);
+	--color-anil: oklch(42% 0.12 262);
+}

@@ -35,17 +35,22 @@
 }
 [data-sonner-toaster] [data-sonner-toast] {
 	font-family: var(--font-body);
+	font-weight: 600;
 	border-radius: var(--radius-md);
-	border: 1.5px solid var(--color-ink);
-	background: var(--color-estraza);
-	color: var(--color-ink);
+	border: 0;
+	background: var(--color-ink);
+	color: var(--color-estraza);
 	box-shadow: var(--shadow-lift);
 }
 [data-sonner-toaster] [data-sonner-toast][data-type='success'] {
-	border-color: var(--color-nopal);
+	box-shadow:
+		inset 4px 0 0 var(--color-nopal),
+		var(--shadow-lift);
 }
 [data-sonner-toaster] [data-sonner-toast][data-type='error'] {
-	border-color: var(--color-grana);
+	box-shadow:
+		inset 4px 0 0 var(--color-error),
+		var(--shadow-lift);
 }
 @media (max-width: 899px) {
 	[data-sonner-toaster] {

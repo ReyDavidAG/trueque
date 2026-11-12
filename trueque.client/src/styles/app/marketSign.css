@@ -2,7 +2,7 @@
 	overflow: visible;
 }
 .art .a-halo {
-	fill: var(--stall-soft, var(--color-amate-2));
+	fill: var(--color-estraza);
 }
 .art .a-shift {
 	transform: translate(3px, 2px);
@@ -77,9 +77,9 @@
 
 .sign {
 	display: inline-block;
-	transform: perspective(420px) rotate(calc(-5deg + var(--swing, 0deg)))
+	transform: perspective(420px) rotate(var(--swing, 0deg))
 		rotateY(var(--spin, 0deg));
-	transform-origin: 50% -14px;
+	transform-origin: 50% 0;
 	touch-action: pan-y;
 	cursor: var(--cur-grab);
 	user-select: none;
@@ -88,46 +88,18 @@
 	cursor: var(--cur-grabbing);
 }
 .sign__string {
-	display: block;
-	width: 46px;
-	height: 16px;
-	margin: 0 auto -2px;
-	border: 2px solid var(--color-ink);
-	border-bottom: 0;
-	border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-	position: relative;
-}
-.sign__string::before {
-	content: '';
-	position: absolute;
-	top: -6px;
-	left: 50%;
-	width: 8px;
-	height: 8px;
-	margin-left: -4px;
-	border-radius: 50%;
-	background: var(--color-ink);
+	display: none;
 }
 .sign__board {
 	display: inline-flex;
 	align-items: baseline;
-	gap: 4px;
-	padding: 6px 12px 8px;
-	background: var(--stall, var(--color-grana));
-	color: var(--stall-ink, var(--color-on-dark));
-	border: 2.5px solid var(--color-ink);
-	border-radius: 8px;
-	box-shadow:
-		1px 1px 0 var(--color-ink),
-		2px 2px 0 var(--color-ink),
-		3px 3px 0 var(--color-ink),
-		4px 4px 0 var(--color-ink),
-		6px 10px 14px -4px color-mix(in oklch, var(--color-ink) 45%, transparent);
-	background-image: linear-gradient(
-		160deg,
-		color-mix(in oklch, var(--color-on-dark) 20%, transparent),
-		transparent 45%
-	);
+	gap: 5px;
+	padding: 7px 14px 9px;
+	background: var(--color-estraza);
+	color: var(--stall-text, var(--color-tinta-text));
+	border-radius: 12px;
+	border-bottom: 5px solid var(--stall-claro, var(--color-tinta-2));
+	box-shadow: var(--shadow-label);
 }
 .sign__bean {
 	width: 22px;
@@ -135,19 +107,13 @@
 	align-self: center;
 }
 .sign__n {
-	font-size: 1.9rem;
+	font-size: 2rem;
 	line-height: 1;
+	letter-spacing: -0.01em;
 }
 .sign__unit {
 	font-weight: 800;
 	font-size: var(--text-sm);
-}
-[data-stall='achiote'] .sign__n,
-[data-stall='maiz'] .sign__n {
-	text-shadow: none;
-}
-.sign__board .sign__n {
-	text-shadow: 2px 2px 0 color-mix(in oklch, var(--color-ink) 35%, transparent);
 }
 
 .reach {
@@ -171,11 +137,11 @@
 }
 .reach.is-short {
 	background: var(--color-amate-2);
-	color: var(--color-cacao);
+	color: var(--color-tinta-text);
 }
 .reach.is-out {
-	background: var(--color-grana-soft);
-	color: var(--color-grana);
+	background: var(--color-error-soft);
+	color: var(--color-error);
 }
 .badge {
 	display: inline-flex;
