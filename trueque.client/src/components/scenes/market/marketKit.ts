@@ -17,11 +17,11 @@ function createGeometries(keep: Stage['keep']) {
 		sign: keep(new THREE.BoxGeometry(0.9, 0.5, 0.06)),
 		string: keep(new THREE.CylinderGeometry(0.012, 0.012, 0.36, 4)),
 		ball: keep(new THREE.SphereGeometry(1, 18, 14)),
-		stem: keep(new THREE.CylinderGeometry(0.015, 0.02, 0.08, 5)),
 		coin: keep(new THREE.CylinderGeometry(0.13, 0.13, 0.045, 24)),
-		crate: keep(new THREE.BoxGeometry(0.36, 0.26, 0.28)),
-		slat: keep(new THREE.BoxGeometry(0.37, 0.03, 0.29)),
-		tie: keep(new THREE.CylinderGeometry(0.05, 0.07, 0.08, 8)),
+		tray: keep(new THREE.BoxGeometry(0.42, 0.08, 0.3)),
+		yolk: keep(
+			new THREE.SphereGeometry(1, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2)
+		),
 		cap: keep(new THREE.SphereGeometry(0.095, 12, 8)),
 		foot: keep(new THREE.CylinderGeometry(0.1, 0.12, 0.08, 10)),
 		lipLong: keep(new THREE.BoxGeometry(1.62, 0.07, 0.03)),

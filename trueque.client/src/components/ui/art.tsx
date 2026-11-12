@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { artBody, POD } from '@/utils/artDrawing'
+import { artBody, EGG, YOLK } from '@/utils/artDrawing'
 import { qrPaths } from '@/utils/qr'
 
 export function Art({ id, label = '' }: { id: string; label?: string }) {
@@ -28,7 +28,7 @@ export function Coin({ className = '' }: { className?: string }) {
 			aria-hidden='true'
 			focusable='false'
 			dangerouslySetInnerHTML={{
-				__html: `<circle class="coin__rim" cx="256" cy="256" r="246"/><circle class="coin__face" cx="256" cy="256" r="224"/><circle class="coin__ring" cx="256" cy="256" r="200"/><g transform="translate(256 262) rotate(-32) scale(.84) translate(-256 -256)">${POD}</g>`,
+				__html: `<circle class="coin__rim" cx="256" cy="256" r="246"/><circle class="coin__face" cx="256" cy="256" r="224"/><circle class="coin__ring" cx="256" cy="256" r="200"/>${YOLK}`,
 			}}
 		/>
 	)
@@ -42,7 +42,7 @@ export function Mark({ className = '' }: { className?: string }) {
 			aria-hidden='true'
 			focusable='false'
 			dangerouslySetInnerHTML={{
-				__html: `<path class="mark__string" d="M146 190L256 66l110 124"/><circle class="mark__nail" cx="256" cy="60" r="26"/><g transform="rotate(-6 256 330)"><rect class="mark__board" x="44" y="186" width="424" height="290" rx="46"/><g transform="translate(256 331) rotate(-58) scale(.58) translate(-256 -256)">${POD}</g></g>`,
+				__html: `<path class="mark__string" d="M146 190L256 66l110 124"/><circle class="mark__nail" cx="256" cy="60" r="26"/><g transform="rotate(-6 256 330)"><rect class="mark__board" x="44" y="186" width="424" height="290" rx="46"/><g transform="translate(256 331) scale(.5) translate(-256 -256)">${EGG}</g></g>`,
 			}}
 		/>
 	)

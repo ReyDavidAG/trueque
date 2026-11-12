@@ -1,7 +1,9 @@
 import { type RefObject, useEffect } from 'react'
 import * as THREE from 'three'
 
+import { createEggBreaks } from '@/components/scenes/market/eggBreaks'
 import { scatterFruits } from '@/components/scenes/market/fruitLayout'
+import { createMarketHens } from '@/components/scenes/market/marketHens'
 import { createMarketKit } from '@/components/scenes/market/marketKit'
 import { copyBodyToMesh } from '@/components/scenes/market/marketMath'
 import { createMarketPointer } from '@/components/scenes/market/marketPointer'
@@ -22,7 +24,7 @@ import {
 import { createStage } from '@/utils/three/stage'
 
 const CANVAS_LABEL =
-	'Tres puestos de mercado con fruta: arrastra la fruta o los pedazos para lanzarlos, o da clics a un puesto para irlo desarmando'
+	'Tres puestos con huevos y gallinas paseando: arrastra un huevo para lanzarlo y si se estrella se rompe, o da clics a un puesto para irlo desarmando'
 
 export function useMarketScene(host: RefObject<HTMLElement | null>) {
 	useEffect(() => {
@@ -39,8 +41,8 @@ export function useMarketScene(host: RefObject<HTMLElement | null>) {
 		const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100)
 		const world = createPhysicsWorld()
 		const kit = createMarketKit(stage, scene, world)
-		const { stalls, parts } = buildStalls(kit)
-		const fruits = scatterFruits(kit, stalls.length)
+		const { stalls, parts, looks } = buildStalls(kit)
+		const fruits = scatterFruits(kit, looks)
 
 		stage.observeSize(el, () => {
 			const w = el.clientWidth
@@ -59,15 +61,24 @@ export function useMarketScene(host: RefObject<HTMLElement | null>) {
 		})
 
 		const damage = createStallDamage(fruits, parts)
+		const pickable = [...fruits.map(f => f.mesh), ...parts.map(p => p.mesh)]
 		const pointer = createMarketPointer({
 			canvas,
 			camera,
-			pickable: [...fruits.map(f => f.mesh), ...parts.map(p => p.mesh)],
+			pickable,
 			damage,
 			reducedMotion: stage.reducedMotion,
 		})
 		stage.listen(pointer.handlers)
 		const settle = createStallRebuild(fruits, damage.wakeAll)
+		const hens = createMarketHens(stage, scene, world, stalls.length)
+		const eggs = createEggBreaks({
+			kit,
+			fruits,
+			pickable,
+			held: () => pointer.current()?.body,
+			layingSpot: hens.nestingSpot,
+		})
 
 		const followGrab = () => {
 			const grab = pointer.current()
@@ -94,7 +105,9 @@ export function useMarketScene(host: RefObject<HTMLElement | null>) {
 				if (speed > MAX_FRUIT_SPEED)
 					velocity.scale(MAX_FRUIT_SPEED / speed, velocity)
 			}
+			hens.step(dt, now / 1000, stage.reducedMotion)
 			world.step(PHYSICS_STEP, dt, 8)
+			eggs.step(now)
 			const heldStall = pointer.current()?.part?.stall
 			for (const s of stalls) settle(s, now, dt, heldStall === s)
 			for (const f of fruits) copyBodyToMesh(f.body, f.mesh)

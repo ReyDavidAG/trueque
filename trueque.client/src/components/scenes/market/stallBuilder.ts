@@ -1,14 +1,18 @@
 import * as CANNON from 'cannon-es'
 import * as THREE from 'three'
 
-import { STALL_LOOKS, stallCenterX } from '@/constants/scene/marketScene'
+import {
+	STALL_COLOR,
+	STALL_LOOKS,
+	stallCenterX,
+	type StallLook,
+} from '@/constants/scene/marketScene'
 
 import type { MarketKit } from './marketKit'
 import { copyMeshToBody, shuffle, spread } from './marketMath'
 import { plankTexture, priceSignTexture } from './marketTextures'
 import type { Part, Stall, Triple } from './marketTypes'
 
-type StallLook = (typeof STALL_LOOKS)[number]
 type PartOptions = { edged?: boolean; tilt?: number }
 
 const POST_SPOTS = [
@@ -84,10 +88,10 @@ function buildStall(
 	const { geometry: geo, toon, decorate, keep } = kit
 	const cacao = toon('--color-cacao')
 	const estraza = toon('--color-estraza')
-	const tint = toon(look.color)
+	const tint = toon(STALL_COLOR)
 	const face = keep(
 		new THREE.MeshToonMaterial({
-			map: keep(priceSignTexture(kit.cssVar, look.color, look.ink, look.price)),
+			map: keep(priceSignTexture(kit.cssVar, STALL_COLOR, look)),
 		})
 	)
 	const stall: Stall = { parts: [], shake: 0, lastHit: 0, rebuildStart: 0 }
@@ -114,7 +118,7 @@ function buildStall(
 		geo.counter,
 		keep(
 			new THREE.MeshToonMaterial({
-				map: keep(plankTexture(kit.cssVar, look.color)),
+				map: keep(plankTexture(kit.cssVar, STALL_COLOR)),
 			})
 		),
 		new CANNON.Box(new CANNON.Vec3(0.8, 0.4, 0.35)),
@@ -178,8 +182,7 @@ function buildStall(
 
 export function buildStalls(kit: MarketKit) {
 	const parts: Part[] = []
-	const stalls = shuffle(STALL_LOOKS).map((look, i) =>
-		buildStall(kit, look, i, parts)
-	)
-	return { stalls, parts }
+	const looks = shuffle(STALL_LOOKS)
+	const stalls = looks.map((look, i) => buildStall(kit, look, i, parts))
+	return { stalls, parts, looks }
 }

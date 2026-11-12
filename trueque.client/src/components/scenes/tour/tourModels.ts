@@ -1,31 +1,38 @@
 import * as THREE from 'three'
 
 import { easeInOut } from '@/utils/three/easing'
-import { starShape } from '@/utils/three/shapes'
 
 import type { TourKit, TourModel } from './tourKit'
 
+const EGG_PROFILE = [
+	[0, -0.8],
+	[0.36, -0.72],
+	[0.56, -0.45],
+	[0.62, -0.08],
+	[0.56, 0.32],
+	[0.4, 0.66],
+	[0.2, 0.88],
+	[0, 0.94],
+] as const
+
 export function earnModel({ outlined, toon, coin }: TourKit): TourModel {
 	const group = new THREE.Group()
-	const star = outlined(
-		new THREE.ExtrudeGeometry(starShape(1, 0.34), {
-			depth: 0.32,
-			bevelEnabled: true,
-			bevelSize: 0.05,
-			bevelThickness: 0.05,
-			bevelSegments: 2,
-		}),
-		toon('--color-grana')
+	const egg = outlined(
+		new THREE.LatheGeometry(
+			EGG_PROFILE.map(([x, y]) => new THREE.Vector2(x, y)),
+			24
+		),
+		toon('--color-cascara')
 	)
-	star.geometry.center()
-	group.add(star)
+	group.add(egg)
 	const coins = [0, 1, 2].map(() => coin(0.26))
 	group.add(...coins)
 	return {
 		group,
 		update: t => {
-			star.rotation.y = Math.sin(t * 1.2) * 0.6
-			star.scale.setScalar(1 + Math.sin(t * 3) * 0.04)
+			egg.rotation.z = Math.sin(t * 2.4) * 0.12
+			egg.position.y = Math.abs(Math.sin(t * 2.4)) * 0.08
+			egg.scale.setScalar(1 + Math.sin(t * 3) * 0.03)
 			coins.forEach((c, i) => {
 				const angle = t * 1.4 + (i * Math.PI * 2) / 3
 				c.position.set(

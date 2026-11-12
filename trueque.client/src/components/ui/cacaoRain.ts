@@ -1,4 +1,3 @@
-import { POD_PATHS } from '@/utils/artDrawing'
 import { prefersReducedMotion } from '@/utils/reducedMotion'
 
 const GRAVITY = 3200
@@ -30,34 +29,32 @@ export function coinSprite(size: number, css: CSSStyleDeclaration) {
 	if (!g) return c
 	const v = (n: string) => css.getPropertyValue(n).trim()
 	g.scale(size / 512, size / 512)
-	g.fillStyle = v('--color-ink')
+	g.fillStyle = v('--color-coin-rim')
 	g.beginPath()
 	g.arc(256, 256, 246, 0, Math.PI * 2)
 	g.fill()
-	g.fillStyle = v('--color-cacao')
+	g.fillStyle = v('--color-coin-face')
 	g.beginPath()
 	g.arc(256, 256, 224, 0, Math.PI * 2)
 	g.fill()
-	g.strokeStyle = v('--color-cacao-3')
-	g.lineWidth = 12
+	g.strokeStyle = v('--color-coin-ring')
+	g.lineWidth = 8
 	g.beginPath()
 	g.arc(256, 256, 200, 0, Math.PI * 2)
 	g.stroke()
-	g.translate(256, 262)
-	g.rotate((-32 * Math.PI) / 180)
-	g.scale(0.84, 0.84)
-	g.translate(-256, -256)
-	const body = new Path2D(POD_PATHS.body)
 	g.fillStyle = v('--color-maiz')
-	g.fill(body)
-	g.fillStyle = v('--color-maiz-2')
-	g.fill(new Path2D(POD_PATHS.rib))
-	g.strokeStyle = v('--color-ink')
-	g.lineWidth = 18
-	g.lineJoin = 'round'
-	g.lineCap = 'round'
-	g.stroke(body)
-	g.stroke(new Path2D(POD_PATHS.stem))
+	g.beginPath()
+	g.arc(256, 256, 132, 0, Math.PI * 2)
+	g.fill()
+	g.strokeStyle = v('--color-maiz-2')
+	g.lineWidth = 16
+	g.stroke()
+	g.fillStyle = v('--color-coin-face')
+	g.globalAlpha = 0.85
+	g.beginPath()
+	g.ellipse(212, 206, 42, 26, (-32 * Math.PI) / 180, 0, Math.PI * 2)
+	g.fill()
+	g.globalAlpha = 1
 	return c
 }
 

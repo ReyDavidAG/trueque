@@ -1,6 +1,8 @@
 import type * as CANNON from 'cannon-es'
 import type * as THREE from 'three'
 
+import type { FruitKind } from '@/constants/scene/marketScene'
+
 export type Part = {
 	mesh: THREE.Mesh
 	body: CANNON.Body
@@ -24,7 +26,12 @@ export type Stall = {
 	rebuildStart: number
 }
 
-export type Fruit = { mesh: THREE.Object3D; body: CANNON.Body }
+export type Fruit = {
+	mesh: THREE.Object3D
+	body: CANNON.Body
+	kind: FruitKind
+	contents?: THREE.Object3D[]
+}
 
 export type Picked = { part?: Part; fruit?: Fruit }
 

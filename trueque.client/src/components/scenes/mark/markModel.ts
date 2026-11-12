@@ -6,7 +6,7 @@ import {
 	MARK_STRING_POINTS,
 	MARK_UNIT,
 } from '@/constants/scene/markScene'
-import { POD_PATHS } from '@/utils/artDrawing'
+import { EGG_PATH } from '@/utils/artDrawing'
 import { roundedRectShape } from '@/utils/three/shapes'
 import type { Stage } from '@/utils/three/stage'
 
@@ -22,24 +22,28 @@ function drawBoardFace(cssVar: Stage['cssVar']) {
 	g.translate(MARK_BOARD.w / 2, MARK_BOARD.h / 2)
 	g.beginPath()
 	g.roundRect(-212, -145, 424, 290, 46)
-	g.fillStyle = cssVar('--color-grana')
+	g.fillStyle = cssVar('--color-tinta')
 	g.fill()
 	g.lineWidth = 22
 	g.strokeStyle = cssVar('--color-ink')
 	g.stroke()
-	g.rotate((-58 * Math.PI) / 180)
-	g.scale(0.58, 0.58)
+	g.scale(0.5, 0.5)
 	g.translate(-256, -256)
-	const body = new Path2D(POD_PATHS.body)
-	g.fillStyle = cssVar('--color-maiz')
-	g.fill(body)
-	g.fillStyle = cssVar('--color-maiz-2')
-	g.fill(new Path2D(POD_PATHS.rib))
+	const shell = new Path2D(EGG_PATH)
+	g.fillStyle = cssVar('--color-cascara')
+	g.fill(shell)
 	g.lineWidth = 18
-	g.lineJoin = 'round'
-	g.lineCap = 'round'
-	g.stroke(body)
-	g.stroke(new Path2D(POD_PATHS.stem))
+	g.stroke(shell)
+	g.fillStyle = cssVar('--color-maiz')
+	g.beginPath()
+	g.arc(256, 318, 96, 0, Math.PI * 2)
+	g.fill()
+	g.fillStyle = cssVar('--color-estraza')
+	g.globalAlpha = 0.85
+	g.beginPath()
+	g.ellipse(220, 286, 26, 16, (-32 * Math.PI) / 180, 0, Math.PI * 2)
+	g.fill()
+	g.globalAlpha = 1
 	return face
 }
 

@@ -7,6 +7,7 @@ import {
 	GROUND_ODDS,
 	MARKET_BOUNDS,
 	stallCenterX,
+	type StallLook,
 } from '@/constants/scene/marketScene'
 
 import { makeFruit } from './fruitBuilder'
@@ -23,11 +24,13 @@ type Scatter = {
 	floor: number
 	count: number
 	avoidStalls: boolean
+	eggTones?: readonly string[]
 }
 
 const MAX_TRIES = 400
 
-export function scatterFruits(kit: MarketKit, stallCount: number) {
+export function scatterFruits(kit: MarketKit, looks: readonly StallLook[]) {
+	const stallCount = looks.length
 	const fruits: Fruit[] = []
 
 	const blocksStall = (x: number, z: number, r: number) =>
@@ -43,6 +46,7 @@ export function scatterFruits(kit: MarketKit, stallCount: number) {
 		floor,
 		count,
 		avoidStalls,
+		eggTones,
 	}: Scatter) => {
 		const taken: Spot[] = []
 		for (
@@ -58,7 +62,8 @@ export function scatterFruits(kit: MarketKit, stallCount: number) {
 			if (taken.some(t => Math.hypot(t.x - x, t.z - z) < t.r + r + 0.006))
 				continue
 			taken.push({ x, z, r })
-			fruits.push(makeFruit(kit, kind, x, z, floor))
+			const tone = kind === 'egg' && eggTones ? pickOne(eggTones) : undefined
+			fruits.push(makeFruit(kit, kind, x, z, floor, tone))
 			placed++
 		}
 	}
@@ -72,6 +77,7 @@ export function scatterFruits(kit: MarketKit, stallCount: number) {
 			floor: COUNTER_TOP,
 			count: 9 + Math.floor(Math.random() * 5),
 			avoidStalls: false,
+			eggTones: looks[i].eggs,
 		})
 	}
 	scatter({

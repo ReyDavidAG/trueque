@@ -28,9 +28,6 @@ export const pageTitle = (path: string) => {
 	return page ? `${BRAND} · ${page}` : BRAND
 }
 
-const SIGN_TRANSFORM = 'transform="rotate(-6 256 330)"'
-const STRING_GROUP = '<g id="string">'
-
 export function installTabFace(
 	subscribe: (fn: (path: string) => void) => () => void,
 	path: string
@@ -40,38 +37,26 @@ export function installTabFace(
 		document.title = pageTitle(next)
 	})
 	let interval = 0
-	let disposed = false
 	const stopSwing = () => window.clearInterval(interval)
 	let onVisibility: () => void = () => {}
 
 	const link = document.querySelector<HTMLLinkElement>('link[rel="icon"]')
-	if (link && !prefersReducedMotion())
-		void fetch(link.href)
-			.then(r => r.text())
-			.then(svg => {
-				if (disposed || !svg.includes(SIGN_TRANSFORM) || !svg.includes(STRING_GROUP))
-					return
-				const start = performance.now()
-				const drawFrame = () => {
-					const t = (performance.now() - start) / PERIOD_MS
-					const turn = `transform="rotate(${(Math.sin(t * Math.PI * 2) * SWING_DEG).toFixed(1)} 256 60)"`
-					const frame = svg
-						.replace(SIGN_TRANSFORM, turn)
-						.replace(STRING_GROUP, `<g id="string" ${turn}>`)
-					link.href = `data:image/svg+xml,${encodeURIComponent(frame)}`
-				}
-				const startSwing = () => {
-					stopSwing()
-					interval = window.setInterval(drawFrame, FRAME_MS)
-				}
-				onVisibility = () => (document.hidden ? stopSwing() : startSwing())
-				document.addEventListener('visibilitychange', onVisibility)
-				if (!document.hidden) startSwing()
-			})
-			.catch(() => undefined)
+	if (link && !prefersReducedMotion()) {
+		const start = performance.now()
+		const drawFrame = () => {
+			const frame = eggFrame((performance.now() - start) / PERIOD_MS)
+			link.href = `data:image/svg+xml,${encodeURIComponent(frame)}`
+		}
+		const startSwing = () => {
+			stopSwing()
+			interval = window.setInterval(drawFrame, FRAME_MS)
+		}
+		onVisibility = () => (document.hidden ? stopSwing() : startSwing())
+		document.addEventListener('visibilitychange', onVisibility)
+		if (!document.hidden) startSwing()
+	}
 
 	return () => {
-		disposed = true
 		stopSwing()
 		document.removeEventListener('visibilitychange', onVisibility)
 		unsubscribe()

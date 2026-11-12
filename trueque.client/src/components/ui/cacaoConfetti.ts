@@ -1,5 +1,5 @@
 import { coinSprite } from '@/components/ui/cacaoRain'
-import { POD_PATHS } from '@/utils/artDrawing'
+import { EGG_PATH } from '@/utils/artDrawing'
 import { prefersReducedMotion } from '@/utils/reducedMotion'
 
 const GRAVITY = 1400
@@ -16,7 +16,7 @@ const CHIPS = [
 ] as const
 
 type Bit = {
-	kind: 'coin' | 'pod' | 'chip'
+	kind: 'coin' | 'egg' | 'chip'
 	color: string
 	x: number
 	y: number
@@ -29,24 +29,23 @@ type Bit = {
 	flutter: number
 }
 
-function podSprite(size: number, css: CSSStyleDeclaration) {
+function eggSprite(size: number, css: CSSStyleDeclaration) {
 	const c = document.createElement('canvas')
 	c.width = c.height = size
 	const g = c.getContext('2d')
 	if (!g) return c
 	const v = (n: string) => css.getPropertyValue(n).trim()
 	g.scale(size / 512, size / 512)
-	const body = new Path2D(POD_PATHS.body)
-	g.fillStyle = v('--color-maiz')
-	g.fill(body)
-	g.fillStyle = v('--color-maiz-2')
-	g.fill(new Path2D(POD_PATHS.rib))
+	const shell = new Path2D(EGG_PATH)
+	g.fillStyle = v('--color-cascara')
+	g.fill(shell)
 	g.strokeStyle = v('--color-ink')
 	g.lineWidth = 22
-	g.lineJoin = 'round'
-	g.lineCap = 'round'
-	g.stroke(body)
-	g.stroke(new Path2D(POD_PATHS.stem))
+	g.stroke(shell)
+	g.fillStyle = v('--color-cascara-sombra')
+	g.beginPath()
+	g.ellipse(300, 330, 80, 120, 0.2, 0, Math.PI * 2)
+	g.fill()
 	return c
 }
 
@@ -66,7 +65,7 @@ export function burstCacao(origin?: Origin) {
 	if (!g) return
 	document.body.append(canvas)
 	const coin = coinSprite(Math.round(40 * dpr), css)
-	const pod = podSprite(Math.round(40 * dpr), css)
+	const egg = eggSprite(Math.round(40 * dpr), css)
 	const chips = CHIPS.map(n => css.getPropertyValue(n).trim())
 	const reach = Math.max(W, H)
 
@@ -95,11 +94,11 @@ export function burstCacao(origin?: Origin) {
 		const kind: Bit['kind'] = origin
 			? roll < 0.75
 				? 'coin'
-				: 'pod'
+				: 'egg'
 			: roll < 0.45
 				? 'coin'
 				: roll < 0.7
-					? 'pod'
+					? 'egg'
 					: 'chip'
 		const scale = origin ? 0.6 : 1
 		return {
@@ -146,7 +145,7 @@ export function burstCacao(origin?: Origin) {
 				g.fillRect(-b.size / 2, -b.size / 4, b.size, b.size / 2)
 			} else {
 				g.drawImage(
-					b.kind === 'coin' ? coin : pod,
+					b.kind === 'coin' ? coin : egg,
 					-b.size / 2,
 					-b.size / 2,
 					b.size,
