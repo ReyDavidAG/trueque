@@ -1,10 +1,10 @@
 import * as THREE from 'three'
 
-import { outlineMaterial, type ThreeStage } from '@/utils/threeStage'
+import { outlineMaterial, type SceneTools } from '@/utils/threeStage'
 
-export type OrchardPalette = ReturnType<typeof createOrchardPalette>
+export type HenPalette = ReturnType<typeof createHenPalette>
 
-export function createOrchardPalette(stage: ThreeStage) {
+export function createHenPalette(stage: SceneTools) {
 	const { keep, color } = stage
 	const outline = outlineMaterial(stage)
 
