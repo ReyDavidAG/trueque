@@ -1,6 +1,6 @@
 import { useFormContext, useWatch } from 'react-hook-form'
 
-import { Stall } from '@/components/market/stall'
+import { BoardCard } from '@/components/market/boardCard'
 import { Icon } from '@/components/ui/icon'
 import type { ProductForm } from '@/schemas/panel/product/product.schema'
 import type {
@@ -73,9 +73,9 @@ export function StepReview({
 	return (
 		<div className='review-split'>
 			<div className='review-split__card'>
-				<p className='kicker'>Así se verá en el mercado</p>
-				<div className='stalls stalls--one'>
-					<Stall
+				<p className='kicker'>Así se verá en la despensa</p>
+				<div className='bgrid review-split__bgrid'>
+					<BoardCard
 						product={preview}
 						balance={Number.MAX_SAFE_INTEGER}
 						index={0}

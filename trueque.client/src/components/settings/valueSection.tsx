@@ -39,7 +39,7 @@ export function ValueSection({ cacaoValue, rules, products }: Props) {
 		set.mutate(
 			{ cacaoValue: Number(v.cacaoValue) },
 			{
-				onSuccess: () => toast.success('Valor del cacao actualizado'),
+				onSuccess: () => toast.success('Valor de la yema actualizado'),
 				onError: e => toast.error(e.message),
 			}
 		)
@@ -47,12 +47,12 @@ export function ValueSection({ cacaoValue, rules, products }: Props) {
 	return (
 		<SettingsCard
 			id='value'
-			title='Valor del cacao'
+			title='Valor de la yema'
 			lede='La equivalencia que usa todo el sistema para sugerir precios y mostrar costos.'
 			busy={set.isPending}
 			onSubmit={e => void submit(e)}>
 			<div className='field'>
-				<label htmlFor='s-value'>Pesos por cacao</label>
+				<label htmlFor='s-value'>Pesos por yema</label>
 				<span className='input-affix'>
 					<span>$</span>
 					<input
@@ -66,7 +66,7 @@ export function ValueSection({ cacaoValue, rules, products }: Props) {
 				</span>
 				<p className={cn('field__help', error && 'is-error')} id='s-value-help'>
 					{error ??
-						'Con esto se sugiere el precio de cada producto (su costo entre este valor) y se muestra cuánto vale un cacao.'}
+						'Con esto se sugiere el precio de cada producto (su costo entre este valor) y se muestra cuánto vale una yema.'}
 				</p>
 			</div>
 			<div className='impact'>

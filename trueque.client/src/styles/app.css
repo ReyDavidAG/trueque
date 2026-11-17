@@ -5,10 +5,6 @@
 @import './app/controls.css';
 @import './app/market.css';
 @import './app/marketSign.css';
-@import './app/stall3d.css';
-@import './app/stall3dVendorFace.css';
-@import './app/stall3dVendor.css';
-@import './app/stall3dChalkboard.css';
 @import './app/trade.css';
 @import './app/earn.css';
 @import './app/panel.css';
@@ -16,11 +12,14 @@
 @import './app/responsive.css';
 @import './app/signIn.css';
 @import './app/emptyStates.css';
-@import './app/walletHero.css';
-@import './app/walletChart.css';
+@import './app/walletSimple.css';
+@import './app/stalls2d.css';
 @import './app/walletMoves.css';
 @import './app/tickets.css';
 @import './app/ticketsTear.css';
 @import './app/signInDesktop.css';
 @import './app/combobox.css';
+@import './app/squishEgg.css';
+@import './app/shelf.css';
+@import './app/productSimple.css';
 @import './app/overrides.css';

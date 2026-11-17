@@ -104,12 +104,12 @@ export function ConfirmPublish({
 					<div className='confirm-pub__route'>
 						<span>
 							<small>De</small>
-							<b>Tu puesto</b>
+							<b>Tu anaquel</b>
 						</span>
 						<Icon name='arrowRight' />
 						<span>
 							<small>Para</small>
-							<b>{editing ? 'El mercado' : 'RH corporativo'}</b>
+							<b>{editing ? 'La despensa' : 'RH corporativo'}</b>
 						</span>
 					</div>
 					<div className='confirm-pub__grid'>

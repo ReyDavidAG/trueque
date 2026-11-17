@@ -7,16 +7,16 @@ const FRAME_MS = 90
 const PERIOD_MS = 3200
 
 const PAGES: [RegExp, string][] = [
-	[/^\/$/, 'El mercado'],
-	[/^\/products\//, 'Puesto'],
+	[/^\/$/, 'La despensa'],
+	[/^\/products\//, 'Producto'],
 	[/^\/trade\//, 'Hacer trueque'],
 	[/^\/trades\//, 'Recibo'],
-	[new RegExp(`^${ROUTES.wallet}`), 'Mi jícara'],
+	[new RegExp(`^${ROUTES.wallet}`), 'Mis yemas'],
 	[new RegExp(`^${ROUTES.coupons}`), 'Mis cupones'],
 	[new RegExp(`^${ROUTES.earn}`), 'Cómo gano'],
 	[new RegExp(`^${ROUTES.newProduct}`), 'Publicar producto'],
 	[/^\/panel\/edit\//, 'Editar producto'],
-	[new RegExp(`^${ROUTES.panel}`), 'Mi puesto'],
+	[new RegExp(`^${ROUTES.panel}`), 'Mi anaquel'],
 	[new RegExp(`^${ROUTES.redeem}`), 'Canjear cupón'],
 	[new RegExp(`^${ROUTES.dashboard}`), 'Tablero'],
 	[new RegExp(`^${ROUTES.settings}`), 'Ajustes'],

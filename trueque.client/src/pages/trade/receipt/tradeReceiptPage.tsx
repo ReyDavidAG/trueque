@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router'
 
-import { CouponTicket } from '@/components/trade/couponTicket'
+import { Ticket3d as Ticket } from '@/components/coupons/ticket3d'
 import { Icon } from '@/components/ui/icon'
 import { DemoNote } from '@/components/ui/stateViews'
 import { ROUTES } from '@/constants/routes'
@@ -27,11 +27,11 @@ export default function TradeReceiptPage() {
 		['Producto', r.productName],
 		['Lo paga', person.companyName],
 		['Fecha', shortDate(r.createdAt)],
-		['Trueque', `− ${cacaos(r.price)}`],
+		['Canje', `− ${cacaos(r.price)}`],
 	]
 
 	return (
-		<div className='wrap narrow'>
+		<div className='wrap receipt-page'>
 			<div className='done-head animate-page-in'>
 				<span className='done-head__mark'>
 					<Icon name='check' />
@@ -41,53 +41,60 @@ export default function TradeReceiptPage() {
 					Tu cupón ya está listo. Enséñalo donde se canjea.
 				</p>
 			</div>
-			<section className='receipt' aria-label='Recibo'>
-				<header className='receipt__head'>
-					<span className='receipt__brand'>La Despensa</span>
-					<span className='num'>{r.orderFolio}</span>
-				</header>
-				<dl className='receipt__rows'>
-					{rows.map(([k, v]) => (
-						<div key={k}>
-							<dt>{k}</dt>
-							<dd>{v}</dd>
-						</div>
-					))}
-				</dl>
-				<div className='receipt__total'>
-					<span>Tu saldo hoy</span>
-					<b className='num'>{cacaos(balance.data?.balance ?? 0)}</b>
+			<div className='receipt-split'>
+				<section className='receipt' aria-label='Recibo'>
+					<header className='receipt__head'>
+						<span className='receipt__brand'>La Despensa</span>
+						<span className='num'>{r.orderFolio}</span>
+					</header>
+					<dl className='receipt__rows'>
+						{rows.map(([k, v]) => (
+							<div key={k}>
+								<dt>{k}</dt>
+								<dd>{v}</dd>
+							</div>
+						))}
+					</dl>
+					<div className='receipt__total'>
+						<span>Tu saldo hoy</span>
+						<b className='num'>{cacaos(balance.data?.balance ?? 0)}</b>
+					</div>
+					{r.used.length > 0 && (
+						<details className='receipt__lots'>
+							<summary>Qué yemas se usaron</summary>
+							<ul role='list'>
+								{r.used.map(u => (
+									<li key={`${u.sourceRef}-${u.expiresOn}`}>
+										<span className='num'>{u.amount}</span> {u.sourceRef}{' '}
+										<span className='muted'>
+											· vencían {shortDate(u.expiresOn)}
+										</span>
+									</li>
+								))}
+							</ul>
+						</details>
+					)}
+				</section>
+				<div className='receipt-coupon'>
+					<p className='kicker'>Tu cupón</p>
+					<ul className='tickets' role='list'>
+						<Ticket c={r} i={0} place={place} />
+					</ul>
+					<p className='hint'>
+						<Icon name='phone' />
+						<span>
+							Más adelante lo verás también en la app de RH, en <b>Cupones</b>,
+							con el mismo código.
+						</span>
+					</p>
 				</div>
-				{r.used.length > 0 && (
-					<details className='receipt__lots'>
-						<summary>Qué cacaos se usaron</summary>
-						<ul role='list'>
-							{r.used.map(u => (
-								<li key={`${u.sourceRef}-${u.expiresOn}`}>
-									<span className='num'>{u.amount}</span> {u.sourceRef}{' '}
-									<span className='muted'>
-										· vencían {shortDate(u.expiresOn)}
-									</span>
-								</li>
-							))}
-						</ul>
-					</details>
-				)}
-			</section>
-			<CouponTicket coupon={r} place={place} />
-			<p className='hint'>
-				<Icon name='phone' />
-				<span>
-					Más adelante lo verás también en la app de RH, en <b>Cupones</b>, con
-					el mismo código.
-				</span>
-			</p>
+			</div>
 			<div className='btn-row'>
 				<Link className='btn btn--ghost' to={ROUTES.coupons}>
 					Mis cupones
 				</Link>
 				<Link className='btn btn--grana' to={ROUTES.market}>
-					Volver al mercado
+					Volver a la despensa
 				</Link>
 			</div>
 			<DemoNote>

@@ -294,3 +294,25 @@
 	font-size: 0.72rem;
 	letter-spacing: 0.06em;
 }
+
+.receipt-page {
+	width: min(100% - 2 * var(--gutter), 1040px);
+}
+.receipt-split {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--space-xl);
+	align-items: start;
+}
+.receipt-coupon {
+	display: grid;
+	gap: var(--space-sm);
+}
+.receipt-coupon .hint {
+	margin: 0;
+}
+@media (min-width: 900px) {
+	.receipt-split {
+		grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+	}
+}

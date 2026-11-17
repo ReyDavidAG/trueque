@@ -22,7 +22,7 @@ function PriceHint({
 		return (
 			<p className='muted'>
 				<Icon name='info' />
-				Pon el costo y te sugerimos un precio: 1 cacao ={' '}
+				Pon el costo y te sugerimos un precio: 1 yema ={' '}
 				{formatMoney(cacaoValue)}.
 			</p>
 		)
@@ -75,7 +75,7 @@ function PriceHint({
 				{!price
 					? 'La raya es el precio sugerido.'
 					: out
-						? `Fuera del rango: para mandarlo debe quedar entre ${category.priceMin} y ${category.priceMax} cacaos.`
+						? `Fuera del rango: para mandarlo debe quedar entre ${category.priceMin} y ${category.priceMax} yemas.`
 						: `Dentro del rango. Para la gente equivale a ${formatMoney(price * cacaoValue)}.`}
 			</p>
 		</>
@@ -106,8 +106,8 @@ export function StepPrice({
 				/>
 				<TextField
 					id='p-price'
-					label='Precio en cacaos'
-					hint={`Rango de ${category.name.toLowerCase()}: de ${category.priceMin} a ${category.priceMax} cacaos.`}
+					label='Precio en yemas'
+					hint={`Rango de ${category.name.toLowerCase()}: de ${category.priceMin} a ${category.priceMax} yemas.`}
 					error={e.price?.message}
 					className='num'
 					inputMode='numeric'

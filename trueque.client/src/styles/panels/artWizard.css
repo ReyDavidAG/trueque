@@ -4,22 +4,40 @@
 }
 .wizard__preview {
 	display: grid;
-	gap: var(--space-xs);
+	gap: var(--space-sm);
 	justify-items: center;
 	align-content: start;
-	padding: var(--space-lg) var(--space-md) var(--space-sm);
+	padding: var(--space-md);
+	border: 1px solid var(--color-rule);
 	border-radius: var(--radius-lg);
 	background: var(--color-amate);
-	background-image: var(--tex-amate);
 }
-.wizard__stall {
-	width: min(100%, 280px);
+.wizard__preview .kicker {
+	justify-self: start;
+}
+.wizard__card {
+	width: min(100%, 260px);
 	pointer-events: none;
-	animation: none;
+}
+.wizard__card:hover {
+	transform: none;
+	box-shadow: none;
+}
+.wizard__card .bcard__pic {
+	overflow: visible;
 }
 .wizard__art {
-	display: block;
+	display: grid;
+	place-items: center;
+	width: 64%;
 	animation: figure-pop 420ms var(--ease-out) both;
+}
+.wizard__art .art {
+	width: 100%;
+	height: auto;
+}
+.wizard__art .art .a-halo {
+	display: none;
 }
 .wizard__hint {
 	display: inline-flex;
@@ -316,4 +334,7 @@
 	stroke-width: 3;
 	paint-order: stroke;
 	stroke-linejoin: round;
+}
+.review-split__bgrid {
+	grid-template-columns: minmax(0, 260px);
 }

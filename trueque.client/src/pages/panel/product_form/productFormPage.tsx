@@ -83,6 +83,7 @@ function FormBody({
 			key='look'
 			images={shownImages}
 			onImages={wizard.replaceImages}
+			companyName={companyName}
 		/>,
 		<StepPrice key='price' category={category} cacaoValue={cacaoValue} />,
 		<StepWhen key='when' locations={locations} />,
@@ -100,7 +101,7 @@ function FormBody({
 		<div className='wrap narrow-wide'>
 			<Link className='back-link' to={ROUTES.panel}>
 				<Icon name='arrowLeft' />
-				Tu puesto
+				Tu anaquel
 			</Link>
 			<header className='page-head'>
 				<h1 className='h1'>

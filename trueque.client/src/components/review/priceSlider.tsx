@@ -54,7 +54,7 @@ export function PriceSlider({
 					step={1}
 					value={value}
 					aria-label={`Precio a aprobar de ${name}`}
-					aria-valuetext={`${value} cacaos`}
+					aria-valuetext={`${value} yemas`}
 					onChange={e => onChange(Number(e.target.value))}
 				/>
 			</div>

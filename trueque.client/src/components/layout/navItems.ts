@@ -10,10 +10,10 @@ export interface NavItem {
 }
 
 const ITEMS = {
-	market: { to: ROUTES.market, label: 'El mercado', icon: 'store', end: true },
+	market: { to: ROUTES.market, label: 'La despensa', icon: 'store', end: true },
 	coupons: { to: ROUTES.coupons, label: 'Mis cupones', icon: 'ticket' },
 	earn: { to: ROUTES.earn, label: 'Cómo gano', icon: 'spark' },
-	panel: { to: ROUTES.panel, label: 'Mi puesto', icon: 'building' },
+	panel: { to: ROUTES.panel, label: 'Mi anaquel', icon: 'building' },
 	redeem: { to: ROUTES.redeem, label: 'Canjear', icon: 'scan' },
 	review: { to: ROUTES.panel, label: 'Aprobar', icon: 'scale' },
 	dashboard: { to: ROUTES.dashboard, label: 'Tablero', icon: 'chart' },

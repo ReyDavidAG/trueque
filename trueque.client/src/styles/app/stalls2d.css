@@ -1,0 +1,297 @@
+.stalls2d {
+	--s2d-ink: oklch(25% 0.05 262);
+	--s2d-blue: oklch(39% 0.14 258);
+	--s2d-light: oklch(99.6% 0.006 100);
+	--s2d-slat: oklch(90% 0.02 80);
+	--s2d-slat-2: oklch(96% 0.012 240);
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+.stalls2d text {
+	font-family: var(--font-display);
+	fill: var(--s2d-ink);
+}
+.s2d-shadow {
+	fill: var(--s2d-ink);
+	opacity: 0.08;
+}
+.s2d-post,
+.s2d-slab,
+.s2d-roof,
+.s2d-valance {
+	fill: var(--s2d-blue);
+	stroke: var(--s2d-ink);
+	stroke-width: 3;
+	stroke-linejoin: round;
+}
+.s2d-stripe {
+	fill: var(--s2d-light);
+}
+.s2d-ball {
+	fill: var(--s2d-blue);
+	stroke: var(--s2d-ink);
+	stroke-width: 2.5;
+}
+.s2d-ball.is-light {
+	fill: var(--s2d-light);
+}
+.s2d-front {
+	stroke: none;
+}
+.s2d-line {
+	fill: none;
+	stroke: var(--s2d-ink);
+	stroke-width: 3;
+}
+.s2d-vichy-a {
+	fill: var(--s2d-light);
+}
+.s2d-vichy-b,
+.s2d-vichy-c {
+	fill: oklch(59% 0.14 240);
+}
+.s2d-slat-a {
+	fill: var(--s2d-slat-2);
+}
+.s2d-slat-b {
+	fill: var(--s2d-slat);
+}
+
+.s2d-sign {
+	transform-box: view-box;
+	transform-origin: calc(var(--sx, 0) * 1px) 140px;
+	animation: s2d-sway 4.6s var(--ease-in-out) infinite;
+	animation-delay: calc(var(--i, 0) * -1.4s);
+}
+.s2d-stall:hover .s2d-sign {
+	animation-duration: 1.2s;
+}
+.s2d-string {
+	fill: none;
+	stroke: var(--s2d-ink);
+	stroke-width: 2.5;
+}
+.s2d-card {
+	fill: var(--s2d-light);
+	stroke: var(--s2d-ink);
+	stroke-width: 3;
+}
+.s2d-kind {
+	font-size: 13px;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+}
+.s2d-price {
+	font-size: 28px;
+	font-weight: 800;
+}
+.s2d-unit {
+	font-size: 11px;
+	font-weight: 700;
+}
+.s2d-band {
+	fill: var(--s2d-blue);
+}
+.stalls2d .s2d-band__text {
+	font-family: var(--font-body);
+	font-size: 10px;
+	font-weight: 700;
+	fill: var(--s2d-light);
+}
+
+.s2d-egg {
+	stroke: var(--s2d-ink);
+	stroke-width: 2.5;
+	cursor: var(--cur-pointer, pointer);
+	transform-box: fill-box;
+	transform-origin: 50% 100%;
+	transition: transform var(--dur-fast) var(--ease-out);
+	animation: s2d-pop 360ms var(--ease-out) both;
+}
+.s2d-egg:hover {
+	transform: rotate(-8deg) scale(1.08);
+}
+.s2d-coin__rim {
+	fill: var(--s2d-blue);
+	stroke: var(--s2d-ink);
+	stroke-width: 2;
+}
+.s2d-coin__face {
+	fill: var(--s2d-light);
+}
+.s2d-coin__yolk {
+	fill: oklch(80% 0.155 78);
+}
+.s2d-splat {
+	fill: oklch(80% 0.155 78);
+	opacity: 0.85;
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: s2d-splat 260ms var(--ease-out) both;
+}
+.s2d-shell {
+	fill: var(--s2d-light);
+	stroke: var(--s2d-ink);
+	stroke-width: 2;
+	animation: s2d-pop 260ms var(--ease-out) both;
+}
+.s2d-fly {
+	animation: s2d-fly 900ms var(--ease-out) both;
+	animation-delay: calc(var(--k, 0) * 60ms);
+}
+
+.s2d-walker {
+	animation: s2d-walk var(--dur) linear infinite alternate;
+}
+.s2d-face {
+	animation: s2d-turn calc(var(--dur) * 2) steps(1) infinite;
+}
+.s2d-hen {
+	cursor: var(--cur-pointer, pointer);
+}
+.s2d-hen .coop-hen__bird {
+	animation: hen-walk-bob 420ms var(--ease-in-out) infinite;
+}
+.s2d-hen.is-clucking .coop-hen__bird {
+	animation: hen-hop 640ms var(--ease-out);
+}
+.s2d-leg {
+	fill: none;
+	stroke: oklch(74% 0.15 62) !important;
+	stroke-width: 6 !important;
+	stroke-linecap: round;
+	transform-box: fill-box;
+	transform-origin: 50% 0;
+	animation: s2d-step 420ms var(--ease-in-out) infinite alternate;
+}
+.s2d-cluck rect {
+	fill: var(--s2d-light);
+	stroke: var(--s2d-ink);
+	stroke-width: 2.5;
+}
+.s2d-cluck text {
+	font-size: 13px;
+	font-weight: 800;
+}
+.s2d-cluck {
+	animation: s2d-pop 240ms var(--ease-out) both;
+}
+
+@keyframes s2d-sway {
+	0%,
+	100% {
+		rotate: -1.6deg;
+	}
+	50% {
+		rotate: 1.6deg;
+	}
+}
+@keyframes s2d-walk {
+	from {
+		transform: translate(var(--from), var(--y));
+	}
+	to {
+		transform: translate(var(--to), var(--y));
+	}
+}
+@keyframes s2d-turn {
+	0% {
+		transform: none;
+	}
+	50% {
+		transform: scaleX(-1);
+	}
+}
+@keyframes hen-walk-bob {
+	0%,
+	100% {
+		transform: none;
+	}
+	50% {
+		transform: translateY(-3px) rotate(-2deg);
+	}
+}
+@keyframes s2d-step {
+	from {
+		transform: rotate(-14deg);
+	}
+	to {
+		transform: rotate(14deg);
+	}
+}
+@keyframes s2d-pop {
+	from {
+		opacity: 0;
+		transform: scale(0.3);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@keyframes s2d-splat {
+	from {
+		transform: scale(0.2);
+	}
+	to {
+		transform: none;
+	}
+}
+@keyframes s2d-fly {
+	0% {
+		transform: translate(0, 0) scale(0.4);
+		opacity: 0;
+	}
+	15% {
+		opacity: 1;
+	}
+	45% {
+		transform: translate(calc(var(--dx) * 0.6), -70px) scale(1);
+	}
+	100% {
+		transform: translate(var(--dx), 14px) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.s2d-sign,
+	.s2d-walker,
+	.s2d-face,
+	.s2d-hen .coop-hen__bird,
+	.s2d-leg,
+	.s2d-egg,
+	.s2d-fly,
+	.s2d-shell,
+	.s2d-splat,
+	.s2d-cluck {
+		animation: none;
+	}
+	.s2d-walker {
+		transform: translate(var(--from), var(--y));
+	}
+}
+
+.signin__scene:has(.stalls2d) {
+	display: grid;
+	grid-template-rows: minmax(0, 1fr);
+	align-items: start;
+	overflow: hidden;
+	padding: var(--space-sm) var(--gutter);
+}
+.signin__scene .stalls2d {
+	min-height: 0;
+	max-height: 100%;
+}
+@media (min-width: 900px) {
+	.signin__scene:has(.stalls2d) {
+		align-items: center;
+		padding: var(--space-lg) var(--space-2xl);
+	}
+	.signin__scene .stalls2d {
+		max-height: 100%;
+	}
+}

@@ -12,7 +12,7 @@ const LINES = [
 	'No hay nada, de veras.',
 	'Toc, toc… ¿quién es? Nadie. Cerrado.',
 	'Me vas a tumbar la cortina.',
-	'Estoy contando cacaos, no molestes.',
+	'Estoy contando yemas, no molestes.',
 	'Voy a llamar a RH.',
 	'Ya, ya… mejor cambia los filtros.',
 ]
@@ -131,7 +131,7 @@ export function ClosedStall({ onAngry }: { onAngry?: () => void }) {
 			<button
 				type='button'
 				className='closed__door'
-				aria-label='Tocar la cortina del puesto'
+				aria-label='Tocar la cortina del anaquel'
 				onClick={knock}>
 				<span ref={door}>
 					<Art id='closed' />

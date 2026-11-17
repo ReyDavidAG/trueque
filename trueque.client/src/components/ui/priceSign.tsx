@@ -16,7 +16,7 @@ export function PriceSign({
 			<span className='sign__board'>
 				<Coin className='sign__bean' />
 				<span className='sign__n num'>{price}</span>
-				<span className='sign__unit'>{price === 1 ? 'cacao' : 'cacaos'}</span>
+				<span className='sign__unit'>{price === 1 ? 'yema' : 'yemas'}</span>
 			</span>
 		</span>
 	)

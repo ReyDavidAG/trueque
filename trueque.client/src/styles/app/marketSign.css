@@ -198,8 +198,3 @@
 	border-radius: var(--radius-sm);
 	color: var(--color-muted);
 }
-
-.product {
-	display: grid;
-	gap: var(--space-xl);
-}

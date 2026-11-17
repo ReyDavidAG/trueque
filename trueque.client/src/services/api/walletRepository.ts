@@ -26,11 +26,21 @@ interface MovementRow {
 	rule: { label: string } | null
 }
 
+const toYemas = (text: string) =>
+	text.replace(
+		/\bcacao(s?)\b/gi,
+		(word, plural: string) => (word[0] === 'C' ? 'Yema' : 'yema') + plural
+	)
+
 function labelOf(r: MovementRow) {
+	return toYemas(rawLabel(r))
+}
+
+function rawLabel(r: MovementRow) {
 	if (r.kind === 'earn')
 		return r.note ?? `${r.rule?.label ?? 'Abono'} · ${r.source_ref}`
-	if (r.kind === 'spend') return `Trueque ${r.source_ref}`
-	if (r.kind === 'expire') return `Vencieron los cacaos de ${r.source_ref}`
+	if (r.kind === 'spend') return `Canje ${r.source_ref}`
+	if (r.kind === 'expire') return `Vencieron las yemas de ${r.source_ref}`
 	if (r.kind === 'refund') return `Devolución · ${r.source_ref}`
 	return r.note ?? 'Ajuste'
 }

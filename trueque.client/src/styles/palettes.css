@@ -72,8 +72,7 @@
 .coin,
 .mark,
 .scene3d,
-.jar,
-.henhouse,
+.coop__yard,
 .vault-coins {
 	--color-grana: oklch(50% 0.19 18);
 	--color-grana-soft: oklch(93% 0.04 15);
@@ -132,8 +131,7 @@
 		.coin,
 		.mark,
 		.scene3d,
-		.jar,
-		.henhouse,
+		.coop__yard,
 		.signin__scene,
 		.tour__visor,
 		.vault-coins

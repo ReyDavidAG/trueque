@@ -23,7 +23,7 @@ export function StepWhat({ categories }: { categories: CategoryInfo[] }) {
 			<TextField
 				id='p-name'
 				label='Nombre'
-				hint='Lo primero que verá la gente en el puesto. De 4 a 80 letras.'
+				hint='Lo primero que verá la gente en la despensa. De 4 a 80 letras.'
 				error={e.name?.message}
 				maxLength={80}
 				placeholder='Ej. Consulta con nutrióloga'

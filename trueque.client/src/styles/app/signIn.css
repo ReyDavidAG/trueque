@@ -293,3 +293,16 @@
 	text-decoration: none;
 	color: inherit;
 }
+.signin__brand {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+}
+.signin__brand .squish-egg {
+	width: 50px;
+	height: 56px;
+}
+.signin__brand .squish-egg svg {
+	width: 46px;
+	height: 52px;
+}

@@ -41,7 +41,7 @@ export function MonthChart({ months }: { months: DashboardData['months'] }) {
 	return (
 		<section className='dash-card dash-card--wide'>
 			<header>
-				<h2 className='h4'>Cacaos por mes</h2>
+				<h2 className='h4'>Yemas por mes</h2>
 				<ul className='legend' role='list'>
 					<li>
 						<i className='is-earned' />
@@ -57,7 +57,7 @@ export function MonthChart({ months }: { months: DashboardData['months'] }) {
 				className='chart'
 				viewBox={`0 0 ${W} ${H}`}
 				role='img'
-				aria-label='Cacaos dados y cambiados en los últimos seis meses'>
+				aria-label='Yemas dadas y cambiadas en los últimos seis meses'>
 				<path className='chart__base' d={`M${pad} ${H - pad}H${W - pad}`} />
 				{data.map((d, i) => {
 					const x = pad + i * step + step * 0.18
@@ -93,7 +93,7 @@ export function MonthChart({ months }: { months: DashboardData['months'] }) {
 				})}
 			</svg>
 			<table className='sr-only'>
-				<caption>Cacaos por mes</caption>
+				<caption>Yemas por mes</caption>
 				<tbody>
 					{data.map(d => (
 						<tr key={d.label}>

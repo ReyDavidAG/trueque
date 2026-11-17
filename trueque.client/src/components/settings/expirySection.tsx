@@ -35,11 +35,11 @@ export function ExpirySection({ config }: { config: StoreConfig }) {
 		<SettingsCard
 			id='expiry'
 			title='Vencimiento'
-			lede='Para que los cacaos se usen y la empresa no acumule una deuda que nunca se canjea.'
+			lede='Para que las yemas se usen y la empresa no acumule una deuda que nunca se canjea.'
 			busy={set.isPending}
 			onSubmit={e => void submit(e)}>
 			<div className='field'>
-				<label htmlFor='s-months'>Los cacaos vencen a los</label>
+				<label htmlFor='s-months'>Las yemas vencen a los</label>
 				<span className='input-affix input-affix--end'>
 					<input
 						id='s-months'
@@ -61,7 +61,7 @@ export function ExpirySection({ config }: { config: StoreConfig }) {
 			<label className='switch'>
 				<input type='checkbox' {...register('refundOnExpiry')} />
 				<span className='switch__track' aria-hidden='true' />
-				<span>Devolver los cacaos si un cupón vence sin usarse</span>
+				<span>Devolver las yemas si un cupón vence sin usarse</span>
 			</label>
 		</SettingsCard>
 	)

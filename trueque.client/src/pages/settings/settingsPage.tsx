@@ -46,8 +46,8 @@ export default function SettingsPage() {
 				<p className='kicker'>RH corporativo</p>
 				<h1 className='h1'>Ajustes de La Despensa</h1>
 				<p className='lede'>
-					Las reglas del mercado. Cada cambio aplica desde que lo guardas; lo ya
-					ganado y los cupones emitidos no cambian.
+					Las reglas de la despensa. Cada cambio aplica desde que lo guardas; lo
+					ya ganado y los cupones emitidos no cambian.
 				</p>
 			</header>
 			<div className='settings'>

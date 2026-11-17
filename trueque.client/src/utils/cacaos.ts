@@ -1,5 +1,5 @@
 export const cacaos = (n: number) =>
-	`${n.toLocaleString('es-MX')} ${n === 1 ? 'cacao' : 'cacaos'}`
+	`${n.toLocaleString('es-MX')} ${n === 1 ? 'yema' : 'yemas'}`
 
 export const formatMoney = (n: number) =>
 	n.toLocaleString('es-MX', {

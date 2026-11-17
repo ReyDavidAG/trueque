@@ -60,9 +60,6 @@
 	font-weight: 400;
 	font-size: var(--text-sm);
 	color: var(--color-muted);
-	opacity: 0;
-	animation: crayon-fade 600ms var(--ease-out) forwards;
-	animation-delay: calc(var(--write-delay) + 700ms);
 }
 .board__pay {
 	display: grid;
@@ -95,68 +92,8 @@
 	font-family: var(--font-mono);
 	color: var(--color-muted);
 }
-.board__tray,
 .easel__legs {
 	display: none;
-}
-.scribble {
-	position: relative;
-	display: inline-block;
-}
-.scribble__wipe {
-	position: absolute;
-	inset: -3px -6px;
-	background: var(--board-bg);
-	transform-origin: 100% 50%;
-	transform: scaleX(0);
-	animation: crayon-wipe 900ms var(--ease-in-out) backwards;
-	animation-delay: var(--write-delay);
-	pointer-events: none;
-}
-.scribble__pen {
-	position: absolute;
-	inset: 0;
-	opacity: 0;
-	pointer-events: none;
-	animation: crayon-pen 900ms var(--ease-in-out) backwards;
-	animation-delay: var(--write-delay);
-}
-.crayon {
-	position: absolute;
-	left: -4px;
-	bottom: 10%;
-	width: 9px;
-	height: 34px;
-	border: 2px solid var(--color-ink);
-	border-radius: 2px 2px 3px 3px;
-	background:
-		linear-gradient(
-			to bottom,
-			transparent 0 22%,
-			color-mix(in oklch, var(--color-ink) 35%, var(--crayon)) 22% 30%,
-			transparent 30% 70%,
-			color-mix(in oklch, var(--color-ink) 35%, var(--crayon)) 70% 78%,
-			transparent 78%
-		),
-		var(--crayon);
-	clip-path: polygon(50% 0, 100% 14%, 100% 100%, 0 100%, 0 14%);
-	transform-origin: 50% 0;
-	rotate: 200deg;
-}
-.scribble__pen .crayon {
-	animation: crayon-scribble 120ms linear 8 alternate;
-	animation-delay: var(--write-delay);
-}
-.scribble__pen .crayon {
-	--crayon: var(--color-estraza);
-}
-.crayon--rest {
-	position: relative;
-	left: auto;
-	bottom: 6px;
-	height: 26px;
-	rotate: 90deg;
-	transform-origin: 50% 50%;
 }
 .math-card {
 	position: relative;
@@ -401,38 +338,6 @@
 .lot:hover .lot__beans .coin {
 	animation: coin-flip 1.2s var(--ease-in-out);
 }
-@keyframes crayon-wipe {
-	from {
-		transform: scaleX(1);
-	}
-	to {
-		transform: scaleX(0);
-	}
-}
-@keyframes crayon-pen {
-	0% {
-		opacity: 1;
-		transform: translateX(0);
-	}
-	92% {
-		opacity: 1;
-		transform: translateX(100%);
-	}
-	100% {
-		opacity: 0;
-		transform: translateX(100%);
-	}
-}
-@keyframes crayon-scribble {
-	to {
-		translate: 0 -4px;
-	}
-}
-@keyframes crayon-fade {
-	to {
-		opacity: 1;
-	}
-}
 @keyframes bean-spin {
 	to {
 		transform: rotateY(360deg);
@@ -468,14 +373,8 @@
 	.math-card__coin .coin,
 	.lot:hover .lot__beans .coin,
 	.fair__note,
-	.fair-line .fair__note,
-	.scribble__wipe,
-	.scribble__pen,
-	.scribble__pen .crayon {
+	.fair-line .fair__note {
 		animation: none;
-	}
-	.scribble__pen {
-		display: none;
 	}
 	.board__what small {
 		animation: none;
@@ -488,7 +387,15 @@
 	}
 }
 .earn-retos {
-	justify-self: center;
-	width: min(100%, 560px);
-	margin: var(--space-xl) auto 0;
+	justify-self: start;
+	width: min(100%, 520px);
+	margin-top: var(--space-xs);
+}
+.earn-fair {
+	margin-top: var(--space-2xl);
+}
+@media (min-width: 900px) {
+	.earn-fair .fair {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
 }

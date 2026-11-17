@@ -59,7 +59,7 @@ export function BudgetsSection({
 		<SettingsCard
 			id='budgets'
 			title='Presupuesto por empresa'
-			lede='Cada empresa paga, con el costo real, lo que su puesto entrega.'
+			lede='Cada empresa paga, con el costo real, lo que su anaquel entrega.'
 			busy={set.isPending}
 			onSubmit={e => void submit(e)}>
 			{rows.map((r, i) => {

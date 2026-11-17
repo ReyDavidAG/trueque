@@ -15,12 +15,12 @@ import { stagger } from '@/utils/stagger'
 const FAIR = [
 	[
 		'Lo grande lo decide una persona',
-		'Los cacaos fuertes llegan cuando el comité selecciona o se implementa una chispa, no por mandar muchas.',
+		'Las yemas grandes llegan cuando el comité selecciona o se implementa una chispa, no por mandar muchas.',
 	],
 	['Topes al mes', 'Mandar diez chispas iguales no paga diez veces.'],
 	[
 		'Paga quien ofrece',
-		'Cada empresa cubre, con su presupuesto, lo que su puesto entrega. Nadie paga premios de otra.',
+		'Cada empresa cubre, con su presupuesto, lo que su anaquel entrega. Nadie paga premios de otra.',
 	],
 	[
 		'Precios parejos',
@@ -45,12 +45,24 @@ export default function EarnPage() {
 
 	return (
 		<div className='wrap'>
-			<header className='page-head'>
-				<h1 className='h1'>Cómo gano cacaos</h1>
+			<header className='page-head earn-head'>
+				<h1 className='h1'>Cómo gano yemas</h1>
 				<p className='lede'>
-					En Mesoamérica el cacao fue moneda. Aquí también: lo ganas cuando
-					ayudas a resolver un problema de la operación.
+					La yema es lo que vale del huevo. Aquí la ganas cuando ayudas a
+					resolver un problema de la operación.
 				</p>
+				<a
+					className='chispa-link earn-retos'
+					href={CHISPA_URL}
+					target='_blank'
+					rel='noopener'>
+					<Icon name='spark' />
+					<span>
+						<b>Ve los retos abiertos en Chispa</b>
+						Cada idea que mandas es tu primera yema.
+					</span>
+					<Icon name='arrowRight' />
+				</a>
 			</header>
 			<div className='earn-split'>
 				<RulesBoard
@@ -90,37 +102,25 @@ export default function EarnPage() {
 							<Icon name='arrowRight' />
 						</a>
 						<Link className='btn btn--ghost btn--block' to={ROUTES.market}>
-							Ver el mercado
+							Ver la despensa
 						</Link>
 					</aside>
-					<section className='fair-line' aria-labelledby='fair-title'>
-						<h2 className='h4 fair-line__title' id='fair-title'>
-							Para que sea parejo
-						</h2>
-						<ul className='fair' role='list'>
-							{FAIR.map(([t, d], i) => (
-								<li key={t} className='fair__note' style={stagger(i)}>
-									<b>{t}</b>
-									<span>{d}</span>
-								</li>
-							))}
-						</ul>
-					</section>
 				</div>
 			</div>
-			<a
-				className='chispa-link earn-retos'
-				href={CHISPA_URL}
-				target='_blank'
-				rel='noopener'>
-				<Icon name='spark' />
-				<span>
-					<b>Ve los retos abiertos en Chispa</b>
-					Cada idea que mandas es tu primer cacao.
-				</span>
-				<Icon name='arrowRight' />
-			</a>
 			<LotsSection lots={lots.data ?? []} months={config?.lotMonths ?? 12} />
+			<section className='fair-line earn-fair' aria-labelledby='fair-title'>
+				<h2 className='h4 fair-line__title' id='fair-title'>
+					Para que sea parejo
+				</h2>
+				<ul className='fair' role='list'>
+					{FAIR.map(([t, d], i) => (
+						<li key={t} className='fair__note' style={stagger(i)}>
+							<b>{t}</b>
+							<span>{d}</span>
+						</li>
+					))}
+				</ul>
+			</section>
 		</div>
 	)
 }

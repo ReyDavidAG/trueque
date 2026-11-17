@@ -70,7 +70,7 @@ export const productSchema = (categories: CategoryInfo[]) =>
 				.refine(validArt, 'Elige una ilustración.'),
 			stall: z.enum(['grana', 'anil', 'nopal', 'achiote', 'maiz', 'cacao']),
 			cost: money,
-			price: whole('Pon un precio en cacaos, sólo números enteros.'),
+			price: whole('Pon un precio en yemas, sólo números enteros.'),
 			stock: z.union([
 				z.literal(''),
 				whole('Existencias: un número entero o vacío.'),
@@ -91,7 +91,7 @@ export const productSchema = (categories: CategoryInfo[]) =>
 				ctx.addIssue({
 					code: 'custom',
 					path: ['price'],
-					message: `Debe quedar entre ${cat.priceMin} y ${cat.priceMax} cacaos.`,
+					message: `Debe quedar entre ${cat.priceMin} y ${cat.priceMax} yemas.`,
 				})
 			if (
 				v.availableFrom &&

@@ -40,8 +40,8 @@ export default function DashboardPage() {
 					<p className='kicker'>RH y dirección · {year}</p>
 					<h1 className='h1'>Cómo va La Despensa</h1>
 					<p className='lede'>
-						Lo que se ha dado, lo que se ha cambiado y lo que se debe, en cacaos
-						y en pesos (1 cacao = {formatMoney(cacaoValue)}).
+						Lo que se ha dado, lo que se ha cambiado y lo que se debe, en yemas
+						y en pesos (1 yema = {formatMoney(cacaoValue)}).
 					</p>
 				</div>
 				<span className='tag-example'>
@@ -108,7 +108,7 @@ export default function DashboardPage() {
 					}))}
 				/>
 				<BarList
-					title='De dónde salen los cacaos'
+					title='De dónde salen las yemas'
 					tone='warm'
 					note='Cada fuente nueva (por ejemplo, ahorro validado) es una regla más en Ajustes.'
 					rows={d.sources.map(s => ({

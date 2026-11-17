@@ -40,7 +40,7 @@ export function CompanyPanel() {
 			<header className='page-head page-head--row'>
 				<div>
 					<p className='kicker'>{companyName}</p>
-					<h1 className='h1'>Tu puesto en La Despensa</h1>
+					<h1 className='h1'>Tu anaquel en La Despensa</h1>
 					<p className='lede'>
 						Lo que ofreces a tu gente y cuánto del presupuesto se ha usado.
 					</p>
@@ -71,7 +71,7 @@ export function CompanyPanel() {
 				) : (
 					<EmptyState
 						title='Todavía no ofreces nada'
-						body='Publica tu primer producto: RH revisa el precio y en cuanto lo apruebe aparece en el mercado.'
+						body='Publica tu primer producto: RH revisa el precio y en cuanto lo apruebe aparece en la despensa.'
 					/>
 				)}
 			</section>

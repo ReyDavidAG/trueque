@@ -1,12 +1,12 @@
 import { Link, NavLink } from 'react-router'
 
 import { Coin, Wordmark } from '@/components/ui/art'
-import { LazyMarkScene } from '@/components/ui/lazyMarkScene'
 import { ROUTES } from '@/constants/routes'
 import { useBalance } from '@/hooks/wallet/useWallet'
 
 import type { NavItem } from './navItems'
 import { NotificationsBell } from './notificationsBell'
+import { SquishEgg } from './squishEgg'
 import { ThemeMenu } from './themeMenu'
 import { UserMenu } from './userMenu'
 
@@ -16,12 +16,12 @@ export function TopBar({ items }: { items: NavItem[] }) {
 	return (
 		<header className='topbar'>
 			<div className='topbar__inner'>
-				<Link
-					className='topbar__brand'
-					to={ROUTES.market}
-					aria-label='La Despensa, el mercado'>
-					<Wordmark mark={<LazyMarkScene />} />
-				</Link>
+				<div className='topbar__brand'>
+					<SquishEgg />
+					<Link to={ROUTES.market} aria-label='La Despensa, la despensa'>
+						<Wordmark mark={null} />
+					</Link>
+				</div>
 				<span className='version-tag num' title='Versión de la demostración'>
 					v{import.meta.env.VITE_APP_VERSION}
 				</span>
@@ -38,10 +38,10 @@ export function TopBar({ items }: { items: NavItem[] }) {
 					<Link
 						className='purse-chip'
 						to={ROUTES.wallet}
-						aria-label={`Tienes ${balance} cacaos`}>
+						aria-label={`Tienes ${balance} yemas`}>
 						<Coin className='purse-chip__bean' />
 						<b className='num'>{balance}</b>
-						<span className='purse-chip__unit'>cacaos</span>
+						<span className='purse-chip__unit'>yemas</span>
 					</Link>
 					<UserMenu />
 				</div>

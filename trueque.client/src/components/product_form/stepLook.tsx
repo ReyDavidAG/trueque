@@ -17,9 +17,10 @@ import { PhotoField } from './photoField'
 interface Props {
 	images: ProductImage[]
 	onImages: (images: ProductImage[]) => void
+	companyName: string
 }
 
-export function StepLook({ images, onImages }: Props) {
+export function StepLook({ images, onImages, companyName }: Props) {
 	const { register, control } = useFormContext<ProductForm>()
 	const stall = useWatch({ control, name: 'stall' })
 	const [tab, setTab] = useState<LookTab>('design')
@@ -34,6 +35,8 @@ export function StepLook({ images, onImages }: Props) {
 				code={composer.code}
 				layers={composer.layers}
 				stall={stall}
+				companyName={companyName}
+				photo={images[0]?.data}
 				draggable={isDesigning}
 				drag={drag}
 			/>

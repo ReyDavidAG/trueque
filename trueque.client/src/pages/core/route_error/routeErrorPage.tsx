@@ -8,10 +8,10 @@ export default function RouteErrorPage() {
 				<div className='empty__art'>
 					<Art id='closed' />
 				</div>
-				<h1 className='h2'>Algo se nos cayó del puesto</h1>
-				<p className='muted'>Recarga la página o vuelve al mercado.</p>
+				<h1 className='h2'>Algo se nos cayó de la despensa</h1>
+				<p className='muted'>Recarga la página o vuelve a la despensa.</p>
 				<a className='btn btn--grana' href={ROUTES.market}>
-					Volver al mercado
+					Volver a la despensa
 				</a>
 			</div>
 		</div>

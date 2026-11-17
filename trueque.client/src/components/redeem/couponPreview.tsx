@@ -22,7 +22,7 @@ function problem(c: CouponLookup): [string, string, string] | null {
 	if (!c.canRedeem)
 		return [
 			'is-other',
-			'Este cupón es de otro puesto',
+			'Este cupón es de otro anaquel',
 			'Lo canjea la empresa que ofrece el producto.',
 		]
 	return null

@@ -40,11 +40,6 @@
 		background: var(--color-amate-2);
 		box-shadow: inset 0 -3px 0 var(--color-grana);
 	}
-	.product {
-		grid-template-columns: minmax(0, 1.55fr) minmax(320px, 1.1fr);
-		align-items: end;
-		min-height: calc(100svh - var(--topbar-h) - 7rem);
-	}
 	.earn-split {
 		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
 		align-items: start;

@@ -55,7 +55,7 @@ export function CategoriesSection({
 					<TextField
 						id={`s-min-${c.code}`}
 						label='Mínimo'
-						hint='cacaos'
+						hint='yemas'
 						error={errors?.[i]?.min?.message}
 						className='input--sm num'
 						inputMode='numeric'
@@ -64,7 +64,7 @@ export function CategoriesSection({
 					<TextField
 						id={`s-max-${c.code}`}
 						label='Máximo'
-						hint='cacaos'
+						hint='yemas'
 						error={errors?.[i]?.max?.message}
 						className='input--sm num'
 						inputMode='numeric'

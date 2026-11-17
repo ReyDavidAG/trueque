@@ -60,7 +60,7 @@ export const ReviewCard = memo(function ReviewCard({
 							? 'Rechazado; la empresa ve tu motivo'
 							: decision === 'adjusted'
 								? `Ajustado a ${cacaos(value)} y publicado`
-								: `Aprobado: ${p.name} ya está en el mercado`
+								: `Aprobado: ${p.name} ya está en la despensa`
 					),
 				onError: e => toast.error(e.message),
 			}

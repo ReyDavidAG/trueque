@@ -38,7 +38,7 @@ export function useExplainerSlides(products: Product[]) {
 		},
 		{
 			title: 'Eliges algo que te alcance',
-			text: 'Cada puesto del mercado tiene su precio en cacaos. Con "Sólo lo que me alcanza" ves lo que ya puedes cambiar.',
+			text: 'Cada producto de la despensa tiene su precio en yemas. Con "Sólo lo que me alcanza" ves lo que ya puedes cambiar.',
 			note: cheapest && (
 				<>
 					Lo más barato hoy: <b>{cheapest.name.toLowerCase()}</b> por{' '}
@@ -48,7 +48,7 @@ export function useExplainerSlides(products: Product[]) {
 		},
 		{
 			title: 'Haces el trueque',
-			text: 'Se descuentan tus cacaos y recibes un cupón con código.',
+			text: 'Se descuentan tus yemas y recibes un cupón con código.',
 		},
 		{
 			title: 'Enseñas tu cupón',
@@ -56,9 +56,9 @@ export function useExplainerSlides(products: Product[]) {
 		},
 		{
 			title: `Duran ${months} meses`,
-			text: 'Desde que los ganas. Al cambiar se usan primero los más viejos, para que no se te venzan.',
+			text: 'Desde que las ganas. Al canjear se usan primero las más viejas, para que no se te venzan.',
 		},
 	]
 
-	return { slides, cacaoValue }
+	return { slides, cacaoValue, lotMonths: months }
 }

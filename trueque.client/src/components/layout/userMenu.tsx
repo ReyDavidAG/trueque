@@ -66,7 +66,7 @@ export function UserMenu() {
 						to={ROUTES.wallet}
 						onClick={() => setOpen(false)}>
 						<Icon name='store' />
-						Mi jícara
+						Mis yemas
 					</Link>
 					<Link
 						className='menu-item'

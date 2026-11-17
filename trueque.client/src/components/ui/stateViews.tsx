@@ -45,7 +45,7 @@ export function ErrorState({
 			<div className='empty__art'>
 				<Art id='closed' />
 			</div>
-			<p className='h3'>No pudimos abrir el mercado</p>
+			<p className='h3'>No pudimos abrir la despensa</p>
 			<p className='muted'>
 				{message} Tus cacaos están a salvo: no se movió nada.
 			</p>
@@ -59,7 +59,7 @@ export function ErrorState({
 
 export function StallSkeletons({ count = 4 }: { count?: number }) {
 	return (
-		<div className='stalls' aria-busy='true' aria-label='Cargando el mercado'>
+		<div className='stalls' aria-busy='true' aria-label='Cargando la despensa'>
 			{Array.from({ length: count }, (_, i) => (
 				<div key={i} className='stall stall--ghost' style={{ '--i': i }}>
 					<div className='ghost ghost--awning' />

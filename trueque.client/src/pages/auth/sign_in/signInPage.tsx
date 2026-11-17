@@ -3,10 +3,10 @@ import { Navigate, useLocation, useNavigate } from 'react-router'
 
 import { ConfirmStep } from '@/components/auth/confirmStep'
 import { NumberStep } from '@/components/auth/numberStep'
+import { StallsScene } from '@/components/auth/stallsScene'
+import { SquishEgg } from '@/components/layout/squishEgg'
 import { Wordmark } from '@/components/ui/art'
 import { rainCacao } from '@/components/ui/cacaoRain'
-import { LazyMarkScene } from '@/components/ui/lazyMarkScene'
-import { MarketScene } from '@/components/ui/marketScene'
 import { ROUTES } from '@/constants/routes'
 import { useSession } from '@/hooks/auth/useSession'
 import type { Session } from '@/types/sessionType'
@@ -58,12 +58,13 @@ export default function SignInPage() {
 		<div className='signin'>
 			<section className='signin__story'>
 				<span className='signin__brand'>
-					<Wordmark mark={<LazyMarkScene />} />
+					<SquishEgg />
+					<Wordmark mark={null} />
 				</span>
 				<h1 className='display'>Tus ideas llenan tu despensa.</h1>
 				<p className='lede'>
-					Cada chispa que ayuda a resolver un reto te da cacaos. Aquí los
-					cambias por servicios y artículos de las empresas del grupo.
+					Cada chispa que ayuda a resolver un reto te da yemas. Aquí las cambias
+					por productos y servicios de las empresas del grupo.
 				</p>
 			</section>
 			<section className='signin__panel'>
@@ -78,7 +79,7 @@ export default function SignInPage() {
 				)}
 			</section>
 			<div className='signin__scene'>
-				<MarketScene />
+				<StallsScene />
 			</div>
 		</div>
 	)

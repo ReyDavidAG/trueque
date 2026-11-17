@@ -9,8 +9,8 @@ import type { ProductStatus } from '@/types/productType'
 import { motionMs } from '@/utils/reducedMotion'
 
 const STATUS_TOAST: Partial<Record<ProductStatus, string>> = {
-	paused: 'Pausado: ya no se ve en el mercado',
-	live: 'De vuelta en el mercado',
+	paused: 'Pausado: ya no se ve en la despensa',
+	live: 'De vuelta en la despensa',
 	retired: 'Retirado. Los cupones ya emitidos siguen valiendo',
 }
 
@@ -73,7 +73,7 @@ export function ProductRowActions({
 				className='row__confirm animate-panel-in'
 				role='group'
 				aria-label='Confirmar retiro'>
-				¿Retirarlo del mercado?
+				¿Retirarlo de la despensa?
 				<button
 					className='btn btn--sm btn--grana'
 					type='button'

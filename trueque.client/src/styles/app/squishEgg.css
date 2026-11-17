@@ -1,0 +1,74 @@
+.topbar__brand {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+	flex: none;
+}
+.topbar__brand .wordmark {
+	text-decoration: none;
+}
+.squish-egg {
+	--squash: 0;
+	--yolk: 0;
+	--egg: var(--color-tinta);
+	display: grid;
+	place-items: end center;
+	width: 38px;
+	height: 42px;
+	flex: none;
+	padding: 0;
+	border: 0;
+	border-radius: 50% 50% 46% 46%;
+	background: none;
+	cursor: grab;
+	touch-action: none;
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+}
+.squish-egg:active {
+	cursor: grabbing;
+}
+.squish-egg:focus-visible {
+	outline: 3px solid var(--color-focus);
+	outline-offset: 2px;
+}
+.squish-egg svg {
+	width: 34px;
+	height: 38px;
+	overflow: visible;
+	transform: scale(
+		calc(1 + var(--squash) * 0.26),
+		calc(1 - var(--squash) * 0.32)
+	);
+	transform-origin: 50% 96%;
+	filter: drop-shadow(0 calc(1px + var(--squash) * 2px) 0 var(--color-tinta-3));
+}
+.squish-egg .mark__egg {
+	fill: var(--egg);
+}
+.squish-egg__gloss {
+	fill: var(--color-on-dark);
+	opacity: 0.22;
+}
+.squish-egg .mark__white {
+	fill: var(--color-estraza);
+}
+.squish-egg .mark__yolk {
+	fill: var(--color-maiz);
+}
+.squish-egg .mark__shine {
+	fill: var(--color-estraza);
+	opacity: 0.85;
+}
+.squish-egg__yolk {
+	transform-box: fill-box;
+	transform-origin: 50% 100%;
+	transform: translateY(calc(var(--yolk) * 22px))
+		scale(calc(1 + var(--yolk) * 0.14), calc(1 - var(--yolk) * 0.12));
+}
+:root[data-palette='dark'] .squish-egg {
+	--egg: oklch(62% 0.14 252);
+}
+:root[data-palette='neutral'] .squish-egg {
+	--egg: oklch(39% 0.14 258);
+}

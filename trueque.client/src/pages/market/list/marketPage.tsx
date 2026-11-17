@@ -1,153 +1,137 @@
-import { useMemo, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router'
+import { useRef, useState } from 'react'
 
+import { BoardCard } from '@/components/market/boardCard'
+import { CompanyFilter } from '@/components/market/companyFilter'
 import { Explainer } from '@/components/market/explainer'
-import {
-	type CategoryFilter,
-	MarketFilters,
-} from '@/components/market/marketFilters'
 import { Pager } from '@/components/market/pager'
-import { Stall } from '@/components/market/stall'
-import {
-	DemoNote,
-	EmptyState,
-	ErrorState,
-	StallSkeletons,
-} from '@/components/ui/stateViews'
-import { CATEGORY_LABELS } from '@/constants/stall'
+import { PurseCard } from '@/components/market/purseCard'
+import { ResultsBar } from '@/components/market/resultsBar'
+import { DemoNote, EmptyState, ErrorState } from '@/components/ui/stateViews'
 import { useCovers } from '@/hooks/market/useImages'
-import { useCompanyMap, useLiveProducts } from '@/hooks/market/useMarket'
-import { useBalance } from '@/hooks/wallet/useWallet'
+import { useShelf } from '@/hooks/market/useShelf'
 import { prefersReducedMotion } from '@/utils/reducedMotion'
 
-const PAGE_SIZE = 12
+const PAGE_SIZE = 16
 
-const isCategory = (v: string | null): v is CategoryFilter =>
-	!!v && v in CATEGORY_LABELS
+function BoardSkeletons() {
+	return (
+		<div className='bgrid' aria-busy='true' aria-label='Cargando la despensa'>
+			{Array.from({ length: 8 }, (_, i) => (
+				<div key={i} className='bcard bcard--ghost' style={{ '--i': i }}>
+					<div className='ghost ghost--art' />
+					<div className='ghost ghost--line' />
+					<div className='ghost ghost--line is-short' />
+				</div>
+			))}
+		</div>
+	)
+}
 
 export default function MarketPage() {
-	const [params, setParams] = useSearchParams()
-	const [affordable, setAffordable] = useState(false)
-	const [page, setPage] = useState(0)
-	const tools = useRef<HTMLDivElement>(null)
-	const raw = params.get('type')
-	const category: CategoryFilter = isCategory(raw) ? raw : 'all'
-	const products = useLiveProducts()
-	const money = useBalance().data?.balance ?? 0
+	const shelf = useShelf()
+	const { products, shown } = shelf
+	const [paging, setPaging] = useState({ key: '', page: 0 })
+	const top = useRef<HTMLElement>(null)
 	const covers = useCovers(products.live)
-	const companies = useCompanyMap()
-
-	const shown = useMemo(
-		() =>
-			products.live
-				.filter(p => category === 'all' || p.category === category)
-				.filter(p => !affordable || (money >= p.price && p.stockLeft !== 0)),
-		[products.live, category, affordable, money]
-	)
-
+	const filterKey = `${shelf.company}|${shelf.category}|${shelf.affordable}|${shelf.sort}`
+	const page = paging.key === filterKey ? paging.page : 0
 	const pages = Math.ceil(shown.length / PAGE_SIZE)
 	const current = Math.min(page, Math.max(0, pages - 1))
 	const slice = shown.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE)
 
 	const turn = (next: number) => {
-		setPage(next)
-		const top = tools.current?.getBoundingClientRect().top
-		if (top !== undefined && top < 0)
+		setPaging({ key: filterKey, page: next })
+		const y = top.current?.getBoundingClientRect().top
+		if (y !== undefined && y < 0)
 			window.scrollBy({
-				top: top - 80,
+				top: y - 80,
 				behavior: prefersReducedMotion() ? 'auto' : 'smooth',
 			})
 	}
 
-	const setCategory = (c: CategoryFilter) => {
-		setPage(0)
-		setParams(
-			prev => {
-				const next = new URLSearchParams(prev)
-				if (c === 'all') next.delete('type')
-				else next.set('type', c)
-				return next
-			},
-			{ preventScrollReset: true }
-		)
-	}
+	const grid = products.isLoading ? (
+		<BoardSkeletons />
+	) : products.error ? (
+		<ErrorState
+			message={products.error.message}
+			onRetry={() => void products.refetch()}
+		/>
+	) : shown.length ? (
+		<>
+			<div key={`${filterKey}|${current}`} className='bgrid'>
+				{slice.map((p, i) => (
+					<BoardCard
+						key={p.id}
+						product={p}
+						balance={shelf.balance}
+						index={i}
+						cover={covers.get(p.id)}
+						companyName={shelf.names.get(p.companyId)?.name ?? ''}
+					/>
+				))}
+			</div>
+			<Pager
+				page={current}
+				pages={pages}
+				total={shown.length}
+				size={PAGE_SIZE}
+				onPage={turn}
+			/>
+		</>
+	) : (
+		<EmptyState
+			art='closed'
+			title={
+				products.live.length
+					? 'Nada por aquí con esos filtros'
+					: 'La despensa todavía no abre'
+			}
+			body={
+				products.live.length
+					? 'Quita "sólo lo que me alcanza" o elige otra empresa para ver más.'
+					: 'Tu empresa aún no publica productos. Vuelve pronto.'
+			}
+			onAngry={products.live.length ? shelf.reset : undefined}
+		/>
+	)
 
 	return (
-		<div className='wrap'>
-			<header className='market-head'>
-				<h1 className='display'>
-					Lo que siembras en Chispa, aquí lo cosechas.
-				</h1>
-				<p className='lede'>
-					Los ganas proponiendo en Chispa. Aquí los cambias por servicios y
-					artículos de las empresas del grupo.
-				</p>
-			</header>
-			<Explainer products={products.live} />
-			<div ref={tools}>
-				<MarketFilters
-					category={category}
-					affordable={affordable}
-					onCategory={setCategory}
-					onAffordable={v => {
-						setPage(0)
-						setAffordable(v)
-					}}
-				/>
-			</div>
-			{products.isLoading ? (
-				<StallSkeletons />
-			) : products.error ? (
-				<ErrorState
-					message={products.error.message}
-					onRetry={() => void products.refetch()}
-				/>
-			) : shown.length ? (
-				<>
-					<div key={current} className='stalls'>
-						{slice.map((p, i) => (
-							<Stall
-								key={p.id}
-								product={p}
-								balance={money}
-								index={i}
-								cover={covers.get(p.id)}
-								companyName={companies.get(p.companyId)?.name ?? ''}
-							/>
-						))}
-					</div>
-					<Pager
-						page={current}
-						pages={pages}
-						total={shown.length}
-						size={PAGE_SIZE}
-						onPage={turn}
+		<div className='wrap wrap--wide'>
+			<div className='shelf'>
+				<aside className='shelf__side' aria-label='Tus yemas y filtros'>
+					<PurseCard />
+					<CompanyFilter
+						options={shelf.options}
+						value={shelf.company}
+						onChange={shelf.setCompany}
 					/>
-				</>
-			) : (
-				<EmptyState
-					art='closed'
-					title={
-						products.live.length
-							? 'Nada por aquí con esos filtros'
-							: 'El mercado todavía no abre'
-					}
-					body={
-						products.live.length
-							? 'Quita "sólo lo que me alcanza" o cambia de tipo para ver más.'
-							: 'Tu empresa aún no publica productos. Vuelve pronto.'
-					}
-					onAngry={
-						products.live.length
-							? () => {
-									setAffordable(false)
-									setCategory('all')
-								}
-							: undefined
-					}
-				/>
-			)}
-			<DemoNote>Productos, precios y existencias de prueba.</DemoNote>
+					<Explainer products={products.live} />
+				</aside>
+				<section
+					ref={top}
+					className='shelf__main'
+					aria-labelledby='board-title'>
+					<header className='shelf__head'>
+						<p className='kicker'>La despensa</p>
+						<h1 className='shelf__title' id='board-title'>
+							Lo que propones, llega a tu mesa.
+						</h1>
+					</header>
+					<ResultsBar
+						category={shelf.category}
+						counts={shelf.counts}
+						total={shown.length}
+						fits={shelf.fits}
+						affordable={shelf.affordable}
+						sort={shelf.sort}
+						onCategory={shelf.setCategory}
+						onAffordable={shelf.setAffordable}
+						onSort={shelf.toggleSort}
+					/>
+					{grid}
+					<DemoNote>Productos, precios y existencias de prueba.</DemoNote>
+				</section>
+			</div>
 		</div>
 	)
 }

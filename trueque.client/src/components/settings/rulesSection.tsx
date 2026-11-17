@@ -51,7 +51,7 @@ export function RulesSection({ rules }: { rules: EarningRule[] }) {
 					<thead>
 						<tr>
 							<th scope='col'>Acción</th>
-							<th scope='col'>Cacaos</th>
+							<th scope='col'>Yemas</th>
 							<th scope='col'>
 								Tope al mes<small>vacío = sin tope</small>
 							</th>
@@ -75,7 +75,7 @@ export function RulesSection({ rules }: { rules: EarningRule[] }) {
 										<input
 											className='input input--sm num'
 											inputMode='numeric'
-											aria-label={`Cacaos por ${r.label}`}
+											aria-label={`Yemas por ${r.label}`}
 											{...register(`rules.${i}.cacaos`)}
 										/>
 									)}

@@ -80,7 +80,7 @@ export function NotificationsBell() {
 						</ul>
 					) : (
 						<p className='muted small notes__empty'>
-							Aquí te avisamos cuando ganes cacaos o algo esté por vencer.
+							Aquí te avisamos cuando ganes yemas o algo esté por vencer.
 						</p>
 					)}
 				</Popover.Content>

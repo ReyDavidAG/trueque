@@ -23,9 +23,9 @@ export function Pager({ page, pages, total, size, onPage }: Props) {
 	const from = page * size + 1
 	const to = Math.min(total, from + size - 1)
 	return (
-		<nav className='pager' aria-label='Páginas del mercado'>
+		<nav className='pager' aria-label='Páginas de la despensa'>
 			<p className='pager__count muted' aria-live='polite'>
-				Puestos <b className='num'>{from}</b>–<b className='num'>{to}</b> de{' '}
+				Productos <b className='num'>{from}</b>–<b className='num'>{to}</b> de{' '}
 				<b className='num'>{total}</b>
 			</p>
 			<div className='pager__row'>

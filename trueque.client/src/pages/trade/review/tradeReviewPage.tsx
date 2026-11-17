@@ -73,7 +73,7 @@ export default function TradeReviewPage() {
 					</div>
 				</div>
 				<p className='muted small'>
-					Al confirmar se descuentan los cacaos y se emite tu cupón. Vale{' '}
+					Al confirmar se descuentan las yemas y se emite tu cupón. Vale{' '}
 					{p.couponDays} días. Se canjea en:{' '}
 					{(p.locationId && locations.get(p.locationId)?.name) ||
 						'por confirmar'}

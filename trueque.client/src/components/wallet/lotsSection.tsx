@@ -8,10 +8,10 @@ import { stagger } from '@/utils/stagger'
 export function LotsSection({ lots, months }: { lots: Lot[]; months: number }) {
 	return (
 		<section className='section'>
-			<h2 className='h3'>Tus cacaos y cuándo vencen</h2>
+			<h2 className='h3'>Tus yemas y cuándo vencen</h2>
 			<p className='muted'>
-				Cada cacao vale {months} meses desde que lo ganas. Al hacer un trueque
-				se usan primero los que vencen antes.
+				Cada yema vale {months} meses desde que la ganas. Al canjear se usan
+				primero las más viejas.
 			</p>
 			<ol className='lots' role='list'>
 				{lots

@@ -6,7 +6,7 @@ Guía para Claude Code en este repositorio. Es la fuente de verdad del proyecto;
 
 La tienda interna del grupo. Los colaboradores ganan **cacaos** (la moneda: en Mesoamérica el cacao fue moneda de verdad) cuando participan en la vida de la empresa, y los cambian por servicios y artículos que ofrecen las empresas del grupo. Cada trueque emite un **cupón** canjeable con código.
 
-En pantalla la app se llama **La Despensa**; el repo y el código siguen como `trueque`.
+En pantalla la app se llama **La Despensa** y la moneda se muestra como **yemas**; el repo y el código siguen como `trueque` y `cacaos`.
 
 Es parte de un ecosistema de tres apps que comparten base de datos y personas:
 
@@ -30,15 +30,15 @@ Es una propuesta personal para presentar a la dirección. **No es un sistema ofi
 
 | Pantalla | Código | Qué es |
 |---|---|---|
-| Cacao(s) | `cacaos`, `ledger` | La moneda. Se gana por reglas y se gasta en trueques. |
+| Yema(s) | `cacaos`, `ledger` | La moneda. Se gana por reglas y se gasta en trueques. |
 | Lote | `lot` | Cacaos ganados en un mismo movimiento; vencen juntos. |
-| El mercado | `products` | El catálogo. |
+| La despensa | `products` | El catálogo. |
 | Puesto | `stall` (UI) | La tarjeta de un producto. |
 | Trueque | `order` | Cambiar cacaos por un producto. Folio `TRQ-0000`. |
 | Cupón | `coupon` | Lo que se canjea en el lugar de canje. Código `CAC-…`. |
 | Lugar de canje | `exchange_location` | Donde se entrega el producto o servicio. |
-| Mi jícara | `wallet` | Saldo y movimientos. |
-| Mi puesto | `panel` | Lo que una empresa ofrece y su presupuesto. |
+| Mis yemas | `wallet` | Saldo y movimientos. |
+| Mi anaquel | `panel` | Lo que una empresa ofrece y su presupuesto. |
 
 Estados del producto: `draft` · `pending` (espera a RH) · `live` · `paused` · `rejected` · `retired`.
 Estados del trueque: `issued` · `used` · `expired` · `cancelled` · `refunded`.

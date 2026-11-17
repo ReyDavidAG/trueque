@@ -107,7 +107,7 @@ export default function RedeemPage() {
 		<div className='wrap narrow'>
 			<Link className='back-link' to={ROUTES.panel}>
 				<Icon name='arrowLeft' />
-				Tu puesto
+				Tu anaquel
 			</Link>
 			<header className='page-head'>
 				<h1 className='h1'>Canjear un cupón</h1>

@@ -47,7 +47,7 @@ export default function CouponsPage() {
 						body='Cuando hagas un trueque, aquí aparece tu cupón con su código.'
 						action={
 							<Link className='btn btn--grana' to={ROUTES.market}>
-								Ver el mercado
+								Ver la despensa
 							</Link>
 						}
 					/>

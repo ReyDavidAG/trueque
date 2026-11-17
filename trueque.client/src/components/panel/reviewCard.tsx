@@ -65,7 +65,7 @@ export function ReviewCard({
 					toast.success(
 						decision === 'rejected'
 							? 'Rechazado; la empresa ve tu nota'
-							: 'Listo, el producto se publica en el mercado'
+							: 'Listo, el producto se publica en la despensa'
 					),
 				onError: e => toast.error(e.message),
 			}

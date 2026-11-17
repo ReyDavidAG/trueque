@@ -15,13 +15,13 @@ export function Kpis({
 	const items: [IconName, string, string, string][] = [
 		[
 			'spark',
-			'Cacaos dados',
+			'Yemas dadas',
 			fmt(t.earned),
 			`${formatMoney(t.earned * cacaoValue)} en especie`,
 		],
 		[
 			'ticket',
-			'Cacaos cambiados',
+			'Yemas cambiadas',
 			fmt(t.spent),
 			t.earned
 				? `${Math.round((t.spent / t.earned) * 100)}% de lo dado`
