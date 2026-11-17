@@ -110,3 +110,58 @@
 		radial-gradient(80% 70% at 50% 40%, var(--color-estraza), transparent 75%),
 		var(--color-amate-2);
 }
+
+.redeem-pop {
+	position: fixed;
+	inset: 0;
+	width: min(480px, calc(100vw - 24px));
+	max-height: calc(100dvh - 24px);
+	margin: auto;
+	padding: 0;
+	border: 0;
+	border-radius: var(--radius-lg);
+	background: none;
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+.redeem-pop[open] {
+	animation: redeem-pop-in 320ms var(--ease-out) both;
+}
+.redeem-pop::backdrop {
+	background: color-mix(in oklch, var(--color-ink) 55%, transparent);
+	backdrop-filter: blur(2px);
+}
+.redeem-pop .redeem-card {
+	margin-top: 0;
+}
+.redeem-pop__title:focus {
+	outline: none;
+}
+.redeem-card__actions {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+	gap: var(--space-sm);
+}
+@media (max-width: 420px) {
+	.redeem-card__actions {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.redeem-card__actions > :last-child {
+		order: -1;
+	}
+}
+@keyframes redeem-pop-in {
+	from {
+		opacity: 0;
+		transform: translateY(16px) scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.redeem-pop[open] {
+		animation: none;
+	}
+}

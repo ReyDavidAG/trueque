@@ -64,7 +64,9 @@ function ProductDetail({
 	const cacaoValue = useCacaoValue()
 	const covers = useCovers([p, ...related])
 	const company = companies.get(p.companyId)?.name ?? 'Una empresa del grupo'
-	const uses = p.swaps === 1 ? 'un uso' : `${p.swaps} usos`
+	const photo = covers.get(p.id)
+	const place = location?.name ?? 'el punto de canje'
+	const uses = p.swaps === 1 ? 'Se usa una vez' : `Se usa ${p.swaps} veces`
 
 	return (
 		<div className='wrap wrap--wide'>
@@ -77,9 +79,11 @@ function ProductDetail({
 			</nav>
 			<div className='product product--simple' data-stall={p.stall}>
 				<div className='product__summary'>
-					<div className='product__stage'>
+					<div
+						className='product__stage'
+						style={photo ? { '--photo': `url("${photo}")` } : undefined}>
 						<div className='product__art'>
-							<Cover art={p.art} src={covers.get(p.id)} label={p.name} />
+							<Cover art={p.art} src={photo} label={p.name} />
 						</div>
 					</div>
 					<div className='product__info'>
@@ -102,21 +106,33 @@ function ProductDetail({
 								</ul>
 							</section>
 						)}
-						<ul className='where-list' role='list'>
+						<ul className='where-facts' role='list'>
 							{location && (
-								<li>
-									<Icon name='pin' />
-									<span>
+								<li className='fact'>
+									<span className='fact__icon' aria-hidden='true'>
+										<Icon name='pin' />
+									</span>
+									<span className='fact__text'>
+										<small>Dónde lo recoges</small>
 										<b>{location.name}</b>
-										{location.address && ` · ${location.address}`}
-										{location.reference && <small>{location.reference}</small>}
+										{(location.address || location.reference) && (
+											<span>
+												{[location.address, location.reference]
+													.filter(Boolean)
+													.join(' · ')}
+											</span>
+										)}
 									</span>
 								</li>
 							)}
-							<li>
-								<Icon name='ticket' />
-								<span>
-									El cupón vale <b>{p.couponDays} días</b> · {uses}
+							<li className='fact'>
+								<span className='fact__icon' aria-hidden='true'>
+									<Icon name='ticket' />
+								</span>
+								<span className='fact__text'>
+									<small>Tu cupón</small>
+									<b>Vale {p.couponDays} días</b>
+									<span>{uses}</span>
 								</span>
 							</li>
 						</ul>
@@ -134,6 +150,20 @@ function ProductDetail({
 								</span>
 							</p>
 						)}
+						<ol className='how-steps' role='list' aria-label='Cómo funciona'>
+							<li>
+								<b>1</b>
+								<span>Canjeas con tus yemas</span>
+							</li>
+							<li>
+								<b>2</b>
+								<span>Te llega tu cupón al instante</span>
+							</li>
+							<li>
+								<b>3</b>
+								<span>Lo presentas en {place}</span>
+							</li>
+						</ol>
 					</div>
 				</div>
 				<BuyBox product={p} balance={balance} cacaoValue={cacaoValue} />

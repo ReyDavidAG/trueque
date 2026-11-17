@@ -29,7 +29,9 @@ export const BoardCard = memo(function BoardCard({
 	const left = product.stockLeft
 	const content = (
 		<>
-			<div className='bcard__pic'>
+			<div
+				className='bcard__pic'
+				style={cover ? { '--photo': `url("${cover}")` } : undefined}>
 				<Cover art={product.art} src={cover} className='bcard__photo' />
 			</div>
 			<div className='bcard__body'>
