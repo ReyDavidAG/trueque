@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 
 import { Icon } from '@/components/ui/icon'
 import { MOVE_ICON } from '@/constants/wallet'
@@ -27,6 +27,11 @@ const TEST: Record<Filter, (m: Movement) => boolean> = {
 export function MovesList({ moves }: { moves: Movement[] }) {
 	const [filter, setFilter] = useState<Filter>('all')
 	const [limit, setLimit] = useState(PAGE)
+	const board = useRef<HTMLDivElement>(null)
+	const less = () => {
+		setLimit(PAGE)
+		board.current?.scrollIntoView({ block: 'start' })
+	}
 	const shown = useMemo(() => moves.filter(TEST[filter]), [moves, filter])
 	const pick = (next: Filter) => {
 		setFilter(next)
@@ -34,7 +39,7 @@ export function MovesList({ moves }: { moves: Movement[] }) {
 	}
 
 	return (
-		<div className='moves-board'>
+		<div ref={board} className='moves-board'>
 			<div
 				className='chip-row moves-board__filter'
 				role='radiogroup'
@@ -85,13 +90,22 @@ export function MovesList({ moves }: { moves: Movement[] }) {
 					))}
 				</ol>
 			)}
-			{shown.length > limit && (
-				<button
-					type='button'
-					className='btn btn--ghost moves-board__more'
-					onClick={() => setLimit(n => n + PAGE)}>
-					Ver más ({shown.length - limit})
-				</button>
+			{(shown.length > limit || limit > PAGE) && (
+				<div className='moves-board__more'>
+					{limit > PAGE && (
+						<button type='button' className='btn btn--ghost' onClick={less}>
+							Ver menos
+						</button>
+					)}
+					{shown.length > limit && (
+						<button
+							type='button'
+							className='btn btn--ghost'
+							onClick={() => setLimit(n => n + PAGE)}>
+							Ver más ({shown.length - limit})
+						</button>
+					)}
+				</div>
 			)}
 		</div>
 	)

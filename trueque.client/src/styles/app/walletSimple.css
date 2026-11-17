@@ -536,9 +536,14 @@
 .moves-board {
 	display: grid;
 	gap: var(--space-md);
+	scroll-margin-top: 96px;
 }
 .moves-board__more {
 	justify-self: center;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--space-sm);
 }
 .moves-grid {
 	display: grid;

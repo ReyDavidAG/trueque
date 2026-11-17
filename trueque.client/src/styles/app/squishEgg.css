@@ -20,13 +20,13 @@
 	border: 0;
 	border-radius: 50% 50% 46% 46%;
 	background: none;
-	cursor: grab;
+	cursor: var(--cur-grab, grab);
 	touch-action: none;
 	-webkit-tap-highlight-color: transparent;
 	user-select: none;
 }
 .squish-egg:active {
-	cursor: grabbing;
+	cursor: var(--cur-grabbing, grabbing);
 }
 .squish-egg:focus-visible {
 	outline: 3px solid var(--color-focus);
