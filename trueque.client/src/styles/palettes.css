@@ -72,8 +72,7 @@
 .coin,
 .mark,
 .scene3d,
-.coop__yard,
-.vault-coins {
+.coop__yard {
 	--color-grana: oklch(50% 0.19 18);
 	--color-grana-soft: oklch(93% 0.04 15);
 	--color-cacao: oklch(40% 0.075 42);
@@ -126,16 +125,7 @@
 	--stall-soft: oklch(from var(--stall) 30% calc(c * 0.4) h);
 }
 :root[data-palette='dark']
-	:is(
-		.art,
-		.coin,
-		.mark,
-		.scene3d,
-		.coop__yard,
-		.signin__scene,
-		.tour__visor,
-		.vault-coins
-	) {
+	:is(.art, .coin, .mark, .scene3d, .coop__yard, .signin__scene, .tour__visor) {
 	--color-estraza: oklch(99.6% 0.006 100);
 	--color-cascara: oklch(97.6% 0.02 80);
 	--color-cascara-sombra: oklch(89% 0.04 78);

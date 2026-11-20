@@ -1,12 +1,8 @@
 import { useState } from 'react'
 
 import { Icon } from '@/components/ui/icon'
-import { useCountUp } from '@/hooks/ui/useCountUp'
 import type { Budget } from '@/types/panelType'
 import { formatMoney } from '@/utils/cacaos'
-import { cn } from '@/utils/cn'
-
-import { VaultCoins } from './vaultCoins'
 
 const KEY = 'trueque.safe-open'
 
@@ -18,14 +14,14 @@ const readOpen = () => {
 	}
 }
 
-function Figures({ budget, shown }: { budget: Budget; shown: number }) {
+function Figures({ budget }: { budget: Budget }) {
 	const free = Math.max(0, budget.available)
 	const pct = (n: number) =>
 		`${budget.assigned ? Math.min(100, (n / budget.assigned) * 100).toFixed(1) : 0}%`
 	return (
 		<>
 			<p className='budget__total'>
-				<b className='num'>{formatMoney(shown)}</b> libres de{' '}
+				<b className='num'>{formatMoney(free)}</b> libres de{' '}
 				{formatMoney(budget.assigned)}
 			</p>
 			<div
@@ -71,12 +67,8 @@ function Figures({ budget, shown }: { budget: Budget; shown: number }) {
 
 export function BudgetVault({ budget }: { budget: Budget }) {
 	const [open, setOpen] = useState(readOpen)
-	const [everOpened, setEverOpened] = useState(open)
-	const free = Math.max(0, budget.available)
-	const shown = useCountUp(open ? free : 0, 900)
 	const toggle = () => {
 		setOpen(!open)
-		setEverOpened(true)
 		try {
 			localStorage.setItem(KEY, open ? '0' : '1')
 		} catch {
@@ -84,78 +76,26 @@ export function BudgetVault({ budget }: { budget: Budget }) {
 		}
 	}
 	return (
-		<section
-			className={cn('vault', open && 'is-open')}
-			aria-label={`Presupuesto ${budget.period}`}>
-			<div className='vault__inside' inert={!open}>
-				<div className='vault__data budget'>
-					<div className='budget__head'>
-						<h2 className='h4'>Presupuesto {budget.period}</h2>
-						<span className='tag-example'>Prueba</span>
-						<button
-							type='button'
-							className='btn btn--sm btn--ghost vault__close'
-							onClick={toggle}>
-							<Icon name='lock' />
-							Cerrar
-						</button>
-					</div>
-					<Figures key={String(open)} budget={budget} shown={shown} />
-				</div>
-				<div className='vault__tray'>
-					{everOpened && (
-						<VaultCoins active={open} free={free} total={budget.assigned} />
-					)}
-					<span className='vault__hint small'>
-						Pasa el mouse o toca para mover las monedas
-					</span>
-				</div>
-				<div className='vault__drawers' aria-hidden='true'>
-					<span>Comprobantes</span>
-					<span>Reserva</span>
-				</div>
+		<section className='budget' aria-label={`Presupuesto ${budget.period}`}>
+			<div className='budget__head'>
+				<h2 className='h4'>Presupuesto {budget.period}</h2>
+				<span className='tag-example'>Prueba</span>
+				<button
+					type='button'
+					className='btn btn--sm btn--ghost budget__toggle'
+					aria-expanded={open}
+					onClick={toggle}>
+					<Icon name={open ? 'lock' : 'eye'} />
+					{open ? 'Ocultar' : 'Ver'}
+				</button>
 			</div>
-			<button
-				type='button'
-				className='vault__door'
-				aria-expanded={open}
-				aria-label='Abrir la caja fuerte del presupuesto'
-				inert={open}
-				onClick={toggle}>
-				<span className='vault__bolts' aria-hidden='true'>
-					<i />
-					<i />
-					<i />
-					<i />
-				</span>
-				<span className='vault__panel' aria-hidden='true'>
-					<span className='vault__etch'>
-						<span className='vault__etch-kicker'>
-							Presupuesto {budget.period}
-						</span>
-						<span className='vault__etch-title'>Caja fuerte</span>
-						<span className='vault__etch-line'>
-							Ábrela para ver cuánto queda
-						</span>
-					</span>
-					<span className='vault__plate'>La Despensa</span>
-					<span className='vault__lock'>
-						<span className='vault__dial' />
-						<span className='vault__wheel'>
-							<i />
-							<i />
-						</span>
-					</span>
-					<span className='vault__open small'>
-						<Icon name='unlock' />
-						Abrir
-					</span>
-				</span>
-				<span className='vault__hinges' aria-hidden='true'>
-					<i />
-					<i />
-				</span>
-			</button>
+			{open ? (
+				<Figures budget={budget} />
+			) : (
+				<p className='budget__hidden'>
+					El presupuesto está oculto. Toca «Ver» para mostrarlo.
+				</p>
+			)}
 		</section>
 	)
 }

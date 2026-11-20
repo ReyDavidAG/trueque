@@ -6,7 +6,6 @@ import { NumberStep } from '@/components/auth/numberStep'
 import { StallsScene } from '@/components/auth/stallsScene'
 import { SquishEgg } from '@/components/layout/squishEgg'
 import { Wordmark } from '@/components/ui/art'
-import { rainCacao } from '@/components/ui/cacaoRain'
 import { ROUTES } from '@/constants/routes'
 import { useSession } from '@/hooks/auth/useSession'
 import type { Session } from '@/types/sessionType'
@@ -41,11 +40,9 @@ export default function SignInPage() {
 			typeof state.from === 'string'
 				? state.from
 				: undefined
-		rainCacao(() => {
-			confirm(pending)
-			navigate(from && from !== ROUTES.signIn ? from : ROUTES.market, {
-				replace: true,
-			})
+		confirm(pending)
+		navigate(from && from !== ROUTES.signIn ? from : ROUTES.market, {
+			replace: true,
 		})
 	}
 
