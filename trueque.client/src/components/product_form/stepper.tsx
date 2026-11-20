@@ -16,10 +16,12 @@ export function Stepper({
 	step,
 	reach,
 	onGo,
+	steps = STEPS,
 }: {
 	step: number
 	reach: number
 	onGo: (i: number) => void
+	steps?: readonly string[]
 }) {
 	const dots = useRef<(HTMLSpanElement | null)[]>([])
 	const last = useRef(step)
@@ -38,8 +40,8 @@ export function Stepper({
 		<ol
 			className='stepper'
 			role='list'
-			style={{ '--p': step / (STEPS.length - 1) }}>
-			{STEPS.map((label, i) => (
+			style={{ '--p': step / (steps.length - 1) }}>
+			{steps.map((label, i) => (
 				<li
 					key={label}
 					className={cn(

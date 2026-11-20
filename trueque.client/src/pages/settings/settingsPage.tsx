@@ -1,6 +1,7 @@
 import { BudgetsSection } from '@/components/settings/budgetsSection'
 import { CategoriesSection } from '@/components/settings/categoriesSection'
 import { ExpirySection } from '@/components/settings/expirySection'
+import { GrantsSection } from '@/components/settings/grantsSection'
 import { LocationsSection } from '@/components/settings/locationsSection'
 import { RulesSection } from '@/components/settings/rulesSection'
 import { ValueSection } from '@/components/settings/valueSection'
@@ -58,7 +59,11 @@ export default function SettingsPage() {
 				/>
 				<RulesSection rules={rules.data} />
 				<ExpirySection config={config.data} />
-				<CategoriesSection categories={categories.data} />
+				<CategoriesSection
+					categories={categories.data}
+					products={products.data ?? []}
+				/>
+				<GrantsSection config={config.data} />
 				<BudgetsSection
 					companies={withStore.length ? withStore : companies.data}
 					budgets={budgets.data}

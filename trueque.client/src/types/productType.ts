@@ -6,7 +6,7 @@ export type ProductStatus =
 	| 'rejected'
 	| 'retired'
 export type ProductKind = 'service' | 'item'
-export type Category = 'service' | 'item' | 'custodia'
+export type Category = string
 export type Stall = 'grana' | 'anil' | 'nopal' | 'achiote' | 'maiz' | 'cacao'
 
 export interface Product {
@@ -52,6 +52,26 @@ export interface CategoryInfo {
 	name: string
 	priceMin: number
 	priceMax: number
+	position: number
+	description: string | null
+	isActive: boolean
+	selfService: boolean
+	art: string | null
+}
+
+export interface CategoryInput {
+	code: string
+	name: string
+	priceMin: number
+	priceMax: number
+	position: number
+	description: string | null
+	selfService: boolean
+	art: string | null
+}
+
+export type CategoryPatch = Partial<Omit<CategoryInput, 'code'>> & {
+	isActive?: boolean
 }
 
 export interface ProductInput {

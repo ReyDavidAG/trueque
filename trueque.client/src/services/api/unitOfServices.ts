@@ -1,5 +1,6 @@
 import { configRepository } from './configRepository'
 import { dashboardRepository } from './dashboardRepository'
+import { grantRepository } from './grantRepository'
 import { notificationRepository } from './notificationRepository'
 import { panelRepository } from './panelRepository'
 import { productRepository } from './productRepository'
@@ -16,4 +17,5 @@ export const services = {
 	config: configRepository,
 	notifications: notificationRepository,
 	dashboard: dashboardRepository,
+	grants: grantRepository,
 }

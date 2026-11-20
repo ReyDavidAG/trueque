@@ -21,6 +21,13 @@ export function shortDate(iso: string) {
 	return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`
 }
 
+export function isoDay(offsetDays = 0, now = new Date()) {
+	const d = new Date(now)
+	d.setDate(d.getDate() + offsetDays)
+	const pad = (n: number) => String(n).padStart(2, '0')
+	return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
+
 export function daysUntil(iso: string, now = new Date()) {
 	const end = new Date(`${iso.slice(0, 10)}T23:59:59`)
 	return Math.ceil((end.getTime() - now.getTime()) / 86_400_000)

@@ -16,7 +16,7 @@ export function StepWhat({ categories }: { categories: CategoryInfo[] }) {
 	const { register, formState } = useFormContext<ProductForm>()
 	const e = formState.errors
 	const cats = categories
-		.filter(c => c.code !== 'custodia')
+		.filter(c => c.isActive && c.selfService)
 		.map(c => [c.code, c.name] as const)
 	return (
 		<>

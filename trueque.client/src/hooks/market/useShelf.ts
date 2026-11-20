@@ -2,16 +2,33 @@ import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router'
 
 import type { CompanyOption } from '@/components/market/companyFilter'
-import type { CategoryFilter, PriceSort } from '@/components/market/resultsBar'
-import { CATEGORY_LABELS } from '@/constants/stall'
-import { useCompanyMap, useLiveProducts } from '@/hooks/market/useMarket'
+import type { CategoryOption, PriceSort } from '@/components/market/resultsBar'
+import { ALL_CATEGORIES as ALL } from '@/constants/stall'
+import {
+	useCategories,
+	useCompanyMap,
+	useLiveProducts,
+} from '@/hooks/market/useMarket'
 import { useBalance } from '@/hooks/wallet/useWallet'
-import type { Product } from '@/types/productType'
+import type { CategoryInfo, Product } from '@/types/productType'
 
-const ALL = 'all'
-
-const isCategory = (v: string | null): v is CategoryFilter =>
-	!!v && v in CATEGORY_LABELS
+export function useCategoryOptions(
+	live: Product[],
+	scoped: Product[]
+): CategoryOption[] {
+	const { data } = useCategories()
+	return useMemo(() => {
+		const count = (code: string) =>
+			scoped.filter(p => p.category === code).length
+		const shown = (data ?? []).filter(
+			(c: CategoryInfo) => c.isActive || live.some(p => p.category === c.code)
+		)
+		return [
+			{ id: ALL, label: 'Todo', count: scoped.length },
+			...shown.map(c => ({ id: c.code, label: c.name, count: count(c.code) })),
+		]
+	}, [data, live, scoped])
+}
 
 const fitsIn = (balance: number) => (p: Product) =>
 	balance >= p.price && p.stockLeft !== 0
@@ -58,8 +75,6 @@ export function useShelf() {
 	const products = useLiveProducts()
 	const balance = useBalance().data?.balance ?? 0
 	const names = useCompanyMap()
-	const rawType = params.get('type')
-	const category: CategoryFilter = isCategory(rawType) ? rawType : ALL
 	const company = params.get('company') ?? ALL
 
 	const options = useMemo(
@@ -72,11 +87,10 @@ export function useShelf() {
 		[products.live, company]
 	)
 
-	const counts = useMemo(() => {
-		const tally = { all: ofCompany.length, service: 0, item: 0, custodia: 0 }
-		for (const p of ofCompany) tally[p.category] += 1
-		return tally
-	}, [ofCompany])
+	const categories = useCategoryOptions(products.live, ofCompany)
+	const rawType = params.get('type')
+	const category =
+		rawType && categories.some(c => c.id === rawType) ? rawType : ALL
 
 	const shown = useMemo(() => {
 		const dir = sort === 'desc' ? -1 : 1
@@ -96,13 +110,13 @@ export function useShelf() {
 		options,
 		company,
 		category,
-		counts,
+		categories,
 		affordable,
 		sort,
 		shown,
 		fits: shown.filter(fitsIn(balance)).length,
 		setCompany: (id: string) => update('company', id),
-		setCategory: (c: CategoryFilter) => update('type', c),
+		setCategory: (c: string) => update('type', c),
 		setAffordable,
 		toggleSort: () => setSort(s => (s === 'asc' ? 'desc' : 'asc')),
 		reset: () => {

@@ -17,6 +17,15 @@ export const QUERY_KEYS = {
 	covers: (ids: string) => ['products', 'covers', ids] as const,
 	notifications: (personId: string) => ['notifications', personId] as const,
 	dashboard: ['panel', 'dashboard'] as const,
+	grants: ['grants'] as const,
+	grant: (id: string) => ['grants', id] as const,
+	grantRecipients: (id: string) => ['grants', id, 'recipients'] as const,
+	grantEvents: (id: string) => ['grants', id, 'events'] as const,
+	grantFund: (year: number) => ['grants', 'fund', year] as const,
+	grantPreview: (scope: string, scopeId: string) =>
+		['grants', 'preview', scope, scopeId] as const,
+	grantOccasions: ['catalog', 'grantOccasions'] as const,
+	grantScopes: ['catalog', 'grantScopes'] as const,
 }
 
 export const CATALOG_STALE_TIME = 5 * 60_000

@@ -26,6 +26,8 @@ interface MovementRow {
 	rule: { label: string } | null
 }
 
+const GRANT_SOURCE = 'trueque.grant'
+
 const toYemas = (text: string) =>
 	text.replace(
 		/\bcacao(s?)\b/gi,
@@ -37,6 +39,8 @@ function labelOf(r: MovementRow) {
 }
 
 function rawLabel(r: MovementRow) {
+	if (r.kind === 'earn' && r.source === GRANT_SOURCE)
+		return `${r.note ?? 'Regalo de yemas'} · ${r.source_ref}`
 	if (r.kind === 'earn')
 		return r.note ?? `${r.rule?.label ?? 'Abono'} · ${r.source_ref}`
 	if (r.kind === 'spend') return `Canje ${r.source_ref}`

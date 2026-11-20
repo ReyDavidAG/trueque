@@ -73,7 +73,9 @@ export const productRepository: ProductRepository = {
 	async categories() {
 		const { data, error } = await trueque
 			.from('categories')
-			.select('code, name, price_min, price_max')
+			.select(
+				'code, name, price_min, price_max, position, description, is_active, self_service, art'
+			)
 			.order('position')
 			.returns<CategoryRow[]>()
 		if (error) throw new Error(toMessage(error))

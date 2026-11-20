@@ -19,6 +19,7 @@ const ICON: Record<NotificationKind, IconName> = {
 	rejected: 'info',
 	budget: 'coins',
 	custodia: 'laptop',
+	grant: 'gift',
 }
 
 export function NotificationsBell() {

@@ -36,7 +36,7 @@ const toPerson = (r: PersonRow): Person => ({
 })
 
 async function buildSession(person: Person): Promise<Session> {
-	const [managers, hr] = await Promise.all([
+	const [managers, hr, approvers] = await Promise.all([
 		trueque
 			.from('store_managers')
 			.select('company_id')
@@ -47,17 +47,23 @@ async function buildSession(person: Person): Promise<Session> {
 			.select('person_id')
 			.eq('person_id', person.id)
 			.returns<{ person_id: string }[]>(),
+		trueque
+			.from('grant_approvers')
+			.select('person_id')
+			.eq('person_id', person.id)
+			.returns<{ person_id: string }[]>(),
 	])
-	const error = managers.error ?? hr.error
+	const error = managers.error ?? hr.error ?? approvers.error
 	if (error) throw new Error(toMessage(error))
 	const managedCompanyIds = (managers.data ?? []).map(m => m.company_id)
 	const isHr = (hr.data ?? []).length > 0
+	const canApproveGrants = (approvers.data ?? []).length > 0
 	const role: Role = isHr
 		? 'hr'
 		: managedCompanyIds.length
 			? 'company'
 			: 'member'
-	return { person, role, isHr, managedCompanyIds }
+	return { person, role, isHr, canApproveGrants, managedCompanyIds }
 }
 
 async function loadPerson(column: string, value: string) {

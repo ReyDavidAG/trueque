@@ -157,3 +157,47 @@ Prueba PGlite: 49 reglas en verde (las 32 de antes más 17 de esta fase); la de 
 
 - `trueque.default_stall(art, origin)` da el color del toldo según la ilustración (comida achiote, salud nopal, aprendizaje y Custodia cacao…). Los productos que existían antes de la columna `stall` quedaron todos en `grana`; la migración los acomoda y `seed_demo.sql` la usa para sus productos.
 - `trueque.notify_pending()` avisa en la campana a cada persona de `hr_reviewers` cuando un producto entra o regresa a `pending` (alta nueva o cambio de precio, costo o categoría). No avisa a quien lo publicó si también es RH.
+
+## La Despensa · `20261120000000_trueque_despensa.sql`
+
+La app pasó a llamarse La Despensa y la moneda en pantalla es la **yema** (en la base sigue la columna `cacaos`: 1 yema = 1 cacao). Esta migración deja dos catálogos que antes estaban escritos en el código.
+
+### Categorías: un renglón, no un cambio de código
+
+| Columna nueva | Para qué |
+|---|---|
+| `description` | Texto corto que explica qué entra en la categoría. |
+| `is_active` | Apagarla en vez de borrarla: deja de recibir productos, pero los publicados siguen y el historial no se rompe. |
+| `self_service` | Si las empresas pueden publicar ahí. `custodia` es `false`: sólo llega desde Custodia o la pone RH. |
+| `art` | Ilustración por omisión (id del catálogo del cliente). |
+
+- Se agrega **«De la despensa»** (`pantry`, 5 a 200 yemas) en la primera posición.
+- RH da de alta categorías con un `insert` (política `hr_categories_insert`) y edita nombre, rango, orden, descripción, activa, `self_service` e ilustración. El `code` no cambia nunca: es la llave que guardan los productos.
+- El disparador `check_product_category` impide productos nuevos en categorías apagadas y que una empresa publique a mano donde `self_service = false`.
+- El cliente ya no tiene categorías fijas: los chips de la despensa, el formulario y la revisión de precios leen esta tabla.
+- `seed.sql` trae las cuatro categorías con `on conflict do nothing`, porque la migración ya las deja.
+
+### Folios: el prefijo es un dato
+
+`trueque.folio_kinds (kind, prefix, digits, label)` guarda el formato de cada folio:
+
+| `kind` | Prefijo | Ejemplo |
+|---|---|---|
+| `order` | `DSP` | `DSP-0004` (el canje) |
+| `product` | `PRD` | `PRD-0012` |
+| `coupon` | `YEM` | `YEM-3F9A0C21B7` (código del cupón, aleatorio) |
+
+- `trueque.format_folio(kind, n)` arma el folio y `trueque.new_coupon_code()` el código del cupón.
+- Los contadores de `folio_counters` pasan de `TRQ`/`PRD` a `order`/`product`; la numeración sigue donde iba.
+- El canje **guarda su folio formateado** en `orders.folio_code`. Así, si RH cambia el prefijo, sólo cambian los folios nuevos: los ya emitidos, los movimientos del libro y los cupones impresos siguen igual. Los canjes anteriores conservan su `TRQ-000N` y los cupones `CAC-…` siguen canjeándose.
+- Agregar un tipo de folio nuevo (por ejemplo `grant` para los regalos) es insertar un renglón y llamar `next_folio('grant')`.
+
+### Textos en yemas
+
+Los mensajes y avisos que escribe la base (`trade`, `review_price`, `notify_earn`, `notify_review`, `notify_expiring` y el candado del libro) ahora dicen yemas y «la despensa». Las notas de las reglas `support` y `badge` también.
+
+## Regalos de yemas · `20261120010000_trueque_grants.sql`
+
+RH arma un regalo (Navidad, aniversario, reconocimiento, evento), otra persona lo autoriza y la base lo entrega en la fecha como un abono más del libro (regla variable `grant`, folio `REG-`). Tablas `grant_occasions`, `grant_approvers`, `grant_funds`, `grants`, `grant_recipients` y `grant_events` (bitácora inmutable); vistas `grant_cards` y `grant_fund_usage`; funciones `grant_preview`, `grant_save`, `grant_submit`, `grant_decide`, `grant_cancel`, `grant_set_fund` y `grant_deliver` (programada con `pg_cron` como `trueque-grant-deliver`, 06:05 UTC, sólo si la extensión existe). Límites en `config.grant_*`. Avisos con `kind = 'grant'`.
+
+Flujo, roles, límites y casos completos en `docs/regalos-de-yemas.md`. Prueba PGlite: 103 reglas en verde, con categorías, folios y el flujo completo de regalos.

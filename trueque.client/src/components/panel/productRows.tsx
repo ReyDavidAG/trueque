@@ -1,4 +1,4 @@
-import { CATEGORY_LABELS } from '@/constants/stall'
+import { useCategories } from '@/hooks/market/useMarket'
 import type { Category, Product } from '@/types/productType'
 
 import { ProductRow } from './productRow'
@@ -20,13 +20,16 @@ interface ProductRowsProps {
 
 export function ProductRows({ products, covers }: ProductRowsProps) {
 	const groups = groupByCategory(products)
+	const { data: categories = [] } = useCategories()
+	const label = (code: Category) =>
+		categories.find(c => c.code === code)?.name ?? code
 	return (
 		<div className='prow-groups'>
 			{[...groups].map(([category, list]) => (
 				<div key={category} className='prow-group'>
 					{groups.size > 1 && (
 						<h3 className='prow-group__title'>
-							{CATEGORY_LABELS[category]}
+							{label(category)}
 							<span className='num'>{list.length}</span>
 						</h3>
 					)}

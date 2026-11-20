@@ -18,12 +18,7 @@ export const PRODUCT_STATUS = {
 	retired: ['Retirado', 'is-used'],
 } as const
 
-export const CATEGORY_LABELS = {
-	all: 'Todo',
-	service: 'Servicios',
-	item: 'Artículos',
-	custodia: 'De Custodia',
-} as const
+export const ALL_CATEGORIES = 'all'
 
 export const ROLE_NAMES = {
 	member: 'Colaborador',

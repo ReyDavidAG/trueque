@@ -63,7 +63,7 @@ export const productSchema = (categories: CategoryInfo[]) =>
 					'Hasta 8 renglones.'
 				),
 			kind: z.enum(['service', 'item']),
-			category: z.enum(['service', 'item', 'custodia']),
+			category: z.string().trim().min(1, 'Elige una categoría.'),
 			art: z
 				.string()
 				.max(900, 'El diseño es demasiado grande.')

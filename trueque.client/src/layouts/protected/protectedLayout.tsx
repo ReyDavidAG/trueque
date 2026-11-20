@@ -11,7 +11,11 @@ import LoadingPage from '@/pages/core/loading/loadingPage'
 
 export default function ProtectedLayout() {
 	const session = useRequiredSession()
-	const items = useMemo(() => navItems(session.role), [session.role])
+	const canApprove = Boolean(session.canApproveGrants)
+	const items = useMemo(
+		() => navItems(session.role, canApprove),
+		[session.role, canApprove]
+	)
 
 	return (
 		<>

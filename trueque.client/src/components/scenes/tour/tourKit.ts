@@ -26,7 +26,7 @@ function drawTicketFace(stage: Stage) {
 	g.setLineDash([])
 	g.fillStyle = cssVar('--color-ink')
 	g.font = `700 34px ${cssVar('--font-mono')}`
-	g.fillText('CAC-', 120, 82)
+	g.fillText('YEM-', 120, 82)
 	g.fillRect(120, 108, 180, 12)
 	g.fillRect(120, 132, 120, 12)
 	g.drawImage(coinSprite(64, css), 14, 63, 64, 64)

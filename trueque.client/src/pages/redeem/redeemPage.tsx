@@ -152,7 +152,7 @@ export default function RedeemPage() {
 							)}
 							autoComplete='off'
 							spellCheck={false}
-							placeholder='CAC-XXXX0000'
+							placeholder='YEM-XXXX000000'
 							aria-invalid={Boolean(error)}
 							aria-describedby='r-code-help'
 							{...register('code')}
@@ -171,7 +171,8 @@ export default function RedeemPage() {
 					<p
 						className={cn('field__help', error && 'is-error')}
 						id='r-code-help'>
-						{error ?? 'Empieza con CAC- y está debajo del QR.'}
+						{error ??
+							'Empieza con YEM- (o CAC- si es de antes) y está debajo del QR.'}
 					</p>
 				</div>
 				{(egg === 'cat' || egg === 'skeleton') && (

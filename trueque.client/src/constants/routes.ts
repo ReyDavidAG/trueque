@@ -13,4 +13,8 @@ export const ROUTES = {
 	redeem: '/redeem',
 	dashboard: '/dashboard',
 	settings: '/settings',
+	gifts: '/gifts',
+	newGift: '/gifts/new',
+	gift: (id: string) => `/gifts/${id}`,
+	editGift: (id: string) => `/gifts/edit/${id}`,
 } as const

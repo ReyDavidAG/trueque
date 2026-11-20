@@ -2,6 +2,10 @@ export interface StoreConfig {
 	cacaoValue: number
 	lotMonths: number
 	refundOnExpiry: boolean
+	grantMaxPerPerson: number
+	grantMaxPerYear: number
+	grantMaxList: number
+	grantMaxDaysAhead: number
 }
 
 export type NotificationKind =
@@ -12,6 +16,7 @@ export type NotificationKind =
 	| 'rejected'
 	| 'budget'
 	| 'custodia'
+	| 'grant'
 
 export interface NotificationItem {
 	id: number

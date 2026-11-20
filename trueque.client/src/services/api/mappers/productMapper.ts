@@ -1,6 +1,7 @@
 import type {
 	Category,
 	CategoryInfo,
+	CategoryPatch,
 	ExchangeLocation,
 	Product,
 	ProductInput,
@@ -49,6 +50,11 @@ export type CategoryRow = {
 	name: string
 	price_min: number
 	price_max: number
+	position: number
+	description: string | null
+	is_active: boolean
+	self_service: boolean
+	art: string | null
 }
 
 const defaultArt = (origin: Product['origin']) =>
@@ -122,4 +128,22 @@ export const toCategory = (row: CategoryRow): CategoryInfo => ({
 	name: row.name,
 	priceMin: row.price_min,
 	priceMax: row.price_max,
+	position: row.position,
+	description: row.description,
+	isActive: row.is_active,
+	selfService: row.self_service,
+	art: row.art,
 })
+
+export const toCategoryRow = (input: CategoryPatch) => {
+	const row: Record<string, unknown> = {}
+	if (input.name !== undefined) row.name = input.name
+	if (input.priceMin !== undefined) row.price_min = input.priceMin
+	if (input.priceMax !== undefined) row.price_max = input.priceMax
+	if (input.position !== undefined) row.position = input.position
+	if (input.description !== undefined) row.description = input.description
+	if (input.selfService !== undefined) row.self_service = input.selfService
+	if (input.art !== undefined) row.art = input.art
+	if (input.isActive !== undefined) row.is_active = input.isActive
+	return row
+}

@@ -6,8 +6,8 @@ export const redeemCouponSchema = z.object({
 		.trim()
 		.toUpperCase()
 		.regex(
-			/^CAC-[A-Z0-9]{4,12}$/,
-			'Ese no parece un código: empieza con CAC- seguido de letras y números.'
+			/^[A-Z]{2,5}-[A-Z0-9]{4,12}$/,
+			'Ese no parece un código: letras, un guion y luego letras y números (YEM-…).'
 		),
 })
 

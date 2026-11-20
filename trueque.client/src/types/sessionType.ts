@@ -16,5 +16,6 @@ export interface Session {
 	person: Person
 	role: Role
 	isHr: boolean
+	canApproveGrants: boolean
 	managedCompanyIds: string[]
 }

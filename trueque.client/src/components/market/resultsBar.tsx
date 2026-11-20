@@ -1,29 +1,31 @@
 import { Icon } from '@/components/ui/icon'
-import { CATEGORY_LABELS } from '@/constants/stall'
 
-export type CategoryFilter = keyof typeof CATEGORY_LABELS
 export type PriceSort = 'asc' | 'desc'
 
+export interface CategoryOption {
+	id: string
+	label: string
+	count: number
+}
+
 interface Props {
-	category: CategoryFilter
-	counts: Record<CategoryFilter, number>
+	category: string
+	options: CategoryOption[]
 	total: number
 	fits: number
 	affordable: boolean
 	sort: PriceSort
-	onCategory: (c: CategoryFilter) => void
+	onCategory: (c: string) => void
 	onAffordable: (v: boolean) => void
 	onSort: () => void
 }
-
-const isCategory = (v: string): v is CategoryFilter => v in CATEGORY_LABELS
 
 const products = (n: number) => (n === 1 ? '1 producto' : `${n} productos`)
 const reachable = (n: number) => (n === 1 ? '1 te alcanza' : `${n} te alcanzan`)
 
 export function ResultsBar({
 	category,
-	counts,
+	options,
 	total,
 	fits,
 	affordable,
@@ -37,23 +39,19 @@ export function ResultsBar({
 			<div
 				className='chip-row results__cats'
 				role='radiogroup'
-				aria-label='Tipo'>
-				{Object.entries(CATEGORY_LABELS).map(([id, label]) => (
-					<label key={id} className='chip-radio'>
+				aria-label='Categoría'>
+				{options.map(o => (
+					<label key={o.id} className='chip-radio'>
 						<input
 							type='radio'
 							name='cat'
-							value={id}
-							checked={category === id}
-							onChange={e =>
-								isCategory(e.target.value) && onCategory(e.target.value)
-							}
+							value={o.id}
+							checked={category === o.id}
+							onChange={() => onCategory(o.id)}
 						/>
 						<span>
-							{label}
-							{isCategory(id) && (
-								<small className='chip-radio__n num'>{counts[id]}</small>
-							)}
+							{o.label}
+							<small className='chip-radio__n num'>{o.count}</small>
 						</span>
 					</label>
 				))}

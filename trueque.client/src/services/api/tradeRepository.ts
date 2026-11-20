@@ -42,10 +42,10 @@ export interface TradeRepository {
 }
 
 const ORDER_FIELDS =
-	'folio, price, status, created_at, company_id, spend_id, product:products(id, name, art, stall, location_id), coupon:coupons(code, code_type, state, valid_until, swaps_budget, swaps_used)'
+	'folio_code, price, status, created_at, company_id, spend_id, product:products(id, name, art, stall, location_id), coupon:coupons(code, code_type, state, valid_until, swaps_budget, swaps_used)'
 
 interface OrderRow {
-	folio: number
+	folio_code: string
 	price: number
 	status: OrderStatus
 	created_at: string
@@ -75,10 +75,8 @@ const isTradeResult = (v: unknown): v is TradeResult =>
 	'code' in v &&
 	'balance' in v
 
-export const orderFolio = (n: number) => `TRQ-${String(n).padStart(4, '0')}`
-
 const toCard = (r: OrderRow): CouponCard => ({
-	orderFolio: orderFolio(r.folio),
+	orderFolio: r.folio_code,
 	price: r.price,
 	status: r.status,
 	createdAt: r.created_at,
@@ -116,12 +114,12 @@ export const tradeRepository: TradeRepository = {
 	},
 
 	async receipt(folio) {
-		const n = Number(folio.replace(/\D/g, ''))
-		if (!n) return null
+		const code = folio.trim().toUpperCase()
+		if (!code) return null
 		const { data, error } = await trueque
 			.from('orders')
 			.select(ORDER_FIELDS)
-			.eq('folio', n)
+			.eq('folio_code', code)
 			.maybeSingle<OrderRow>()
 		if (error) throw new Error(toMessage(error))
 		if (!data) return null

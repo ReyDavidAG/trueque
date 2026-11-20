@@ -119,7 +119,7 @@ export default function MarketPage() {
 					</header>
 					<ResultsBar
 						category={shelf.category}
-						counts={shelf.counts}
+						options={shelf.categories}
 						total={shown.length}
 						fits={shelf.fits}
 						affordable={shelf.affordable}

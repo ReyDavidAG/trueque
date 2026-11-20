@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { CATALOG_STALE_TIME, QUERY_KEYS } from '@/constants/queryKeys'
 import { services } from '@/services/api/unitOfServices'
 import type { LocationInput, StoreConfig } from '@/types/configType'
+import type { CategoryInput, CategoryPatch } from '@/types/productType'
 
 export function useConfig() {
 	return useQuery({
@@ -47,12 +48,20 @@ export function useSetRules() {
 	})
 }
 
-export function useSetCategories() {
+export function useCreateCategory() {
 	const refresh = useRefreshCatalog()
 	return useMutation({
-		mutationFn: (rows: { code: string; min: number; max: number }[]) =>
+		mutationFn: (input: CategoryInput) => services.config.createCategory(input),
+		onSuccess: refresh,
+	})
+}
+
+export function useUpdateCategories() {
+	const refresh = useRefreshCatalog()
+	return useMutation({
+		mutationFn: (rows: { code: string; patch: CategoryPatch }[]) =>
 			Promise.all(
-				rows.map(r => services.config.setCategory(r.code, r.min, r.max))
+				rows.map(r => services.config.updateCategory(r.code, r.patch))
 			),
 		onSuccess: refresh,
 	})

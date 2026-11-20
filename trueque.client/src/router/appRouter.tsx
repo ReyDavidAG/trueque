@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router'
 
 import AuthGuard from '@/layouts/auth/authGuard'
+import GiftsGuard from '@/layouts/auth/giftsGuard'
 import RoleGuard from '@/layouts/auth/roleGuard'
 import NotFoundPage from '@/pages/core/not_found/notFoundPage'
 import RouteErrorPage from '@/pages/core/route_error/routeErrorPage'
@@ -30,6 +31,9 @@ const ProductFormPage = lazy(
 const RedeemPage = lazy(() => import('@/pages/redeem/redeemPage'))
 const DashboardPage = lazy(() => import('@/pages/dashboard/dashboardPage'))
 const SettingsPage = lazy(() => import('@/pages/settings/settingsPage'))
+const GiftsPage = lazy(() => import('@/pages/gifts/list/giftsPage'))
+const GiftFormPage = lazy(() => import('@/pages/gifts/form/giftFormPage'))
+const GiftDetailPage = lazy(() => import('@/pages/gifts/detail/giftDetailPage'))
 
 const router = createBrowserRouter([
 	{
@@ -68,6 +72,20 @@ const router = createBrowserRouter([
 						children: [
 							{ path: '/dashboard', element: <DashboardPage /> },
 							{ path: '/settings', element: <SettingsPage /> },
+						],
+					},
+					{
+						element: <GiftsGuard build />,
+						children: [
+							{ path: '/gifts/new', element: <GiftFormPage /> },
+							{ path: '/gifts/edit/:id', element: <GiftFormPage /> },
+						],
+					},
+					{
+						element: <GiftsGuard />,
+						children: [
+							{ path: '/gifts', element: <GiftsPage /> },
+							{ path: '/gifts/:id', element: <GiftDetailPage /> },
 						],
 					},
 					{ path: '*', element: <NotFoundPage /> },

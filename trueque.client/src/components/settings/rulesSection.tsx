@@ -70,7 +70,11 @@ export function RulesSection({ rules }: { rules: EarningRule[] }) {
 								</th>
 								<td>
 									{r.isVariable ? (
-										<span className='muted small'>Según la insignia</span>
+										<span className='muted small'>
+											{r.source === 'rh'
+												? 'Según el regalo'
+												: 'Según la insignia'}
+										</span>
 									) : (
 										<input
 											className='input input--sm num'

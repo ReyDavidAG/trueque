@@ -38,24 +38,71 @@ export const rulesSchema = z.object({
 })
 export type RulesForm = z.infer<typeof rulesSchema>
 
+const categoryName = z
+	.string()
+	.trim()
+	.min(2, 'De 2 a 40 letras.')
+	.max(40, 'De 2 a 40 letras.')
+const priceMin = whole('Entero mayor a 0.').refine(
+	v => Number(v) > 0,
+	'Entero mayor a 0.'
+)
+const priceMax = whole('Entero mayor a 0.')
+const rangeOk = (c: { min: string; max: string }) =>
+	Number(c.max) >= Number(c.min)
+const RANGE_ISSUE = {
+	path: ['max'],
+	message: 'Debe ser mayor o igual al mínimo.',
+}
+
 export const categoriesSchema = z.object({
 	categories: z.array(
 		z
 			.object({
 				code: z.string(),
-				min: whole('Entero mayor a 0.').refine(
-					v => Number(v) > 0,
-					'Entero mayor a 0.'
-				),
-				max: whole('Entero mayor a 0.'),
+				name: categoryName,
+				min: priceMin,
+				max: priceMax,
+				isActive: z.boolean(),
+				selfService: z.boolean(),
 			})
-			.refine(c => Number(c.max) >= Number(c.min), {
-				path: ['max'],
-				message: 'Debe ser mayor o igual al mínimo.',
-			})
+			.refine(rangeOk, RANGE_ISSUE)
 	),
 })
 export type CategoriesForm = z.infer<typeof categoriesSchema>
+
+export const newCategorySchema = z
+	.object({
+		code: z
+			.string()
+			.trim()
+			.regex(
+				/^[a-z_]{2,30}$/,
+				'De 2 a 30 letras minúsculas sin acentos o guion bajo. No se cambia después.'
+			),
+		name: categoryName,
+		min: priceMin,
+		max: priceMax,
+		description: z.string().trim().max(160, 'Máximo 160 caracteres.'),
+		selfService: z.boolean(),
+		art: z.string(),
+	})
+	.refine(rangeOk, RANGE_ISSUE)
+export type NewCategoryForm = z.infer<typeof newCategorySchema>
+
+const limit = (min: number, max: number) =>
+	whole('Sólo números enteros.').refine(
+		v => Number(v) >= min && Number(v) <= max,
+		`Entre ${min} y ${max}.`
+	)
+
+export const grantLimitsSchema = z.object({
+	grantMaxPerPerson: limit(1, 1000),
+	grantMaxPerYear: limit(1, 5000),
+	grantMaxList: limit(1, 500),
+	grantMaxDaysAhead: limit(0, 365),
+})
+export type GrantLimitsForm = z.infer<typeof grantLimitsSchema>
 
 export const budgetsSchema = z.object({
 	budgets: z.array(
