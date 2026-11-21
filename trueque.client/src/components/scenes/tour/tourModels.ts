@@ -4,24 +4,27 @@ import { easeInOut } from '@/utils/three/easing'
 
 import type { TourKit, TourModel } from './tourKit'
 
-const EGG_PROFILE = [
-	[0, -0.8],
-	[0.36, -0.72],
-	[0.56, -0.45],
-	[0.62, -0.08],
-	[0.56, 0.32],
-	[0.4, 0.66],
-	[0.2, 0.88],
-	[0, 0.94],
-] as const
+const EGG_STEPS = 48
+const EGG_SEGMENTS = 64
+const EGG_HALF_HEIGHT = 0.87
+const EGG_CENTER = 0.07
+const EGG_RADIUS = 0.6
+const EGG_TAPER = 0.12
+
+const eggProfile = () =>
+	Array.from({ length: EGG_STEPS + 1 }, (_, i) => {
+		const a = (i / EGG_STEPS) * Math.PI
+		const radius = Math.sin(a) * EGG_RADIUS * (1 + EGG_TAPER * Math.cos(a))
+		return new THREE.Vector2(
+			Math.max(0, radius),
+			EGG_CENTER - Math.cos(a) * EGG_HALF_HEIGHT
+		)
+	})
 
 export function earnModel({ outlined, toon, coin }: TourKit): TourModel {
 	const group = new THREE.Group()
 	const egg = outlined(
-		new THREE.LatheGeometry(
-			EGG_PROFILE.map(([x, y]) => new THREE.Vector2(x, y)),
-			24
-		),
+		new THREE.LatheGeometry(eggProfile(), EGG_SEGMENTS),
 		toon('--color-cascara')
 	)
 	group.add(egg)
