@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="es" data-palette="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Despensa · Guía visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=IBM+Plex+Mono:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+	--color-amate: oklch(97.6% 0.012 240);
+	--color-amate-2: oklch(94.5% 0.018 240);
+	--color-amate-3: oklch(90% 0.022 240);
+	--color-estraza: oklch(99.6% 0.006 100);
+	--color-cascara: oklch(97.6% 0.02 80);
+	--color-cascara-sombra: oklch(89% 0.04 78);
+	--color-carton: oklch(91% 0.022 85);
+	--color-carton-sombra: oklch(84% 0.03 80);
+	--color-vichy-gris: oklch(86% 0.012 210);
+	--color-rule: oklch(90% 0.015 240);
+	--color-rule-strong: oklch(80% 0.025 245);
+	--color-muted: oklch(45% 0.055 268);
+	--color-ink: oklch(25% 0.05 262);
+	--color-on-dark: oklch(99% 0.006 100);
+	--color-tinta: oklch(39% 0.14 258);
+	--color-tinta-text: var(--color-tinta);
+	--color-tinta-2: oklch(55% 0.13 250);
+	--color-tinta-3: oklch(30% 0.11 260);
+	--color-tinta-soft: oklch(93% 0.03 250);
+	--color-anil: oklch(59% 0.14 240);
+	--color-anil-ink: oklch(47% 0.13 245);
+	--color-anil-soft: oklch(94% 0.03 240);
+	--color-achiote: oklch(62% 0.16 50);
+	--color-achiote-soft: oklch(94% 0.04 55);
+	--color-maiz: oklch(80% 0.155 78);
+	--color-maiz-2: oklch(70% 0.16 65);
+	--color-maiz-ink: oklch(47% 0.11 68);
+	--color-maiz-soft: oklch(95% 0.05 85);
+	--color-nopal: oklch(45% 0.1 150);
+	--color-nopal-soft: oklch(94% 0.04 150);
+	--color-error: oklch(50% 0.18 28);
+	--color-error-soft: oklch(94% 0.035 28);
+	--color-focus: oklch(55% 0.17 250);
+	--color-shadow: oklch(30% 0.1 258);
+	--color-scrim: oklch(18% 0.04 258 / 0.62);
+	--font-display: 'Baloo 2', system-ui, sans-serif;
+	--font-body: 'Nunito', system-ui, sans-serif;
+	--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: 1.375rem;
+	--text-2xl: clamp(1.5rem, 1.2rem + 1.3vw, 2rem);
+	--text-3xl: clamp(2rem, 1.5rem + 2.4vw, 2.75rem);
+	--text-display: clamp(2.25rem, 1.5rem + 3.6vw, 3.75rem);
+	--space-2xs: 4px;
+	--space-xs: 8px;
+	--space-sm: 12px;
+	--space-md: 16px;
+	--space-lg: 24px;
+	--space-xl: 32px;
+	--space-2xl: 48px;
+	--space-3xl: 72px;
+	--gutter: 16px;
+	--radius-sm: 8px;
+	--radius-md: 14px;
+	--radius-lg: 26px;
+	--radius-pill: 999px;
+	--shadow-card: 0 1px 2px color-mix(in oklch, var(--color-shadow) 8%, transparent), 0 14px 30px -18px color-mix(in oklch, var(--color-shadow) 35%, transparent);
+	--shadow-lift: 0 2px 4px color-mix(in oklch, var(--color-shadow) 10%, transparent), 0 24px 40px -20px color-mix(in oklch, var(--color-shadow) 45%, transparent);
+	--shadow-label: 0 1px 1px oklch(30% 0.06 80 / 0.18), 0 8px 18px -8px oklch(25% 0.06 80 / 0.4);
+	--shadow-press: 0 3px 0 var(--color-tinta-3);
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--dur-fast: 120ms;
+	--dur-base: 220ms;
+	--dur-slow: 420ms;
+	--vichy-cell: 14px;
+	--vichy: conic-gradient(var(--color-anil) 0 25%, var(--color-vichy-gris) 0 50%, var(--color-estraza) 0 75%, var(--color-vichy-gris) 0) 0 0 / calc(2 * var(--vichy-cell)) calc(2 * var(--vichy-cell));
+	--stall: oklch(39% 0.14 258);
+	--stall-claro: oklch(55% 0.13 250);
+	--stall-soft: oklch(94% 0.03 250);
+	--stall-ink: var(--color-on-dark);
+	--stall-text: var(--stall);
+	color-scheme: light;
+}
+[data-stall='anil'] { --stall: oklch(39% 0.14 258); --stall-claro: oklch(55% 0.13 250); --stall-soft: oklch(94% 0.03 250); }
+[data-stall='grana'] { --stall: oklch(47% 0.16 32); --stall-claro: oklch(58% 0.17 40); --stall-soft: oklch(94% 0.035 35); }
+[data-stall='nopal'] { --stall: oklch(44% 0.09 150); --stall-claro: oklch(70% 0.045 145); --stall-soft: oklch(94% 0.03 145); }
+[data-stall='achiote'] { --stall: oklch(50% 0.12 45); --stall-claro: oklch(62% 0.16 50); --stall-soft: oklch(94% 0.03 50); }
+[data-stall='maiz'] { --stall: oklch(47% 0.11 68); --stall-claro: oklch(80% 0.155 78); --stall-soft: oklch(95% 0.05 85); }
+[data-stall='cacao'] { --stall: oklch(42% 0.07 50); --stall-claro: oklch(66% 0.07 65); --stall-soft: oklch(94% 0.025 70); }
+[data-stall] { --stall-text: var(--stall); }
+
+:root[data-palette='dark'] {
+	color-scheme: dark;
+	--color-amate: oklch(19% 0.026 258);
+	--color-amate-2: oklch(26% 0.03 258);
+	--color-amate-3: oklch(31% 0.032 258);
+	--color-estraza: oklch(22.5% 0.028 258);
+	--color-cascara: oklch(27% 0.022 80);
+	--color-cascara-sombra: oklch(35% 0.03 78);
+	--color-carton: oklch(27% 0.02 75);
+	--color-carton-sombra: oklch(33% 0.025 75);
+	--color-vichy-gris: oklch(38% 0.02 240);
+	--color-rule: oklch(32% 0.03 258);
+	--color-rule-strong: oklch(44% 0.035 258);
+	--color-muted: oklch(77% 0.03 258);
+	--color-ink: oklch(94% 0.01 258);
+	--color-tinta: oklch(47% 0.15 258);
+	--color-tinta-text: oklch(82% 0.09 250);
+	--color-tinta-2: oklch(66% 0.13 250);
+	--color-tinta-3: oklch(33% 0.11 260);
+	--color-tinta-soft: oklch(31% 0.06 255);
+	--color-anil-ink: oklch(78% 0.1 245);
+	--color-anil-soft: oklch(29% 0.045 240);
+	--color-maiz-ink: oklch(84% 0.13 82);
+	--color-maiz-soft: oklch(31% 0.05 80);
+	--color-achiote-soft: oklch(31% 0.05 55);
+	--color-nopal: oklch(80% 0.13 150);
+	--color-nopal-soft: oklch(30% 0.05 150);
+	--color-error: oklch(76% 0.14 28);
+	--color-error-soft: oklch(31% 0.06 28);
+	--color-focus: oklch(72% 0.15 250);
+	--color-shadow: oklch(5% 0.02 258);
+	--color-scrim: oklch(8% 0.02 258 / 0.72);
+}
+:root[data-palette='dark'],
+:root[data-palette='dark'] [data-stall] {
+	--stall-text: oklch(from var(--stall) 82% calc(c * 0.75) h);
+	--stall-soft: oklch(from var(--stall) 30% calc(c * 0.4) h);
+}
+:root[data-palette='neutral'] {
+	--color-amate: oklch(97.4% 0.003 80);
+	--color-amate-2: oklch(94.8% 0.004 80);
+	--color-amate-3: oklch(90.5% 0.005 80);
+	--color-estraza: oklch(99.4% 0.002 80);
+	--color-cascara: oklch(97% 0.004 80);
+	--color-cascara-sombra: oklch(88% 0.006 80);
+	--color-carton: oklch(93% 0.004 80);
+	--color-carton-sombra: oklch(86% 0.005 80);
+	--color-vichy-gris: oklch(86% 0.004 260);
+	--color-rule: oklch(90.5% 0.004 260);
+	--color-rule-strong: oklch(80% 0.006 260);
+	--color-muted: oklch(45% 0.01 260);
+	--color-ink: oklch(22% 0.01 260);
+	--color-tinta: oklch(27% 0.012 260);
+	--color-tinta-text: oklch(27% 0.012 260);
+	--color-tinta-2: oklch(46% 0.01 260);
+	--color-tinta-3: oklch(18% 0.01 260);
+	--color-tinta-soft: oklch(94% 0.004 260);
+	--color-anil: oklch(60% 0.008 260);
+	--color-anil-ink: oklch(40% 0.01 260);
+	--color-anil-soft: oklch(94.5% 0.004 260);
+	--color-focus: oklch(45% 0.02 260);
+	--color-shadow: oklch(25% 0.01 260);
+	--vichy: linear-gradient(90deg, oklch(84% 0.004 260), oklch(92% 0.004 260));
+}
+:root[data-palette='neutral'],
+:root[data-palette='neutral'] [data-stall] {
+	--stall: oklch(27% 0.012 260);
+	--stall-claro: oklch(66% 0.006 260);
+	--stall-soft: oklch(95% 0.003 260);
+	--stall-text: oklch(27% 0.012 260);
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+	margin: 0;
+	background: var(--color-amate);
+	color: var(--color-ink);
+	font-family: var(--font-body);
+	font-size: var(--text-base);
+	line-height: 1.5;
+	overflow-x: hidden;
+}
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; margin: 0; }
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; }
+code, .mono { font-family: var(--font-mono); font-size: 0.85em; }
+
+.guide-top {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-sm);
+	padding: var(--space-sm) var(--gutter);
+	background: var(--color-estraza);
+	border-bottom: 1px solid var(--color-rule);
+}
+.guide-top__brand { display: flex; align-items: center; gap: var(--space-xs); font-family: var(--font-display); font-weight: 800; font-size: var(--text-xl); color: var(--color-tinta-text); }
+.guide-top nav { display: flex; gap: var(--space-2xs); overflow-x: auto; flex: 1 1 100%; order: 3; padding-bottom: 2px; }
+.guide-top nav a { padding: 6px 12px; border-radius: var(--radius-pill); font-size: var(--text-sm); font-weight: 700; color: var(--color-muted); text-decoration: none; white-space: nowrap; }
+.guide-top nav a:hover { background: var(--color-amate-2); color: var(--color-ink); }
+.palette-pick { margin-left: auto; }
+@media (min-width: 1000px) { .guide-top nav { flex: 1; order: 0; } }
+
+main { max-width: 1160px; margin: 0 auto; padding: var(--space-xl) var(--gutter) var(--space-3xl); display: grid; gap: var(--space-3xl); }
+.hero { display: grid; gap: var(--space-md); }
+.hero h1 { font-size: var(--text-display); color: var(--color-tinta-text); }
+.hero p { max-width: 62ch; color: var(--color-muted); font-size: var(--text-lg); }
+.vichy-band { height: 28px; border-radius: var(--radius-sm); background: var(--vichy); }
+
+section { display: grid; gap: var(--space-lg); scroll-margin-top: 120px; }
+.sec-head { display: grid; gap: var(--space-2xs); }
+.sec-head .eyebrow { font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-maiz-ink); }
+.sec-head h2 { font-size: var(--text-2xl); color: var(--color-tinta-text); }
+.sec-head p { color: var(--color-muted); max-width: 70ch; }
+.board { padding: var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-lg); background: var(--color-estraza); box-shadow: var(--shadow-card); display: grid; gap: var(--space-lg); }
+.board h3 { font-size: var(--text-lg); color: var(--color-ink); }
+.note { font-size: var(--text-sm); color: var(--color-muted); }
+.row { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; }
+.grid-auto { display: grid; gap: var(--space-md); grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.grid-cards { display: grid; gap: var(--space-md); grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.demo-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); }
+
+.swatch { display: grid; gap: 6px; }
+.swatch__chip { height: 72px; border-radius: var(--radius-md); border: 1px solid var(--color-rule); }
+.swatch b { font-size: var(--text-sm); }
+.swatch span { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); overflow-wrap: anywhere; }
+
+.type-row { display: grid; gap: var(--space-2xs); padding-bottom: var(--space-md); border-bottom: 1px dashed var(--color-rule-strong); }
+.type-row:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.space-bar { display: flex; align-items: center; gap: var(--space-sm); }
+.space-bar i { display: block; height: 16px; background: var(--color-maiz); border-radius: 3px; }
+.radius-box { width: 88px; height: 64px; background: var(--color-tinta-soft); border: 2px solid var(--color-tinta); }
+.shadow-box { width: 140px; height: 90px; border-radius: var(--radius-md); background: var(--color-estraza); display: grid; place-items: center; font-size: var(--text-xs); font-weight: 700; color: var(--color-muted); }
+
+.btn { --btn-bg: var(--color-estraza); --btn-ink: var(--color-tinta-text); display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-lg); border: 1.5px solid var(--color-rule-strong); border-radius: var(--radius-pill); background: var(--btn-bg); color: var(--btn-ink); font: 800 var(--text-base) var(--font-body); cursor: pointer; white-space: nowrap; box-shadow: 0 1px 2px color-mix(in oklch, var(--color-shadow) 12%, transparent); transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out); }
+.btn:hover:not(:disabled) { background: var(--color-amate-2); }
+.btn:active:not(:disabled) { transform: translateY(1px) scale(0.99); box-shadow: none; }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+.btn--grana { --btn-bg: var(--stall); --btn-ink: var(--stall-ink); border-color: transparent; box-shadow: 0 8px 18px -10px var(--stall); }
+.btn--grana:hover:not(:disabled) { background: color-mix(in oklch, var(--stall) 86%, var(--color-ink)); }
+.btn--ghost { background: transparent; box-shadow: none; }
+.btn--sm { min-height: 38px; padding: 0 var(--space-md); font-size: var(--text-sm); }
+.btn--lg { min-height: 54px; font-size: var(--text-lg); }
+.btn--block { width: 100%; }
+.btn--danger { --btn-ink: var(--color-error); border-color: color-mix(in oklch, var(--color-error) 40%, transparent); }
+.btn .coin { width: 22px; height: 22px; }
+.btn[data-state='loading'] .coin { animation: spin 700ms linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.icon-btn { display: inline-grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--color-rule-strong); border-radius: 50%; background: var(--color-estraza); color: var(--color-ink); cursor: pointer; }
+.icon-btn:hover { background: var(--color-amate-2); }
+.icon { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.chip-radio { position: relative; }
+.chip-radio input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.chip-radio span { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 var(--space-md); border: 1.5px solid var(--color-rule-strong); border-radius: var(--radius-pill); background: var(--color-estraza); font-weight: 800; font-size: var(--text-sm); color: var(--color-tinta-text); white-space: nowrap; }
+.chip-radio:hover span { background: var(--color-amate-2); }
+.chip-radio input:checked + span { background: var(--color-tinta); color: var(--color-on-dark); border-color: var(--color-tinta); }
+.chip-radio input:focus-visible + span { outline: 3px solid var(--color-focus); outline-offset: 2px; }
+.chip-radio--stall span::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--stall); box-shadow: 0 0 0 2px var(--stall-soft); }
+.chip-radio--stall input:checked + span { background: var(--stall); border-color: var(--stall); color: var(--stall-ink); }
+
+.switch { display: inline-flex; align-items: center; gap: var(--space-sm); font-weight: 700; font-size: var(--text-sm); position: relative; min-height: 40px; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; width: 46px; height: 28px; margin: 0; }
+.switch__track { width: 46px; height: 28px; border-radius: var(--radius-pill); background: var(--color-amate-3); border: 2px solid var(--color-rule-strong); position: relative; }
+.switch input:checked + .switch__track { background: var(--color-tinta); border-color: var(--color-tinta); }
+.switch__track::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--color-estraza); box-shadow: 0 1px 2px oklch(30% 0.05 42 / 0.4); transition: transform var(--dur-base) var(--ease-out); }
+.switch input:checked + .switch__track::after { transform: translateX(18px); }
+.switch input:focus-visible + .switch__track { outline: 3px solid var(--color-focus); outline-offset: 2px; }
+
+.field { display: grid; gap: 6px; max-width: 360px; }
+.field label { font-weight: 800; font-size: var(--text-sm); }
+.field input { min-height: 48px; padding: 0 var(--space-md); border: 1.5px solid var(--color-rule-strong); border-radius: var(--radius-md); background: var(--color-estraza); color: var(--color-ink); font: 600 var(--text-base) var(--font-body); }
+.field input.mono { font-family: var(--font-mono); letter-spacing: 0.12em; }
+.field small { font-size: var(--text-xs); color: var(--color-muted); }
+.field.is-error input { border-color: var(--color-error); }
+.field.is-error small { color: var(--color-error); font-weight: 700; }
+
+.combo { position: relative; max-width: 360px; }
+.combo__input { display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-md); border: 1.5px solid var(--color-tinta); border-radius: var(--radius-md); background: var(--color-estraza); }
+.combo__input input { flex: 1; min-width: 0; border: 0; background: none; color: var(--color-ink); font: 600 var(--text-base) var(--font-body); outline: none; }
+.combo__list { margin-top: 6px; padding: 6px; border: 1px solid var(--color-rule); border-radius: var(--radius-md); background: var(--color-estraza); box-shadow: var(--shadow-lift); }
+.combo__list li { display: flex; align-items: center; gap: var(--space-xs); min-height: 44px; padding: 0 10px; border-radius: var(--radius-sm); font-weight: 700; font-size: var(--text-sm); }
+.combo__list li[aria-selected='true'] { background: var(--color-tinta-soft); color: var(--color-tinta-text); }
+.combo__list mark { background: var(--color-maiz-soft); color: inherit; border-radius: 3px; }
+
+.coin { display: inline-block; flex: none; }
+.coin--lg { width: 72px; height: 72px; }
+.coin--md { width: 40px; height: 40px; }
+.coin--sm { width: 18px; height: 18px; vertical-align: -3px; }
+
+.label-tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px 6px 10px; border-radius: 6px 14px 14px 6px; background: var(--color-cascara); box-shadow: var(--shadow-label); font-family: var(--font-display); font-weight: 800; font-size: var(--text-xl); color: oklch(25% 0.05 262); position: relative; }
+.label-tag::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--color-amate); box-shadow: inset 0 1px 2px oklch(0% 0 0 / 0.25); }
+.label-tag small { font-family: var(--font-body); font-size: var(--text-sm); font-weight: 800; color: oklch(45% 0.055 268); }
+
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: var(--radius-pill); font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+.badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.badge--ok { background: var(--color-nopal-soft); color: var(--color-nopal); }
+.badge--warn { background: var(--color-maiz-soft); color: var(--color-maiz-ink); }
+.badge--info { background: var(--color-anil-soft); color: var(--color-anil-ink); }
+.badge--error { background: var(--color-error-soft); color: var(--color-error); }
+.badge--mute { background: var(--color-amate-2); color: var(--color-muted); }
+.badge--demo { background: var(--color-achiote-soft); color: var(--color-ink); border: 1px dashed var(--color-achiote); }
+
+.stall { display: grid; overflow: clip; border-radius: var(--radius-lg); background: var(--color-estraza); box-shadow: var(--shadow-card); border: 1px solid var(--color-rule); transition: transform var(--dur-base) var(--ease-out); }
+.stall:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+.stall__awning { height: 18px; background: var(--vichy); border-bottom: 3px solid var(--stall); }
+.stall__pic { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; background: var(--stall-soft); }
+.stall__pic svg { width: 56%; height: auto; color: var(--stall); }
+.stall__pic .label-tag { position: absolute; right: 10px; bottom: 10px; font-size: var(--text-lg); }
+.stall__body { display: grid; gap: 6px; padding: var(--space-md); }
+.stall__company { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--stall-text); }
+.stall__company i { width: 10px; height: 10px; border-radius: 50%; background: var(--stall-claro); box-shadow: 0 0 0 3px var(--stall-soft); }
+.stall__name { font-family: var(--font-display); font-weight: 800; font-size: var(--text-lg); line-height: 1.15; }
+.stall__meta { display: flex; justify-content: space-between; gap: var(--space-xs); font-size: var(--text-sm); color: var(--color-muted); }
+.stall__meta .reach { font-weight: 800; color: var(--color-nopal); }
+.stall__meta .short { font-weight: 800; color: var(--color-error); }
+.stall.is-out { opacity: 0.7; }
+
+.wallet { display: grid; gap: var(--space-md); padding: var(--space-lg); border-radius: var(--radius-lg); background: var(--color-tinta); color: var(--color-on-dark); box-shadow: var(--shadow-lift); position: relative; overflow: clip; max-width: 420px; }
+.wallet::after { content: ''; position: absolute; inset: auto 0 0 0; height: 14px; background: conic-gradient(var(--color-maiz) 0 25%, transparent 0 50%, var(--color-maiz) 0 75%, transparent 0) 0 0 / 14px 14px; opacity: 0.6; }
+.wallet small { font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
+.wallet__balance { display: flex; align-items: center; gap: var(--space-sm); font-family: var(--font-display); font-weight: 800; font-size: var(--text-display); line-height: 1; }
+.wallet__foot { display: flex; flex-wrap: wrap; gap: var(--space-sm); font-size: var(--text-sm); padding-bottom: var(--space-sm); }
+.wallet__foot b { color: var(--color-maiz); }
+
+.moves { display: grid; max-width: 520px; }
+.move { display: grid; grid-template-columns: auto 1fr auto; gap: var(--space-sm); align-items: center; padding: var(--space-sm) 0; border-bottom: 1px solid var(--color-rule); }
+.move__dot { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; }
+.move--in .move__dot { background: var(--color-nopal-soft); color: var(--color-nopal); }
+.move--out .move__dot { background: var(--color-tinta-soft); color: var(--color-tinta-text); }
+.move--exp .move__dot { background: var(--color-maiz-soft); color: var(--color-maiz-ink); }
+.move b { display: block; font-size: var(--text-sm); }
+.move span { font-size: var(--text-xs); color: var(--color-muted); }
+.move__n { font-family: var(--font-mono); font-weight: 700; }
+.move--in .move__n { color: var(--color-nopal); }
+.move--exp .move__n { color: var(--color-maiz-ink); }
+
+.buybox { display: grid; gap: var(--space-sm); padding: var(--space-lg); border: 1px solid var(--color-rule); border-top: 5px solid var(--stall); border-radius: var(--radius-lg); background: var(--color-estraza); box-shadow: var(--shadow-lift); max-width: 360px; }
+.buybox__price { display: flex; align-items: center; gap: var(--space-xs); }
+.buybox__price b { font-family: var(--font-display); font-weight: 800; font-size: var(--text-3xl); line-height: 1; }
+.buybox__price span { font-weight: 800; font-size: var(--text-lg); color: var(--color-muted); }
+.buybox__stock { font-size: var(--text-sm); font-weight: 800; color: var(--color-nopal); }
+.buybox__math { display: grid; gap: 4px; margin: 0; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); background: var(--color-amate); font-size: var(--text-sm); }
+.buybox__math div { display: flex; justify-content: space-between; }
+.buybox__math dt { color: var(--color-muted); }
+.buybox__math dd { margin: 0; font-weight: 700; }
+.buybox__math .is-total { margin-top: 2px; padding-top: 6px; border-top: 1px dashed var(--color-rule-strong); font-size: var(--text-base); }
+.buybox__math .is-total dd { font-weight: 800; color: var(--color-nopal); }
+
+.how-steps { display: grid; gap: var(--space-xs); grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+.how-steps li { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm); border-radius: var(--radius-md); background: var(--stall-soft); font-size: var(--text-sm); font-weight: 700; }
+.how-steps b { display: grid; place-items: center; flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--stall); color: var(--color-on-dark); font-family: var(--font-display); }
+
+.fact { display: flex; gap: var(--space-sm); align-items: flex-start; padding: var(--space-sm) var(--space-md); border: 1px solid var(--color-rule); border-radius: var(--radius-md); background: var(--color-estraza); max-width: 320px; }
+.fact__icon { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--stall-soft); color: var(--stall-text); }
+.fact__text { display: grid; font-size: var(--text-sm); line-height: 1.35; }
+.fact__text small { font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-muted); }
+.fact__text b { font-size: var(--text-base); }
+
+.ticket { --stub: 76px; --notch: 11px; position: relative; display: grid; grid-template-columns: 72px minmax(0, 1fr) var(--stub); gap: var(--space-md); padding: var(--space-md) 0 var(--space-md) var(--space-md); border-left: 8px solid var(--stall); border-radius: var(--radius-md); background: repeating-linear-gradient(-45deg, transparent 0 6px, color-mix(in oklch, var(--color-amate-3) 30%, transparent) 6px 7px), linear-gradient(to left, var(--color-amate-2) var(--stub), transparent var(--stub)), var(--color-estraza); -webkit-mask: radial-gradient(circle var(--notch) at calc(100% - var(--stub)) 0, transparent 96%, black) top / 100% 51% no-repeat, radial-gradient(circle var(--notch) at calc(100% - var(--stub)) 100%, transparent 96%, black) bottom / 100% 51% no-repeat; mask: radial-gradient(circle var(--notch) at calc(100% - var(--stub)) 0, transparent 96%, black) top / 100% 51% no-repeat, radial-gradient(circle var(--notch) at calc(100% - var(--stub)) 100%, transparent 96%, black) bottom / 100% 51% no-repeat; max-width: 560px; }
+.ticket-wrap { filter: drop-shadow(0 6px 8px color-mix(in oklch, var(--color-ink) 22%, transparent)); position: relative; }
+.ticket__pic { display: grid; place-items: center; border-radius: var(--radius-sm); background: var(--stall-soft); color: var(--stall); aspect-ratio: 1; }
+.ticket__pic svg { width: 60%; }
+.ticket__body { display: grid; gap: 4px; align-content: center; min-width: 0; }
+.ticket__body b { font-family: var(--font-display); font-size: var(--text-lg); line-height: 1.15; }
+.ticket__code { font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.08em; color: var(--color-tinta-text); }
+.ticket__body span { font-size: var(--text-xs); color: var(--color-muted); }
+.ticket__stub { display: grid; place-items: center; align-content: center; gap: var(--space-xs); margin-block: calc(var(--space-md) * -1); border-left: 2px dashed var(--color-rule-strong); }
+.ticket__stub small { font-family: var(--font-display); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-tinta-text); }
+.ticket__stub em { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-mono); font-style: normal; font-size: var(--text-sm); font-weight: 700; letter-spacing: 0.1em; }
+.stamp { position: absolute; right: calc(var(--stub, 76px) + 12px); top: 50%; translate: 0 -50%; rotate: -12deg; padding: 4px 12px; border: 3px double currentColor; border-radius: var(--radius-sm); font-family: var(--font-display); font-weight: 800; font-size: var(--text-lg); text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.85; }
+.stamp--used { color: var(--color-nopal); }
+.stamp--expired { color: var(--color-error); }
+
+.receipt { position: relative; max-width: 340px; padding: var(--space-lg) var(--space-lg) var(--space-xl); background: var(--color-estraza); box-shadow: var(--shadow-card); font-size: var(--text-sm); --tooth: 10px; -webkit-mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) bottom / calc(2 * var(--tooth)) var(--tooth) repeat-x, linear-gradient(black 0 0) top / 100% calc(100% - var(--tooth)) no-repeat; mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) bottom / calc(2 * var(--tooth)) var(--tooth) repeat-x, linear-gradient(black 0 0) top / 100% calc(100% - var(--tooth)) no-repeat; display: grid; gap: var(--space-sm); }
+.receipt h3 { text-align: center; color: var(--color-tinta-text); }
+.receipt__folio { text-align: center; font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.12em; }
+.receipt dl { margin: 0; display: grid; gap: 6px; padding-block: var(--space-sm); border-block: 1px dashed var(--color-rule-strong); }
+.receipt dl div { display: flex; justify-content: space-between; gap: var(--space-sm); }
+.receipt dt { color: var(--color-muted); }
+.receipt dd { margin: 0; font-family: var(--font-mono); font-weight: 700; }
+
+.topbar { display: flex; align-items: center; gap: var(--space-sm); height: 64px; padding: 0 var(--space-md); background: var(--color-estraza); border-bottom: 1px solid var(--color-rule); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+.topbar__brand { font-family: var(--font-display); font-weight: 800; font-size: var(--text-lg); color: var(--color-tinta-text); display: flex; align-items: center; gap: 6px; }
+.topbar__pill { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 6px; border-radius: var(--radius-pill); background: var(--color-maiz-soft); font-family: var(--font-mono); font-weight: 700; color: var(--color-ink); }
+.tabbar { display: grid; grid-template-columns: repeat(4, 1fr); height: 66px; background: var(--color-estraza); border-top: 1px solid var(--color-rule); border-radius: 0 0 var(--radius-md) var(--radius-md); }
+.tabbar a { display: grid; place-items: center; align-content: center; gap: 2px; font-size: var(--text-xs); font-weight: 800; color: var(--color-muted); text-decoration: none; }
+.tabbar a[aria-current] { color: var(--color-tinta-text); }
+.tabbar a[aria-current] .icon { stroke-width: 2.5; }
+.phone { max-width: 375px; border: 1px solid var(--color-rule-strong); border-radius: var(--radius-md); background: var(--color-amate); }
+.phone__body { padding: var(--space-md); min-height: 120px; display: grid; gap: var(--space-sm); align-content: start; }
+
+.toast { display: flex; align-items: center; gap: var(--space-sm); max-width: 380px; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); background: var(--color-ink); color: var(--color-amate); box-shadow: var(--shadow-lift); font-weight: 700; font-size: var(--text-sm); }
+.toast i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.toast--ok i { background: oklch(80% 0.13 150); }
+.toast--error i { background: oklch(76% 0.14 28); }
+.toast--info i { background: var(--color-maiz); }
+
+.alert { display: flex; gap: var(--space-xs); align-items: flex-start; padding: var(--space-sm); border-radius: var(--radius-sm); font-size: var(--text-sm); max-width: 520px; }
+.alert--info { background: var(--color-anil-soft); }
+.alert--info .icon { color: var(--color-anil-ink); }
+.alert--warn { background: var(--color-maiz-soft); }
+.alert--warn .icon { color: var(--color-maiz-ink); }
+.alert--error { background: var(--color-error-soft); }
+.alert--error .icon { color: var(--color-error); }
+
+.empty { display: grid; justify-items: center; gap: var(--space-sm); padding: var(--space-xl) var(--space-lg); border: 2px dashed var(--color-rule-strong); border-radius: var(--radius-lg); text-align: center; max-width: 420px; }
+.empty b { font-family: var(--font-display); font-size: var(--text-xl); }
+.empty p { color: var(--color-muted); font-size: var(--text-sm); }
+
+.sheet { position: relative; display: grid; place-items: end center; height: 300px; border-radius: var(--radius-md); overflow: clip; background: var(--color-amate-2); max-width: 420px; }
+.sheet::before { content: ''; position: absolute; inset: 0; background: var(--color-scrim); }
+.sheet__panel { position: relative; width: 100%; display: grid; gap: var(--space-sm); padding: var(--space-lg); border-radius: var(--radius-lg) var(--radius-lg) 0 0; background: var(--color-estraza); }
+.sheet__grip { justify-self: center; width: 44px; height: 5px; border-radius: 3px; background: var(--color-rule-strong); }
+
+.budget { display: grid; gap: var(--space-xs); max-width: 420px; }
+.budget__bar { height: 14px; border-radius: var(--radius-pill); background: var(--color-amate-3); overflow: clip; }
+.budget__bar i { display: block; height: 100%; width: 62%; border-radius: inherit; background: linear-gradient(90deg, var(--color-maiz-2), var(--color-maiz)); }
+.budget__legend { display: flex; justify-content: space-between; font-size: var(--text-sm); }
+.budget__legend b { font-family: var(--font-mono); }
+
+.lifecycle { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.lifecycle .arrow { color: var(--color-muted); font-weight: 800; }
+
+.motion-demo { display: flex; gap: var(--space-md); flex-wrap: wrap; }
+.motion-demo div { width: 120px; padding: var(--space-sm); border-radius: var(--radius-md); background: var(--color-tinta-soft); font-size: var(--text-xs); font-weight: 700; text-align: center; transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out); cursor: default; }
+.motion-demo div:hover { transform: translateY(-4px); }
+.motion-demo .fade:hover { opacity: 0.5; transform: none; }
+
+footer { padding: var(--space-xl) var(--gutter); text-align: center; color: var(--color-muted); font-size: var(--text-sm); border-top: 1px solid var(--color-rule); }
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+	<symbol id="coin" viewBox="0 0 48 48">
+		<circle cx="24" cy="24" r="22" fill="oklch(39% 0.14 258)"/>
+		<circle cx="24" cy="24" r="17.5" fill="oklch(99.6% 0.006 100)" stroke="oklch(89% 0.04 78)" stroke-width="1.5"/>
+		<path d="M24 11c5 3 7 8 7 13s-2 10-7 13c-5-3-7-8-7-13s2-10 7-13z" fill="oklch(80% 0.155 78)" stroke="oklch(47% 0.11 68)" stroke-width="1.5"/>
+		<path d="M24 13v22M20.5 17.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8M20 23.5c1.2 1.1 2.5 1.6 4 1.6s2.8-.5 4-1.6M20.5 29.5c1 1 2.2 1.5 3.5 1.5s2.5-.5 3.5-1.5" fill="none" stroke="oklch(47% 0.11 68)" stroke-width="1.2" stroke-linecap="round"/>
+	</symbol>
+	<symbol id="i-shop" viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 20v-6h6v6"/></symbol>
+	<symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3 7h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7zm0 0l13-3v3M16 13h2"/></symbol>
+	<symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 0 0 4v0a2 2 0 0 1 0 4v2h18v-2a2 2 0 0 1 0-4 2 2 0 0 0 0-4V6H3zM14 6v12" stroke-dasharray="0"/></symbol>
+	<symbol id="i-store" viewBox="0 0 24 24"><path d="M4 10v10h16V10M2 10l2-6h16l2 6zM9 20v-5h6v5"/></symbol>
+	<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+	<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6-7-12a7 7 0 0 1 14 0c0 6-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+	<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+	<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></symbol>
+	<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></symbol>
+	<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+	<symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+	<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+	<symbol id="i-gift" viewBox="0 0 24 24"><path d="M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"/></symbol>
+	<symbol id="i-coffee" viewBox="0 0 64 48"><path d="M10 14h34v16a14 14 0 0 1-14 14h-6a14 14 0 0 1-14-14zM44 18h4a6 6 0 0 1 0 12h-4M20 4c-2 3 2 4 0 7M28 4c-2 3 2 4 0 7" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
+	<symbol id="i-laptop" viewBox="0 0 64 48"><path d="M12 8h40v26H12zM4 38h56l-4 6H8z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></symbol>
+	<symbol id="i-day" viewBox="0 0 64 48"><rect x="10" y="8" width="44" height="36" rx="4" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="2.5"/><path d="M10 18h44M22 4v8M42 4v8M26 30l5 5 9-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
+</svg>
+
+<header class="guide-top">
+	<span class="guide-top__brand"><svg class="coin coin--md" style="width:32px;height:32px"><use href="#coin"/></svg>La Despensa · guía visual</span>
+	<nav aria-label="Secciones">
+		<a href="#color">Color</a><a href="#tipo">Tipografía</a><a href="#medidas">Medidas</a><a href="#identidad">Identidad</a><a href="#botones">Botones</a><a href="#controles">Controles</a><a href="#puesto">Puesto</a><a href="#trueque">Trueque</a><a href="#cupon">Cupón</a><a href="#yemas">Mis yemas</a><a href="#anaquel">Mi anaquel</a><a href="#nav">Navegación</a><a href="#avisos">Avisos</a><a href="#estados">Estados</a><a href="#movimiento">Movimiento</a>
+	</nav>
+	<div class="chip-row palette-pick" role="radiogroup" aria-label="Tema">
+		<label class="chip-radio"><input type="radio" name="pal" value="light" checked><span>Claro</span></label>
+		<label class="chip-radio"><input type="radio" name="pal" value="dark"><span>Oscuro</span></label>
+		<label class="chip-radio"><input type="radio" name="pal" value="neutral"><span>Neutro</span></label>
+	</div>
+</header>
+
+<main>
+	<div class="hero">
+		<span class="badge badge--demo">Datos de ejemplo</span>
+		<h1>La Despensa</h1>
+		<p>La tienda interna del grupo. Se ganan <b>yemas</b> participando en Chispa y se cambian por productos y servicios de las empresas. Cada trueque emite un <b>cupón</b> con código. Esta página reúne todas las piezas visuales de la app; cambia el tema arriba para verlas en claro, oscuro y neutro.</p>
+		<div class="vichy-band" role="presentation"></div>
+	</div>
+
+	<section id="color">
+		<div class="sec-head"><span class="eyebrow">01 · Fundamentos</span><h2>Color</h2><p>Todo color sale de un token. Los valores están en OKLCH. En oscuro y neutro cambian los valores, no los nombres.</p></div>
+		<div class="board">
+			<h3>Superficies (papel y cartón)</h3>
+			<div class="grid-auto" data-swatches="amate amate-2 amate-3 estraza cascara cascara-sombra carton carton-sombra"></div>
+			<h3>Tinta (marca, azul San Juan)</h3>
+			<div class="grid-auto" data-swatches="tinta tinta-2 tinta-3 tinta-soft tinta-text ink muted on-dark"></div>
+			<h3>Acentos</h3>
+			<div class="grid-auto" data-swatches="maiz maiz-2 maiz-ink maiz-soft anil anil-ink anil-soft achiote achiote-soft"></div>
+			<h3>Semánticos</h3>
+			<div class="grid-auto" data-swatches="nopal nopal-soft error error-soft focus rule rule-strong vichy-gris"></div>
+		</div>
+		<div class="board">
+			<h3>Colores de puesto (uno por empresa)</h3>
+			<p class="note">Cada empresa tiene un tono. Pinta la franja, la ficha, el botón principal y los acentos de sus productos. Tres tonos por puesto: <code>--stall</code>, <code>--stall-claro</code>, <code>--stall-soft</code>.</p>
+			<div class="grid-auto" id="stall-swatches"></div>
+		</div>
+	</section>
+
+	<section id="tipo">
+		<div class="sec-head"><span class="eyebrow">02 · Fundamentos</span><h2>Tipografía</h2><p>Baloo 2 para títulos, Nunito para texto, IBM Plex Mono para folios, códigos y cifras.</p></div>
+		<div class="board">
+			<div class="type-row"><span class="demo-label">display · Baloo 2 800 · --text-display</span><span style="font-family:var(--font-display);font-weight:800;font-size:var(--text-display);line-height:1">¿Qué me alcanza?</span></div>
+			<div class="type-row"><span class="demo-label">3xl · Baloo 2 800 · nombre de producto</span><span style="font-family:var(--font-display);font-weight:800;font-size:var(--text-3xl);line-height:1.1">Desayuno para dos</span></div>
+			<div class="type-row"><span class="demo-label">2xl · Baloo 2 700 · título de sección</span><span style="font-family:var(--font-display);font-weight:700;font-size:var(--text-2xl)">La despensa</span></div>
+			<div class="type-row"><span class="demo-label">xl · Baloo 2 700 · subtítulo</span><span style="font-family:var(--font-display);font-weight:700;font-size:var(--text-xl)">También te alcanza</span></div>
+			<div class="type-row"><span class="demo-label">base · Nunito 400 · texto</span><span>Canjea tu cupón en el lugar indicado antes de que venza. Muestra el código al encargado.</span></div>
+			<div class="type-row"><span class="demo-label">sm · Nunito 700 · etiquetas y chips</span><span style="font-size:var(--text-sm);font-weight:700">Te faltan 40 yemas</span></div>
+			<div class="type-row"><span class="demo-label">xs · Nunito 800 mayúsculas · eyebrow</span><span style="font-size:var(--text-xs);font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--color-muted)">Lo que recibes</span></div>
+			<div class="type-row"><span class="demo-label">mono · IBM Plex Mono 700 · folios y códigos</span><span class="mono" style="font-size:var(--text-lg);font-weight:700;letter-spacing:.1em">TRQ-0042 · CAC-7F3K-92QD</span></div>
+		</div>
+	</section>
+
+	<section id="medidas">
+		<div class="sec-head"><span class="eyebrow">03 · Fundamentos</span><h2>Espacio, radios y sombras</h2><p>Escala de 4 px. El margen lateral es 16 px en móvil y 28 px desde 768 px.</p></div>
+		<div class="board">
+			<h3>Espacio</h3>
+			<div style="display:grid;gap:8px" id="space-list"></div>
+			<h3>Radios</h3>
+			<div class="row">
+				<div style="display:grid;gap:4px;justify-items:center"><div class="radius-box" style="border-radius:var(--radius-sm)"></div><span class="demo-label">sm · 8</span></div>
+				<div style="display:grid;gap:4px;justify-items:center"><div class="radius-box" style="border-radius:var(--radius-md)"></div><span class="demo-label">md · 14</span></div>
+				<div style="display:grid;gap:4px;justify-items:center"><div class="radius-box" style="border-radius:var(--radius-lg)"></div><span class="demo-label">lg · 26</span></div>
+				<div style="display:grid;gap:4px;justify-items:center"><div class="radius-box" style="border-radius:var(--radius-pill)"></div><span class="demo-label">pill</span></div>
+			</div>
+			<h3>Sombras</h3>
+			<div class="row" style="gap:var(--space-lg)">
+				<div class="shadow-box" style="box-shadow:var(--shadow-card)">card</div>
+				<div class="shadow-box" style="box-shadow:var(--shadow-lift)">lift</div>
+				<div class="shadow-box" style="box-shadow:var(--shadow-label);background:var(--color-cascara)">label</div>
+				<div class="shadow-box" style="box-shadow:var(--shadow-press);border:1px solid var(--color-rule)">press</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="identidad">
+		<div class="sec-head"><span class="eyebrow">04 · Identidad</span><h2>Piezas de marca</h2><p>El estilo "empaque": papel crema, cartón, cuadros vichy, azul tinta y dorado yema.</p></div>
+		<div class="grid-cards">
+			<div class="board">
+				<h3>Moneda (yema)</h3>
+				<div class="row"><svg class="coin coin--lg"><use href="#coin"/></svg><svg class="coin coin--md"><use href="#coin"/></svg><svg class="coin coin--sm"><use href="#coin"/></svg></div>
+				<p class="note">Borde azul, cara crema, mazorca dorada. Acompaña toda cifra de yemas.</p>
+			</div>
+			<div class="board">
+				<h3>Etiqueta de precio</h3>
+				<div class="row"><span class="label-tag"><svg class="coin coin--sm"><use href="#coin"/></svg>120 <small>yemas</small></span></div>
+				<p class="note">Crema con ojillo, como etiqueta colgada. Siempre clara, también en oscuro.</p>
+			</div>
+			<div class="board">
+				<h3>Vichy</h3>
+				<div class="vichy-band" style="height:64px"></div>
+				<p class="note">Cuadro de mantel. Toldo del puesto, bandas y fondos decorativos. En neutro se vuelve un degradado gris.</p>
+			</div>
+			<div class="board">
+				<h3>Ficha de puesto</h3>
+				<div class="row"><span data-stall="anil" style="width:44px;height:44px;border-radius:50%;background:conic-gradient(color-mix(in oklch,var(--stall-claro) 70%,var(--color-estraza)) 0 25%,var(--color-vichy-gris) 0 50%,var(--color-estraza) 0 75%,var(--color-vichy-gris) 0) 0 0/14px 14px;border:3px solid var(--stall)"></span><span data-stall="grana" style="width:44px;height:44px;border-radius:50%;background:conic-gradient(color-mix(in oklch,var(--stall-claro) 70%,var(--color-estraza)) 0 25%,var(--color-vichy-gris) 0 50%,var(--color-estraza) 0 75%,var(--color-vichy-gris) 0) 0 0/14px 14px;border:3px solid var(--stall)"></span><span data-stall="nopal" style="width:44px;height:44px;border-radius:50%;background:conic-gradient(color-mix(in oklch,var(--stall-claro) 70%,var(--color-estraza)) 0 25%,var(--color-vichy-gris) 0 50%,var(--color-estraza) 0 75%,var(--color-vichy-gris) 0) 0 0/14px 14px;border:3px solid var(--stall)"></span></div>
+				<p class="note">Vichy teñido con el color de la empresa. Identifica de quién es cada producto.</p>
+			</div>
+		</div>
+	</section>
+
+	<section id="botones">
+		<div class="sec-head"><span class="eyebrow">05 · Componentes</span><h2>Botones</h2><p>Píldora, mínimo 48 px de alto (38 en pequeño). Texto Nunito 800.</p></div>
+		<div class="board">
+			<h3>Variantes</h3>
+			<div class="row">
+				<button class="btn btn--grana">Hacer trueque</button>
+				<button class="btn">Ver detalle</button>
+				<button class="btn btn--ghost">Cancelar</button>
+				<button class="btn btn--danger">Rechazar</button>
+			</div>
+			<h3>Tamaños</h3>
+			<div class="row">
+				<button class="btn btn--grana btn--sm">Pequeño</button>
+				<button class="btn btn--grana">Normal</button>
+				<button class="btn btn--grana btn--lg">Grande</button>
+			</div>
+			<h3>Estados</h3>
+			<div class="row">
+				<button class="btn btn--grana">Normal</button>
+				<button class="btn btn--grana" disabled>Te faltan 40</button>
+				<button class="btn btn--grana" data-state="loading"><svg class="coin"><use href="#coin"/></svg>Cambiando…</button>
+				<button class="btn btn--grana"><svg class="coin"><use href="#coin"/></svg>Cambiar por 120</button>
+			</div>
+			<h3>Botón principal por empresa</h3>
+			<div class="row">
+				<button class="btn btn--grana" data-stall="anil">Anil</button>
+				<button class="btn btn--grana" data-stall="grana">Grana</button>
+				<button class="btn btn--grana" data-stall="nopal">Nopal</button>
+				<button class="btn btn--grana" data-stall="achiote">Achiote</button>
+				<button class="btn btn--grana" data-stall="maiz">Maíz</button>
+				<button class="btn btn--grana" data-stall="cacao">Cacao</button>
+			</div>
+			<h3>De ancho completo (móvil) y de ícono</h3>
+			<div style="max-width:375px;display:grid;gap:var(--space-sm)"><button class="btn btn--grana btn--block btn--lg">Confirmar trueque</button></div>
+			<div class="row">
+				<button class="icon-btn" aria-label="Tema"><svg class="icon"><use href="#i-sun"/></svg></button>
+				<button class="icon-btn" aria-label="Buscar"><svg class="icon"><use href="#i-search"/></svg></button>
+				<button class="icon-btn" aria-label="Menos"><svg class="icon"><use href="#i-minus"/></svg></button>
+				<button class="icon-btn" aria-label="Más"><svg class="icon"><use href="#i-plus"/></svg></button>
+			</div>
+		</div>
+	</section>
+
+	<section id="controles">
+		<div class="sec-head"><span class="eyebrow">06 · Componentes</span><h2>Controles de formulario</h2><p>No se usa <code>&lt;select&gt;</code> nativo: se usan chips o combobox con búsqueda.</p></div>
+		<div class="grid-cards" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+			<div class="board">
+				<h3>Chips de filtro</h3>
+				<div class="chip-row">
+					<label class="chip-radio"><input type="radio" name="f1" checked><span>Todo</span></label>
+					<label class="chip-radio"><input type="radio" name="f1"><span>Me alcanza</span></label>
+					<label class="chip-radio"><input type="radio" name="f1"><span>Comida</span></label>
+					<label class="chip-radio"><input type="radio" name="f1"><span>Equipo</span></label>
+				</div>
+				<h3>Chips de empresa</h3>
+				<div class="chip-row">
+					<label class="chip-radio chip-radio--stall" data-stall="anil"><input type="radio" name="f2" checked><span>Empresa A</span></label>
+					<label class="chip-radio chip-radio--stall" data-stall="grana"><input type="radio" name="f2"><span>Empresa B</span></label>
+					<label class="chip-radio chip-radio--stall" data-stall="nopal"><input type="radio" name="f2"><span>Empresa C</span></label>
+				</div>
+			</div>
+			<div class="board">
+				<h3>Interruptor</h3>
+				<label class="switch"><input type="checkbox" checked><span class="switch__track"></span>Sólo lo que me alcanza</label>
+				<label class="switch"><input type="checkbox"><span class="switch__track"></span>Avisarme cuando llegue</label>
+			</div>
+			<div class="board">
+				<h3>Campo de texto</h3>
+				<div class="field"><label for="emp">Número de trabajador</label><input id="emp" class="mono" inputmode="numeric" value="00000"><small>Mínimo 5 dígitos.</small></div>
+				<div class="field is-error"><label for="pr">Precio en yemas</label><input id="pr" value="0"><small>El precio debe ser mayor a cero.</small></div>
+			</div>
+			<div class="board">
+				<h3>Combobox con búsqueda</h3>
+				<div class="combo">
+					<div class="combo__input"><svg class="icon"><use href="#i-search"/></svg><input value="caf" aria-label="Lugar de canje"></div>
+					<ul class="combo__list" role="listbox">
+						<li role="option" aria-selected="true"><svg class="icon"><use href="#i-pin"/></svg><span><mark>Caf</mark>etería planta norte</span></li>
+						<li role="option"><svg class="icon"><use href="#i-pin"/></svg><span><mark>Caf</mark>é del corporativo</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="puesto">
+		<div class="sec-head"><span class="eyebrow">07 · Despensa</span><h2>Puesto (tarjeta de producto)</h2><p>Toldo vichy, foto o ilustración sobre el tono suave de la empresa, etiqueta de precio y "qué me alcanza" de un vistazo.</p></div>
+		<div class="grid-cards">
+			<article class="stall" data-stall="grana">
+				<div class="stall__awning"></div>
+				<div class="stall__pic"><svg viewBox="0 0 64 48"><use href="#i-coffee"/></svg><span class="label-tag"><svg class="coin coin--sm"><use href="#coin"/></svg>80</span></div>
+				<div class="stall__body"><span class="stall__company"><i></i>Empresa B</span><span class="stall__name">Desayuno para dos</span><div class="stall__meta"><span>Quedan 12</span><span class="reach">Te alcanza</span></div></div>
+			</article>
+			<article class="stall" data-stall="nopal">
+				<div class="stall__awning"></div>
+				<div class="stall__pic"><svg viewBox="0 0 64 48"><use href="#i-day"/></svg><span class="label-tag"><svg class="coin coin--sm"><use href="#coin"/></svg>400</span></div>
+				<div class="stall__body"><span class="stall__company"><i></i>Empresa C</span><span class="stall__name">Medio día libre</span><div class="stall__meta"><span>Quedan 5</span><span class="short">Te faltan 160</span></div></div>
+			</article>
+			<article class="stall" data-stall="anil">
+				<div class="stall__awning"></div>
+				<div class="stall__pic"><svg viewBox="0 0 64 48"><use href="#i-laptop"/></svg><span class="label-tag"><svg class="coin coin--sm"><use href="#coin"/></svg>250</span></div>
+				<div class="stall__body"><span class="stall__company"><i></i>Empresa A · de Custodia</span><span class="stall__name">Laptop reacondicionada</span><div class="stall__meta"><span>Última pieza</span><span class="reach">Te alcanza</span></div></div>
+			</article>
+			<article class="stall is-out" data-stall="achiote">
+				<div class="stall__awning"></div>
+				<div class="stall__pic"><svg viewBox="0 0 64 48"><use href="#i-coffee"/></svg><span class="label-tag"><svg class="coin coin--sm"><use href="#coin"/></svg>60</span></div>
+				<div class="stall__body"><span class="stall__company"><i></i>Empresa D</span><span class="stall__name">Café de especialidad</span><div class="stall__meta"><span class="short">Agotado</span><span></span></div></div>
+			</article>
+		</div>
+	</section>
+
+	<section id="trueque">
+		<div class="sec-head"><span class="eyebrow">08 · Trueque</span><h2>Detalle y caja de trueque</h2><p>La caja muestra precio, existencias y la cuenta "tienes / cuesta / te quedan" antes de confirmar.</p></div>
+		<div class="grid-cards" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))" data-stall="grana">
+			<div class="buybox">
+				<div class="buybox__price"><svg class="coin coin--md"><use href="#coin"/></svg><b>80</b><span>yemas</span></div>
+				<span class="buybox__stock">✓ Quedan 12</span>
+				<dl class="buybox__math">
+					<div><dt>Tienes</dt><dd>240</dd></div>
+					<div><dt>Cuesta</dt><dd>− 80</dd></div>
+					<div class="is-total"><dt>Te quedan</dt><dd>160</dd></div>
+				</dl>
+				<button class="btn btn--grana btn--block btn--lg"><svg class="coin"><use href="#coin"/></svg>Hacer trueque</button>
+				<p class="note">Se usan primero tus yemas más viejas.</p>
+			</div>
+			<div style="display:grid;gap:var(--space-md);align-content:start">
+				<h3 style="font-size:var(--text-lg)">Cómo funciona</h3>
+				<ol class="how-steps"><li><b>1</b>Haces el trueque</li><li><b>2</b>Recibes tu cupón</li><li><b>3</b>Lo canjeas</li></ol>
+				<div class="fact"><span class="fact__icon"><svg class="icon"><use href="#i-pin"/></svg></span><span class="fact__text"><small>Lugar de canje</small><b>Cafetería planta norte</b><span>Lunes a viernes, 8 a 11 h</span></span></div>
+				<div class="fact"><span class="fact__icon"><svg class="icon"><use href="#i-clock"/></svg></span><span class="fact__text"><small>Vigencia del cupón</small><b>30 días</b><span>Desde que haces el trueque</span></span></div>
+			</div>
+			<div class="receipt">
+				<h3>¡Trueque hecho!</h3>
+				<div class="receipt__folio">TRQ-0042</div>
+				<dl>
+					<div><dt>Producto</dt><dd>Desayuno p/2</dd></div>
+					<div><dt>Yemas</dt><dd>80</dd></div>
+					<div><dt>Saldo</dt><dd>160</dd></div>
+					<div><dt>Fecha</dt><dd>23/11/26</dd></div>
+				</dl>
+				<button class="btn btn--grana btn--block">Ver mi cupón</button>
+			</div>
+		</div>
+	</section>
+
+	<section id="cupon">
+		<div class="sec-head"><span class="eyebrow">09 · Cupón</span><h2>Boleto troquelado</h2><p>Espeja el cupón que la gente ya conoce. Franja del color de la empresa, código en mono, talón con muescas y línea punteada. Al canjearse el talón se arranca y aparece el sello.</p></div>
+		<div style="display:grid;gap:var(--space-lg)">
+			<div class="ticket-wrap" data-stall="grana"><div class="ticket"><div class="ticket__pic"><svg viewBox="0 0 64 48"><use href="#i-coffee"/></svg></div><div class="ticket__body"><span class="badge badge--ok" style="justify-self:start">Vigente</span><b>Desayuno para dos</b><span class="ticket__code">CAC-7F3K-92QD</span><span>Vence 23/12/26 · Cafetería planta norte</span></div><div class="ticket__stub"><small>Folio</small><em>TRQ-0042</em></div></div></div>
+			<div class="ticket-wrap" data-stall="nopal"><div class="ticket" style="opacity:.8"><div class="ticket__pic"><svg viewBox="0 0 64 48"><use href="#i-day"/></svg></div><div class="ticket__body"><span class="badge badge--mute" style="justify-self:start">Usado</span><b>Medio día libre</b><span class="ticket__code">CAC-2M8P-41XA</span><span>Canjeado 02/11/26</span></div><div class="ticket__stub"><small>Folio</small><em>TRQ-0031</em></div></div><span class="stamp stamp--used">Canjeado</span></div>
+			<div class="ticket-wrap" data-stall="achiote"><div class="ticket" style="opacity:.8"><div class="ticket__pic"><svg viewBox="0 0 64 48"><use href="#i-coffee"/></svg></div><div class="ticket__body"><span class="badge badge--error" style="justify-self:start">Vencido</span><b>Café de especialidad</b><span class="ticket__code">CAC-9Q1R-77LB</span><span>Venció 01/10/26</span></div><div class="ticket__stub"><small>Folio</small><em>TRQ-0018</em></div></div><span class="stamp stamp--expired">Vencido</span></div>
+		</div>
+	</section>
+
+	<section id="yemas">
+		<div class="sec-head"><span class="eyebrow">10 · Mis yemas</span><h2>Saldo y movimientos</h2><p>Saldo grande, cuánto vence pronto y el historial de entradas, gastos y caducidades.</p></div>
+		<div class="grid-cards" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+			<div class="wallet">
+				<small>Mis yemas</small>
+				<div class="wallet__balance"><svg class="coin coin--lg" style="width:56px;height:56px"><use href="#coin"/></svg>240</div>
+				<div class="wallet__foot"><span><b>30</b> vencen en diciembre</span><span>Tope del mes: 150</span></div>
+			</div>
+			<ul class="moves">
+				<li class="move move--in"><span class="move__dot"><svg class="icon"><use href="#i-plus"/></svg></span><span><b>Tu chispa fue elegida</b><span>Chispa · 18/11/26</span></span><span class="move__n">+100</span></li>
+				<li class="move move--out"><span class="move__dot"><svg class="icon"><use href="#i-ticket"/></svg></span><span><b>Desayuno para dos</b><span>TRQ-0042 · 23/11/26</span></span><span class="move__n">−80</span></li>
+				<li class="move move--exp"><span class="move__dot"><svg class="icon"><use href="#i-clock"/></svg></span><span><b>Lote vencido</b><span>Ganado 11/2025</span></span><span class="move__n">−20</span></li>
+				<li class="move move--in"><span class="move__dot"><svg class="icon"><use href="#i-gift"/></svg></span><span><b>Regalo aprobado</b><span>Comité · 02/11/26</span></span><span class="move__n">+50</span></li>
+			</ul>
+		</div>
+	</section>
+
+	<section id="anaquel">
+		<div class="sec-head"><span class="eyebrow">11 · Mi anaquel</span><h2>Panel de empresa y RH</h2><p>Presupuesto anual, productos publicados y su estado de aprobación.</p></div>
+		<div class="grid-cards" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+			<div class="board">
+				<h3>Presupuesto</h3>
+				<div class="budget"><div class="budget__legend"><span>Usado</span><b>6,200 / 10,000</b></div><div class="budget__bar"><i></i></div><span class="note">Lo que tu empresa ha pagado este año en trueques de su gente.</span></div>
+			</div>
+			<div class="board">
+				<h3>Ciclo del producto</h3>
+				<div class="lifecycle"><span class="badge badge--mute">Borrador</span><span class="arrow">→</span><span class="badge badge--warn">Pendiente</span><span class="arrow">→</span><span class="badge badge--ok">Publicado</span></div>
+				<div class="lifecycle"><span class="badge badge--info">Pausado</span><span class="badge badge--error">Rechazado</span><span class="badge badge--mute">Retirado</span></div>
+				<div class="row"><button class="btn btn--sm btn--grana">Aprobar</button><button class="btn btn--sm">Ajustar precio</button><button class="btn btn--sm btn--danger">Rechazar</button></div>
+			</div>
+		</div>
+	</section>
+
+	<section id="nav">
+		<div class="sec-head"><span class="eyebrow">12 · Estructura</span><h2>Navegación móvil</h2><p>Barra superior de 64 px con saldo siempre visible; barra de pestañas inferior de 66 px.</p></div>
+		<div class="phone">
+			<div class="topbar"><span class="topbar__brand"><svg class="coin" style="width:26px;height:26px"><use href="#coin"/></svg>La Despensa</span><span class="topbar__pill"><svg class="coin coin--sm"><use href="#coin"/></svg>240</span></div>
+			<div class="phone__body"><div class="vichy-band" style="height:14px"></div><span class="note">Contenido de la pantalla</span></div>
+			<nav class="tabbar" aria-label="Principal">
+				<a href="#nav" aria-current="page"><svg class="icon"><use href="#i-shop"/></svg>Despensa</a>
+				<a href="#nav"><svg class="icon"><use href="#i-ticket"/></svg>Cupones</a>
+				<a href="#nav"><svg class="icon"><use href="#i-wallet"/></svg>Mis yemas</a>
+				<a href="#nav"><svg class="icon"><use href="#i-store"/></svg>Anaquel</a>
+			</nav>
+		</div>
+	</section>
+
+	<section id="avisos">
+		<div class="sec-head"><span class="eyebrow">13 · Retroalimentación</span><h2>Avisos, notas y hojas</h2></div>
+		<div class="board">
+			<h3>Toasts</h3>
+			<div style="display:grid;gap:var(--space-xs)">
+				<div class="toast toast--ok" role="status"><i></i>Trueque hecho. Tu cupón está listo.</div>
+				<div class="toast toast--info" role="status"><i></i>30 yemas vencen este mes.</div>
+				<div class="toast toast--error" role="alert"><i></i>No se pudo canjear. Intenta de nuevo.</div>
+			</div>
+			<h3>Notas en línea</h3>
+			<div style="display:grid;gap:var(--space-xs)">
+				<div class="alert alert--info"><svg class="icon"><use href="#i-info"/></svg>Este equipo viene de Custodia y ya está dado de baja.</div>
+				<div class="alert alert--warn"><svg class="icon"><use href="#i-alert"/></svg>Tu cupón vence en 3 días.</div>
+				<div class="alert alert--error"><svg class="icon"><use href="#i-alert"/></svg>Este cupón ya fue canjeado.</div>
+			</div>
+			<h3>Hoja inferior (confirmación en móvil)</h3>
+			<div class="sheet"><div class="sheet__panel" data-stall="grana"><span class="sheet__grip"></span><b style="font-family:var(--font-display);font-size:var(--text-xl)">¿Cambiar 80 yemas?</b><span class="note">Desayuno para dos · te quedan 160</span><button class="btn btn--grana btn--block">Sí, hacer trueque</button><button class="btn btn--ghost btn--block">Ahora no</button></div></div>
+			<h3>Estado vacío</h3>
+			<div class="empty"><svg class="coin coin--lg"><use href="#coin"/></svg><b>Aún no tienes cupones</b><p>Cuando hagas tu primer trueque, tu cupón aparecerá aquí.</p><button class="btn btn--grana btn--sm">Ir a la despensa</button></div>
+		</div>
+	</section>
+
+	<section id="estados">
+		<div class="sec-head"><span class="eyebrow">14 · Estados</span><h2>Insignias de estado</h2><p>Mismo patrón para producto, trueque y cupón: punto + texto en mayúsculas sobre fondo suave.</p></div>
+		<div class="board">
+			<h3>Trueque</h3>
+			<div class="row"><span class="badge badge--ok">Emitido</span><span class="badge badge--mute">Usado</span><span class="badge badge--error">Vencido</span><span class="badge badge--mute">Cancelado</span><span class="badge badge--info">Reembolsado</span></div>
+			<h3>Cupón</h3>
+			<div class="row"><span class="badge badge--ok">Vigente</span><span class="badge badge--mute">Usado</span><span class="badge badge--error">Vencido</span><span class="badge badge--warn">Deshabilitado</span></div>
+			<h3>Datos de ejemplo</h3>
+			<div class="row"><span class="badge badge--demo">Datos de ejemplo</span></div>
+		</div>
+	</section>
+
+	<section id="movimiento">
+		<div class="sec-head"><span class="eyebrow">15 · Movimiento</span><h2>Animación</h2><p>Sólo <code>transform</code> y <code>opacity</code>. Rápido 120 ms, base 220 ms, lento 420 ms; curva <code>ease-out</code>. Se apaga con "reducir movimiento".</p></div>
+		<div class="board"><div class="motion-demo"><div>Levantar (hover)</div><div class="fade">Desvanecer</div></div></div>
+	</section>
+</main>
+
+<footer>La Despensa · guía visual para diseño · todos los datos son de ejemplo</footer>
+
+<script>
+const root = document.documentElement;
+document.querySelectorAll('input[name="pal"]').forEach(r => r.addEventListener('change', () => { root.dataset.palette = r.value; paint(); }));
+document.querySelectorAll('[data-swatches]').forEach(box => {
+	box.innerHTML = box.dataset.swatches.split(' ').map(n => `<div class="swatch"><div class="swatch__chip" style="background:var(--color-${n})"></div><b>${n}</b><span data-var="--color-${n}"></span></div>`).join('');
+});
+document.getElementById('stall-swatches').innerHTML = ['anil', 'grana', 'nopal', 'achiote', 'maiz', 'cacao'].map(s => `<div class="swatch" data-stall="${s}"><div class="swatch__chip" style="background:linear-gradient(90deg,var(--stall) 0 40%,var(--stall-claro) 0 70%,var(--stall-soft) 0)"></div><b>${s}</b><span>stall · claro · soft</span></div>`).join('');
+document.getElementById('space-list').innerHTML = [['2xs', 4], ['xs', 8], ['sm', 12], ['md', 16], ['lg', 24], ['xl', 32], ['2xl', 48], ['3xl', 72]].map(([n, v]) => `<div class="space-bar"><span class="demo-label" style="width:72px">${n} · ${v}</span><i style="width:${v}px"></i></div>`).join('');
+function paint() {
+	const cs = getComputedStyle(root);
+	document.querySelectorAll('[data-var]').forEach(el => { el.textContent = cs.getPropertyValue(el.dataset.var).trim(); });
+}
+paint();
+</script>
+</body>
+</html>
